@@ -1,7 +1,7 @@
 import axiosFetch from '../axios.mjs'
 import { SupportedLanguage } from '../utils.mjs'
 
-const SogouBrowserTranslator = async (text = '', target = 'en') => {
+const SogouBrowserTranslator = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #SogouTranslator ')}
     if (!SupportedLanguage('sogou', target)) {return await Promise.reject('Not supported target language #SogouTranslator ')}
 
@@ -13,11 +13,11 @@ const SogouBrowserTranslator = async (text = '', target = 'en') => {
     return await new Promise((resolve, reject) => {
         axiosFetch.post('https://go.ie.sogou.com/qbpc/translate', `S-Param=${body}`).then(response => {
             if (response?.data?.data?.trans_result && response?.data?.data?.trans_result instanceof Array) {
-                resolve(response.data)
+                resolve(raw ? response.data : (response.data.data.trans_result.map(x => x.trans_text).join("\n") || ''))
             }
-            reject(response.data)
+            reject(raw ? response.data : 'Invalid content #SogouTranslator ')
         }).catch(e => {
-            reject(e)
+            reject(raw ? e : e.toString())
         })
     })
 }

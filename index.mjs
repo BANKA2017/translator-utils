@@ -7,4 +7,34 @@ import { YandexDetect, YandexBrowserTranslator } from "./src/source/yandex.mjs"
 
 import { IsChs, IsCht } from "./src/utils.mjs"
 
-export { BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, IsChs, IsCht }
+const Translator = async (text = '', target = 'en', platform = 'google', raw = false) => {
+    let result = {content: '', message: ''}
+    try {
+        switch (platform) {
+            case 'google':
+                result.content = await GoogleBrowserTranslate(text, target, raw)
+                break
+            case 'microsoft':
+                result.content = await MicrosoftBrowserTranslator(text, target, raw)
+                break
+            case 'sogou':
+                result.content = await SogouBrowserTranslator(text, target, raw)
+                break
+            case 'yandex':
+                result.content = await YandexBrowserTranslator(text, target, raw)
+                break
+            case 'baidu':
+                result.content = await BaiduTranslator(text, target, raw)
+                break
+            case 'deepl':
+                result.content = await DeepL(text, target, raw)
+        }
+    } catch (e) {
+        result.message = e.toString()
+    }
+    return result
+}
+
+
+
+export { Translator, BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, IsChs, IsCht }

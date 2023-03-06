@@ -43,7 +43,7 @@ const BaiduLanguagePredict = async (text = '', cookie = '') => {
     
 }
 
-const BaiduTranslator = async (text = '', target = 'en') => {
+const BaiduTranslator = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #BaiduTranslator ')}
     if (!SupportedLanguage('baidu', target)) {return await Promise.reject('Not supported target language #BaiduTranslator ')}
 
@@ -84,11 +84,11 @@ const BaiduTranslator = async (text = '', target = 'en') => {
                 headers: { cookie }
             }).then(response => {
                 if (response?.data?.trans_result?.data && response?.data?.trans_result?.data instanceof Array ) {
-                    resolve(response.data)
+                    resolve(raw ? response.data : response.data.trans_result.data.map(x => x.dst).join("\n"))
                 }
-                reject(response.data)
+                reject(raw ? response.data : 'Invalid content #BaiduTranslator ')
             }).catch(e => {
-                reject(e)
+                reject(raw ? e : e.toString())
             })
         })
     } else {

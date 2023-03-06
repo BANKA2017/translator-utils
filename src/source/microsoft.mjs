@@ -1,7 +1,7 @@
 import axiosFetch from '../axios.mjs'
 import { SupportedLanguage } from '../utils.mjs'
 
-const MicrosoftTranslator = async (text = '', target = 'en') => {
+const MicrosoftTranslator = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
     if (!SupportedLanguage('microsoft', target)) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
@@ -34,11 +34,11 @@ const MicrosoftTranslator = async (text = '', target = 'en') => {
                 key: params_RichTranslateHelper[0]
             })).toString()).then(response => {
                 if (!response.data.statusCode && response.data instanceof Array ) {
-                    resolve(response.data)
+                    resolve(raw ? response.data : response.data.map(x => x.translations.map(translation => translation.text)).flat().join("\n"))
                 }
-                reject(response.data)
+                reject(raw ? response.data : 'Invalid content #MicrosoftTranslator ')
             }).catch(e => {
-                reject(e)
+                reject(raw ? e : e.toString())
             })
         })
     } else {
@@ -46,7 +46,7 @@ const MicrosoftTranslator = async (text = '', target = 'en') => {
     }
 }
 
-const MicrosoftBrowserTranslator = async (text = '', target = 'en') => {
+const MicrosoftBrowserTranslator = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
     if (!SupportedLanguage('microsoft', target)) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
@@ -66,11 +66,11 @@ const MicrosoftBrowserTranslator = async (text = '', target = 'en') => {
                 }
             }).then(response => {
                 if (response.data && response.data instanceof Array) {
-                    resolve(response.data)
+                    resolve(raw ? response.data : response.data.map(x => x.translations[0].text).join("\n"))
                 }
-                reject(response.data)
+                reject(raw ? response.data : 'Invalid content #MicrosoftTranslator ')
             }).catch(e => {
-                reject(e)
+                reject(raw ? e : e.toString())
             })
         })
     } else {

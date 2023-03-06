@@ -30,7 +30,7 @@ const YandexDetect = async (text = '') => {
 }
 
 
-const YandexBrowserTranslator = async (text = '', target = 'en') => {
+const YandexBrowserTranslator = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #YandexTranslator ')}
     if (!SupportedLanguage('yandex', target)) {return await Promise.reject('Not supported target language #YandexTranslator ')}
 
@@ -52,11 +52,11 @@ const YandexBrowserTranslator = async (text = '', target = 'en') => {
     return await new Promise((resolve, reject) => {
         axiosFetch.get('https://browser.translate.yandex.net/api/v1/tr.json/translate?' + query.toString() + '&text=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&text=') : encodeURIComponent(text))).then(response => {
             if (response?.data?.text && response?.data?.text instanceof Array) {
-                resolve(response.data)
+                resolve(raw ? response.data : response.data.text.join("\n"))
             }
-            reject(response.data)
+            reject(raw ? response.data : 'Invalid content #YandexTranslator ')
         }).catch(e => {
-            reject(e)
+            reject(raw ? e : e.toString())
         })
     })
 }

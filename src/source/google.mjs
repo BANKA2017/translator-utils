@@ -2,7 +2,7 @@ import axiosFetch from '../axios.mjs'
 import { SupportedLanguage } from '../utils.mjs'
 
 
-const GoogleTranslate = async (text = '', target = 'en') => {
+const GoogleTranslate = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #GoogleTransle ')}
     if (!SupportedLanguage('google', target)) {return await Promise.reject('Not supported target language #GoogleTransle ')}
 
@@ -15,17 +15,17 @@ const GoogleTranslate = async (text = '', target = 'en') => {
             }
         }).then(response => {
             if (response.data && Array.isArray(response.data[0])) {
-                resolve(response.data)
+                resolve(raw ? response.data : response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
                 //resolve(response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
             }
-            reject(response.data)
+            reject(raw ? response.data : 'Invalid content #GoogleTransle ')
         }).catch(e => {
-            reject(e)
+            reject(raw ? e : e.toString())
         })
     })
 }
 
-const GoogleBrowserTranslate = async (text = '', target = 'en', type = 0) => {
+const GoogleBrowserTranslate = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #GoogleTransle ')}
     if (!SupportedLanguage('google', target)) {return await Promise.reject('Not supported target language #GoogleTransle ')}
 
@@ -36,12 +36,11 @@ const GoogleBrowserTranslate = async (text = '', target = 'en', type = 0) => {
     return await new Promise((resolve, reject) => {
         axiosFetch.post('https://translate.googleapis.com/translate_a/t?' + query.toString(), 'q=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&q=') : encodeURIComponent(text))).then(response => {
             if (response.data && response.data instanceof Array) {
-                resolve(response.data)
-                //resolve(response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
+                resolve(raw ? response.data : response.data.map(x => x[0]).join("\n"))
             }
-            reject(response.data)
+            reject(raw ? response.data : 'Invalid content #GoogleTransle ')
         }).catch(e => {
-            reject(e)
+            reject(raw ? e : e.toString())
         })
     })
 }

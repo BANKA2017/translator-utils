@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "description": "translate service",
   "main": "index.mjs",
+  "types": "index.d.ts",
   "scripts": {},
   "author": "BANKA2017",
   "license": "MIT",

@@ -15,7 +15,7 @@ const getId = async () => {
 
 }
 
-const DeepL = async (text = '', target = 'en') => {
+const DeepL = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #DeepL ')}
     if (!SupportedLanguage('deepl', target)) {return await Promise.reject('Not supported target language #DeepL ')}
 
@@ -48,9 +48,9 @@ const DeepL = async (text = '', target = 'en') => {
                 'content-type': 'application/json; charset=utf-8'
             }
         }).then(response => {
-            resolve(response.data)
+            resolve(raw ? response.data : response.data.result.texts.map(x => x.text).join("\n"))
         }).catch(e => {
-            reject(e)
+            reject(raw ? e : e.toString())
         })
     })
 }
