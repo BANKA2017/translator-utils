@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "translate service",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {},
   "author": "BANKA2017",
   "license": "MIT",
