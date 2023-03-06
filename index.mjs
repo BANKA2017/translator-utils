@@ -5,4 +5,6 @@ import { MicrosoftTranslator, MicrosoftBrowserTranslator } from "./src/source/mi
 import { SogouBrowserTranslator } from "./src/source/sogou.mjs"
 import { YandexDetect, YandexBrowserTranslator } from "./src/source/yandex.mjs"
 
-export { BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator }
+import { IsChs, IsCht } from "./src/utils.mjs"
+
+export { BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, IsChs, IsCht }
