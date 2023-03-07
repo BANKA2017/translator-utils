@@ -1,10 +1,10 @@
 import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../utils.mjs'
+import { SupportedLanguage } from '../misc.mjs'
 
 
 const GoogleTranslate = async (text = '', target = 'en', raw = false) => {
-    if (!text) {return await Promise.reject('Empty text #GoogleTransle ')}
-    if (!SupportedLanguage('google', target)) {return await Promise.reject('Not supported target language #GoogleTransle ')}
+    if (!text) {return await Promise.reject('Empty text #GoogleTranslate ')}
+    if (!SupportedLanguage('google', target)) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
 
     const query = new URLSearchParams({"client": "webapp", "sl": "auto", "tl": target, "hl": target, "dt": "t", "clearbtn": 1, "otf": 1, "pc": 1, "ssel": 0, "tsel": 0, "kc": 2, "tk": "", "q": text})
     return await new Promise((resolve, reject) => {
@@ -18,7 +18,7 @@ const GoogleTranslate = async (text = '', target = 'en', raw = false) => {
                 resolve(raw ? response.data : response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
                 //resolve(response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
             }
-            reject(raw ? response.data : 'Invalid content #GoogleTransle ')
+            reject(raw ? response.data : 'Invalid content #GoogleTranslate ')
         }).catch(e => {
             reject(raw ? e : e.toString())
         })
@@ -26,8 +26,8 @@ const GoogleTranslate = async (text = '', target = 'en', raw = false) => {
 }
 
 const GoogleBrowserTranslate = async (text = '', target = 'en', raw = false) => {
-    if (!text) {return await Promise.reject('Empty text #GoogleTransle ')}
-    if (!SupportedLanguage('google', target)) {return await Promise.reject('Not supported target language #GoogleTransle ')}
+    if (!text) {return await Promise.reject('Empty text #GoogleTranslate ')}
+    if (!SupportedLanguage('google', target)) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
 
     //curl 'https://translate.googleapis.com/translate_a/t?anno=3&client=wt_lib&format=html&v=1.0&key&sl=auto&tl=zh&tc=1&sr=1&tk=164775.366094&mode=1' --data-raw 'q=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF' --compressed
     //https://vielhuber.de/zh-cn/blog-zh-cn/google-translation-api-hacking/
@@ -38,7 +38,7 @@ const GoogleBrowserTranslate = async (text = '', target = 'en', raw = false) => 
             if (response.data && response.data instanceof Array) {
                 resolve(raw ? response.data : response.data.map(x => x[0]).join("\n"))
             }
-            reject(raw ? response.data : 'Invalid content #GoogleTransle ')
+            reject(raw ? response.data : 'Invalid content #GoogleTranslate ')
         }).catch(e => {
             reject(raw ? e : e.toString())
         })

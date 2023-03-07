@@ -1,5 +1,5 @@
 import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../utils.mjs'
+import { SupportedLanguage } from '../misc.mjs'
 
 const getId = async () => {
     if (typeof process !== 'undefined') {
@@ -55,4 +55,4 @@ const DeepL = async (text = '', target = 'en', raw = false) => {
     })
 }
 
-export {DeepL}
+export { DeepL }

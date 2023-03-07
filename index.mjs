@@ -5,7 +5,7 @@ import { MicrosoftTranslator, MicrosoftBrowserTranslator } from "./src/source/mi
 import { SogouBrowserTranslator } from "./src/source/sogou.mjs"
 import { YandexDetect, YandexBrowserTranslator } from "./src/source/yandex.mjs"
 
-import { IsChs, IsCht } from "./src/utils.mjs"
+import { IsChs, IsCht } from "./src/misc.mjs"
 
 const Translator = async (text = '', target = 'en', platform = 'google', raw = false) => {
     let result = {content: '', message: ''}

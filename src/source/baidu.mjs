@@ -1,5 +1,5 @@
 import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../utils.mjs'
+import { SupportedLanguage } from '../misc.mjs'
 import {GoogleTranslateTk} from './google.mjs'
 
 //const gtk =[320305, 131321201]
@@ -12,20 +12,36 @@ const baiduPreprocessing = (text) => {
     return text
 }
 
-const getBaiduTranslatorToken = async (cookie = '', loop = 0) => {
-    if (loop > 5) { return {message: 'Unable to get translator page (Loop > 5) #BaiduTranslator ', page: null, cookie: null} }
-    let page = ''
+const GetBaiduTranslatorToken = async (cookie = '', loop = 0) => {
+    let resultContent = {
+        message: null,
+        page: null,
+        cookie: null,
+        common: null,
+        gtk: null
+    }
+    if (loop > 5) { resultContent.message = 'Unable to get translator page (Loop > 5) #BaiduTranslator '; return resultContent }
+    if (cookie) { resultContent.cookie = cookie }
     try {
-        page = await axiosFetch.get('https://fanyi.baidu.com/', {headers: { cookie }})
-        if (page.headers['set-cookie']) {
+        resultContent.page = await axiosFetch.get('https://fanyi.baidu.com/', {headers: { cookie }})
+        if (resultContent.page.headers['set-cookie']) {
             //get cookie again
-            return getBaiduTranslatorToken(page.headers['set-cookie'].map(cookie => cookie.split(';')[0]).join(';'), ++loop)
+            return GetBaiduTranslatorToken(resultContent.page.headers['set-cookie'].map(cookie => cookie.split(';')[0]).join(';'), ++loop)
         } else {
-            return {message: null, page: page.data, cookie}
+            try {
+                resultContent.common = (new Function('let localStorage={getItem:function(n){return 1}};return ' + /window\['common'\](?:\s|)=(?:\s|)([^;]+);/.exec(resultContent.page.data)[1]))()
+                resultContent.gtk = String((new Function('return ' + /window\.gtk(?:\s|)=(?:\s|)"([^;]+)";/.exec(resultContent.page.data)[1]))()).split('.').map(x => Number(x))
+            } catch(e) {
+                resultContent.message = 'Unable to get variables #BaiduTranslator '
+                return resultContent
+            }
+            return resultContent
         }
     } catch (e) {
-        return {message: 'Unable to get translator page #BaiduTranslator ', page: null, cookie: null}
+        resultContent.message = 'Unable to get translator page #BaiduTranslator '
+        return resultContent
     }
+
 }
 
 const BaiduLanguagePredict = async (text = '', cookie = '') => {
@@ -49,18 +65,11 @@ const BaiduTranslator = async (text = '', target = 'en', raw = false) => {
 
 
     //get baidu translator page
-    const {message, page, cookie} = await getBaiduTranslatorToken()
+    const {message, page, cookie, common, gtk} = await GetBaiduTranslatorToken()
     if (message) {
-        return await Promise.reject('Unable to get translator page #BaiduTranslator ')
+        return await Promise.reject(message)
     }
     if (page && cookie) {
-        let common = null, gtk = null
-        try {
-            common = (new Function('let localStorage={getItem:function(n){return 1}};return ' + /window\['common'\](?:\s|)=(?:\s|)([^;]+);/.exec(page)[1]))()
-            gtk = String((new Function('return ' + /window\.gtk(?:\s|)=(?:\s|)"([^;]+)";/.exec(page)[1]))()).split('.').map(x => Number(x))
-        } catch(e) {
-            return await Promise.reject('Unable to get variables #BaiduTranslator ')
-        }
 
         const fromLaguage = await BaiduLanguagePredict(text, cookie)
         if (fromLaguage === '_') {
@@ -96,4 +105,4 @@ const BaiduTranslator = async (text = '', target = 'en', raw = false) => {
     }
 }
 
-export {BaiduTranslator, BaiduLanguagePredict}
+export {BaiduTranslator, BaiduLanguagePredict, GetBaiduTranslatorToken}

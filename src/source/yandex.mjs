@@ -1,5 +1,5 @@
 import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../utils.mjs'
+import { SupportedLanguage } from '../misc.mjs'
 
 //from yandex browser
 const generateSid = () => {

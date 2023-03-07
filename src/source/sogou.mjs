@@ -1,5 +1,5 @@
 import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../utils.mjs'
+import { SupportedLanguage } from '../misc.mjs'
 
 const SogouBrowserTranslator = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #SogouTranslator ')}

@@ -1,5 +1,5 @@
 import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../utils.mjs'
+import { SupportedLanguage } from '../misc.mjs'
 
 const MicrosoftTranslator = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
@@ -46,17 +46,20 @@ const MicrosoftTranslator = async (text = '', target = 'en', raw = false) => {
     }
 }
 
+const GetMicrosoftBrowserTranslatorAuth = async () => {
+    try {
+        return (await axiosFetch.get('https://edge.microsoft.com/translate/auth')).data
+    } catch (e) {
+        return ''
+    }
+}
+
 const MicrosoftBrowserTranslator = async (text = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
     if (!SupportedLanguage('microsoft', target)) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
     //get jwt
-    let jwt = null
-    try {
-        jwt = (await axiosFetch.get('https://edge.microsoft.com/translate/auth')).data
-    } catch (e) {
-        return await Promise.reject('Unable to get jwt #MicrosoftTranslator ')
-    }
+    const jwt = await GetMicrosoftBrowserTranslatorAuth()
     if (jwt) {
         return await new Promise((resolve, reject) => {
             axiosFetch.post(`https://api.cognitive.microsofttranslator.com/translate?from=&to=${target}&api-version=3.0&includeSentenceLength=true`, JSON.stringify(text instanceof Array ? text.map(tmpText => ({Text: tmpText})) : [{Text: text}]), {
@@ -79,4 +82,4 @@ const MicrosoftBrowserTranslator = async (text = '', target = 'en', raw = false)
     
 }
 
-export {MicrosoftTranslator, MicrosoftBrowserTranslator}
+export { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth }
