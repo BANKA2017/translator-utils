@@ -3,9 +3,11 @@ import { AxiosRequestConfig } from "axios"
 const axiosConfig = async (adds: AxiosRequestConfig = {}) => {
     let config: AxiosRequestConfig = {
         ...adds,
-        headers: {},
         timeout: 30000,//TODO check timeout
         proxy: false
+    }
+    if (!config.headers) {
+        config.headers = {}
     }
     //get PROXY_CONFIG //nodejs only
     if (typeof process !== 'undefined') {
