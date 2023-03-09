@@ -1,6 +1,7 @@
 import { TranslatorModuleFunction } from 'types.js'
-import axiosFetch from '../axios.js'
 import { SupportedLanguage } from '../misc.js'
+import axios from 'axios'
+import axiosConfig from '../axios.js'
 
 const getId = async () => {
     if (typeof process !== 'undefined') {
@@ -43,12 +44,12 @@ const DeepL: TranslatorModuleFunction = async (text: string | string[] = '', tar
         id
     }).replace("\"method\":\"", (((id + 3) % 13 === 0) || ((id + 5) % 29 === 0)) ? "\"method\" : \"" : "\"method\": \"")
     
-    return await new Promise((resolve, reject) => {
-        axiosFetch.post('https://www2.deepl.com/jsonrpc?client=chrome-extension,1.1.1', postBody, {
+    return await new Promise(async (resolve, reject) => {
+        axios.post('https://www2.deepl.com/jsonrpc?client=chrome-extension,1.1.1', postBody, await axiosConfig({
             headers: {
                 'content-type': 'application/json; charset=utf-8'
             }
-        }).then(response => {
+        })).then(response => {
             resolve(raw ? response.data : response.data.result.texts.map((x: any) => x.text).join("\n"))
         }).catch(e => {
             reject(raw ? e : e.toString())

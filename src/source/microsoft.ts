@@ -1,7 +1,7 @@
-import { AxiosResponse } from 'axios'
-import axiosFetch from '../axios.js'
+import axios, { AxiosResponse } from 'axios'
 import { SupportedLanguage } from '../misc.js'
 import { TranslatorModuleFunction } from 'types.js'
+import axiosConfig from '../axios.js'
 
 const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target = 'en', raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
@@ -10,7 +10,7 @@ const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target =
     //get IG, token, key
     let page: AxiosResponse | '' = ''
     try {
-        page = await axiosFetch.get('https://www.bing.com/translator')
+        page = await axios.get('https://www.bing.com/translator', await axiosConfig())
     } catch (e) {
         return await Promise.reject('Unable to get translator page #MicrosoftTranslator ')
     }
@@ -22,8 +22,8 @@ const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target =
         } catch(e) {
             return await Promise.reject('Unable to get variables #MicrosoftTranslator ')
         }
-        return await new Promise((resolve, reject) => {
-            axiosFetch.post('https://www.bing.com/ttranslatev3?' + (new URLSearchParams({
+        return await new Promise(async (resolve, reject) => {
+            axios.post('https://www.bing.com/ttranslatev3?' + (new URLSearchParams({
                 isVertical: '1',
                 IG: _G.IG,
                 IID: 'translator.5024.1'
@@ -33,7 +33,7 @@ const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target =
                 to: target,
                 token: params_RichTranslateHelper[1],
                 key: params_RichTranslateHelper[0]
-            })).toString()).then((response: any) => {
+            })).toString(), await axiosConfig()).then((response: any) => {
                 if (!response.data.statusCode && response.data instanceof Array ) {
                     resolve(raw ? response.data : response.data.map((x: any) => (x?.translations || []).map((translation: any) => translation?.text || '')).flat().join("\n"))
                 }
@@ -49,7 +49,7 @@ const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target =
 
 const GetMicrosoftBrowserTranslatorAuth = async () => {
     try {
-        return (await axiosFetch.get('https://edge.microsoft.com/translate/auth')).data
+        return (await axios.get('https://edge.microsoft.com/translate/auth'), await axiosConfig()).data
     } catch (e) {
         return ''
     }
@@ -62,13 +62,13 @@ const MicrosoftBrowserTranslator: TranslatorModuleFunction = async (text = '', t
     //get jwt
     const jwt = await GetMicrosoftBrowserTranslatorAuth()
     if (jwt) {
-        return await new Promise((resolve, reject) => {
-            axiosFetch.post(`https://api.cognitive.microsofttranslator.com/translate?from=&to=${target}&api-version=3.0&includeSentenceLength=true`, JSON.stringify(text instanceof Array ? text.map(tmpText => ({Text: tmpText})) : [{Text: text}]), {
+        return await new Promise(async (resolve, reject) => {
+            axios.post(`https://api.cognitive.microsofttranslator.com/translate?from=&to=${target}&api-version=3.0&includeSentenceLength=true`, JSON.stringify(text instanceof Array ? text.map(tmpText => ({Text: tmpText})) : [{Text: text}]), await axiosConfig({
                 headers: {
                     'content-type': 'application/json',
                     authorization: `Bearer ${jwt}`
                 }
-            }).then((response: any) => {
+            })).then((response: any) => {
                 if (response.data && response.data instanceof Array) {
                     resolve(raw ? response.data : response.data.map((x: any) => (x?.translations || [])?.[0]?.text || '').join("\n"))
                 }

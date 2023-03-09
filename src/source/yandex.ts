@@ -1,6 +1,7 @@
 import { TranslatorModuleFunction } from 'types.js'
-import axiosFetch from '../axios.js'
 import { SupportedLanguage } from '../misc.js'
+import axios from 'axios'
+import axiosConfig from '../axios.js'
 
 //from yandex browser
 const generateSid = async () => {
@@ -20,12 +21,12 @@ const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'>
         text = text.join("\n")
     }
     try {
-        const languageResult = await axiosFetch.get('https://translate.yandex.net/api/v1/tr.json/detect?' + (new URLSearchParams({
+        const languageResult = await axios.get('https://translate.yandex.net/api/v1/tr.json/detect?' + (new URLSearchParams({
             sid: await generateSid(),
             srv: 'android',// or 'ios'
             text,
             //hint: 'en,zh'
-        })).toString())
+        })).toString(), await axiosConfig())
         if (languageResult.data?.code === 200 && languageResult.data?.lang) {
             return languageResult.data?.lang || '_'
         } else {
@@ -56,8 +57,8 @@ const YandexBrowserTranslator: TranslatorModuleFunction = async (text: string | 
         format: 'html',
         options: '2'
     })
-    return await new Promise((resolve, reject) => {
-        axiosFetch.get('https://browser.translate.yandex.net/api/v1/tr.json/translate?' + query.toString() + '&text=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&text=') : encodeURIComponent(text))).then(response => {
+    return await new Promise(async (resolve, reject) => {
+        axios.get('https://browser.translate.yandex.net/api/v1/tr.json/translate?' + query.toString() + '&text=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&text=') : encodeURIComponent(text)), await axiosConfig()).then(response => {
             if (response?.data?.text && response?.data?.text instanceof Array) {
                 resolve(raw ? response.data : response.data.text.join("\n"))
             }

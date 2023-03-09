@@ -1,2 +1,3 @@
-declare const axiosFetch: import("axios").AxiosInstance;
-export default axiosFetch;
+import { AxiosRequestConfig } from "axios";
+declare const axiosConfig: (adds?: AxiosRequestConfig) => Promise<AxiosRequestConfig<any>>;
+export default axiosConfig;
