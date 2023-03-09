@@ -8,7 +8,7 @@ import { YandexDetect, YandexBrowserTranslator } from "./source/yandex.js"
 import { IsChs, IsCht } from "./misc.js"
 import { TranslatorFunction } from "types.js"
 
-const Translator: TranslatorFunction = async (text = '', target, platform, raw) => {
+const Translator: TranslatorFunction = async (text = '', platform, target, raw) => {
     let result = {content: '', message: ''}
     try {
         switch (platform) {
@@ -35,7 +35,5 @@ const Translator: TranslatorFunction = async (text = '', target, platform, raw) 
     }
     return result
 }
-
-
 
 export { Translator, BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, IsChs, IsCht }

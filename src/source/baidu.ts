@@ -73,9 +73,9 @@ const BaiduLanguagePredict = async (text: string | string[] = '', cookie = ''): 
     
 }
 
-const BaiduTranslator: TranslatorModuleFunction = async (text = '', target = 'en', raw) => {
+const BaiduTranslator: TranslatorModuleFunction<'baidu'> = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #BaiduTranslator ')}
-    if (!SupportedLanguage('baidu', target)) {return await Promise.reject('Not supported target language #BaiduTranslator ')}
+    if (!SupportedLanguage('baidu', target || 'en')) {return await Promise.reject('Not supported target language #BaiduTranslator ')}
 
 
     //get baidu translator page
@@ -96,10 +96,10 @@ const BaiduTranslator: TranslatorModuleFunction = async (text = '', target = 'en
             }
             axios.post('https://fanyi.baidu.com/v2transapi?' + (new URLSearchParams({
                 from: fromLaguage,
-                to: target
+                to: target || 'en'
             })).toString(), (new URLSearchParams({
                 from: fromLaguage,
-                to: target,
+                to: target || 'en',
                 query: text,
                 transtype: 'translang',
                 simple_means_flag: '3',

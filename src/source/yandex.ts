@@ -38,9 +38,9 @@ const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'>
 }
 
 
-const YandexBrowserTranslator: TranslatorModuleFunction = async (text: string | string[] = '', target = 'en', raw) => {
+const YandexBrowserTranslator: TranslatorModuleFunction<'yandex'> = async (text: string | string[] = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #YandexTranslator ')}
-    if (!SupportedLanguage('yandex', target)) {return await Promise.reject('Not supported target language #YandexTranslator ')}
+    if (!SupportedLanguage('yandex', target || 'en')) {return await Promise.reject('Not supported target language #YandexTranslator ')}
 
     const lang = await YandexDetect((Array.isArray(text) ? text.join(' ') : text).replaceAll(/<a id=\d><><\/a>/gm, ''))
 

@@ -17,14 +17,10 @@ const getId = async () => {
 
 }
 
-const DeepL: TranslatorModuleFunction = async (text: string | string[] = '', target = 'en', raw) => {
+const DeepL: TranslatorModuleFunction<'deepl'> = async (text: string | string[] = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #DeepL ')}
-    if (!SupportedLanguage('deepl', target)) {return await Promise.reject('Not supported target language #DeepL ')}
+    if (!SupportedLanguage('deepl', target || 'en')) {return await Promise.reject('Not supported target language #DeepL ')}
 
-
-    if (/^zh(_|\-|$)/.test(target.toLowerCase())) {
-        target = 'zh'
-    }
     //{"jsonrpc":"2.0","method": "LMT_handle_texts","params":{"texts":[{"text":"[Schoolgirl Strikers: Animation Channel]"}],"splitting":"newlines","lang":{"target_lang":"ZH","source_lang_user_selected":"auto","preference":{"weight":{}}},"timestamp":0},"id":0}
     const realTimeStamp = Number(new Date())
     const i_count = (text instanceof Array ? text.join('') : text).split('i').length
@@ -36,7 +32,7 @@ const DeepL: TranslatorModuleFunction = async (text: string | string[] = '', tar
         params: {
             texts: (text instanceof Array) ? text.map(x => ({text: x})) : [{text}],
             lang: {
-                target_lang: target.toUpperCase(),
+                target_lang: (target || 'en').toUpperCase(),
                 source_lang_user_selected: "auto",
             },
             timestamp: realTimeStamp - realTimeStamp % i_count + i_count

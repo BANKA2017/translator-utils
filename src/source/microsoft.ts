@@ -3,9 +3,9 @@ import { SupportedLanguage } from '../misc.js'
 import { TranslatorModuleFunction } from 'types.js'
 import axiosConfig from '../axios.js'
 
-const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target = 'en', raw) => {
+const MicrosoftTranslator: TranslatorModuleFunction<'microsoft'> = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
-    if (!SupportedLanguage('microsoft', target)) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
+    if (!SupportedLanguage('microsoft', target || 'en')) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
     //get IG, token, key
     let page: AxiosResponse | '' = ''
@@ -30,7 +30,7 @@ const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target =
             })).toString(), (new URLSearchParams({
                 fromLang: 'auto-detect',
                 text: Array.isArray(text) ? text.join("\n") : text,
-                to: target,
+                to: (target || 'en'),
                 token: params_AbusePreventionHelper[1],
                 key: params_AbusePreventionHelper[0]
             })).toString(), await axiosConfig()).then((response: any) => {
@@ -55,9 +55,9 @@ const GetMicrosoftBrowserTranslatorAuth = async () => {
     }
 }
 
-const MicrosoftBrowserTranslator: TranslatorModuleFunction = async (text = '', target = 'en', raw) => {
+const MicrosoftBrowserTranslator: TranslatorModuleFunction<'microsoft'> = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
-    if (!SupportedLanguage('microsoft', target)) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
+    if (!SupportedLanguage('microsoft', target || 'en')) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
     //get jwt
     const jwt = await GetMicrosoftBrowserTranslatorAuth()
