@@ -1,11 +1,11 @@
-import { BaiduLanguagePredict, BaiduTranslator } from "./src/source/baidu.mjs"
-import { DeepL } from "./src/source/deepl.mjs"
-import { GoogleTranslate, GoogleBrowserTranslate } from "./src/source/google.mjs"
-import { MicrosoftTranslator, MicrosoftBrowserTranslator } from "./src/source/microsoft.mjs"
-import { SogouBrowserTranslator } from "./src/source/sogou.mjs"
-import { YandexDetect, YandexBrowserTranslator } from "./src/source/yandex.mjs"
+import { BaiduLanguagePredict, BaiduTranslator } from "./source/baidu.js"
+import { DeepL } from "./source/deepl.js"
+import { GoogleTranslate, GoogleBrowserTranslate } from "./source/google.js"
+import { MicrosoftTranslator, MicrosoftBrowserTranslator } from "./source/microsoft.js"
+import { SogouBrowserTranslator } from "./source/sogou.js"
+import { YandexDetect, YandexBrowserTranslator } from "./source/yandex.js"
 
-import { IsChs, IsCht } from "./src/misc.mjs"
+import { IsChs, IsCht } from "./misc.js"
 
 const Translator = async (text = '', target = 'en', platform = 'google', raw = false) => {
     let result = {content: '', message: ''}
@@ -30,7 +30,7 @@ const Translator = async (text = '', target = 'en', platform = 'google', raw = f
                 result.content = await DeepL(text, target, raw)
         }
     } catch (e) {
-        result.message = e.toString()
+        result.message = String(e)
     }
     return result
 }

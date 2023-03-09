@@ -1,20 +1,26 @@
-import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../misc.mjs'
+import axiosFetch from '../axios.js'
+import { SupportedLanguage } from '../misc.js'
 
 //from yandex browser
-const generateSid = () => {
-    var t, e, n = Date.now().toString(16)
-    for (t = 0, e = 16 - n.length; t < e; t++) {
-        n += Math.floor(16 * Math.random()).toString(16)
+const generateSid = async () => {
+    if (typeof process !== 'undefined') {
+        const {webcrypto} = await import('node:crypto')
+        return webcrypto.randomUUID().replaceAll('-', '')
+    } else if (typeof window !== 'undefined') {
+        return crypto.randomUUID().replaceAll('-', '')
+    } else {
+        return ''
     }
-    return n
 }
 
-const YandexDetect = async (text = '') => {
+const YandexDetect = async (text: string | string[] = '') => {
     if (!text) {return '_'}
+    if (Array.isArray(text)) {
+        text = text.join("\n")
+    }
     try {
         const languageResult = await axiosFetch.get('https://translate.yandex.net/api/v1/tr.json/detect?' + (new URLSearchParams({
-            sid: generateSid(),
+            sid: await generateSid(),
             srv: 'android',// or 'ios'
             text,
             //hint: 'en,zh'
@@ -30,7 +36,7 @@ const YandexDetect = async (text = '') => {
 }
 
 
-const YandexBrowserTranslator = async (text = '', target = 'en', raw = false) => {
+const YandexBrowserTranslator = async (text: string | string[] = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #YandexTranslator ')}
     if (!SupportedLanguage('yandex', target)) {return await Promise.reject('Not supported target language #YandexTranslator ')}
 
@@ -43,11 +49,11 @@ const YandexBrowserTranslator = async (text = '', target = 'en', raw = false) =>
     let query = new URLSearchParams({
         translateMode: 'context',
         context_title: 'Twitter Monitor Translator',
-        id: `${generateSid()}-0-0`,
+        id: `${await generateSid()}-0-0`,
         srv: 'yabrowser',
         lang: `${lang}-${target}`,
         format: 'html',
-        options: 2
+        options: '2'
     })
     return await new Promise((resolve, reject) => {
         axiosFetch.get('https://browser.translate.yandex.net/api/v1/tr.json/translate?' + query.toString() + '&text=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&text=') : encodeURIComponent(text))).then(response => {

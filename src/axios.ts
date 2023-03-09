@@ -1,7 +1,7 @@
-import axios from "axios"
+import axios, { CreateAxiosDefaults } from "axios"
 import { HttpProxyAgent, HttpsProxyAgent } from "hpagent"
 
-let axiosConfig = {
+let axiosConfig: CreateAxiosDefaults = {
     timeout: 30000,//TODO check timeout
     proxy: false
 }

@@ -1,5 +1,5 @@
-import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../misc.mjs'
+import axiosFetch from '../axios.js'
+import { SupportedLanguage } from '../misc.js'
 
 const getId = async () => {
     if (typeof process !== 'undefined') {
@@ -10,12 +10,12 @@ const getId = async () => {
         //browser
         return crypto.getRandomValues(new Uint32Array(1))[0]
     } else {
-        return ''
+        return 0
     }
 
 }
 
-const DeepL = async (text = '', target = 'en', raw = false) => {
+const DeepL = async (text: string | string[] = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #DeepL ')}
     if (!SupportedLanguage('deepl', target)) {return await Promise.reject('Not supported target language #DeepL ')}
 
@@ -48,7 +48,7 @@ const DeepL = async (text = '', target = 'en', raw = false) => {
                 'content-type': 'application/json; charset=utf-8'
             }
         }).then(response => {
-            resolve(raw ? response.data : response.data.result.texts.map(x => x.text).join("\n"))
+            resolve(raw ? response.data : response.data.result.texts.map((x: any) => x.text).join("\n"))
         }).catch(e => {
             reject(raw ? e : e.toString())
         })

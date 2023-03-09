@@ -1,7 +1,13 @@
 import { describe, expect, test } from 'vitest'
-import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken } from '../src/source/baidu.mjs'
+import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, GetBaiduTranslatorTokenResult } from '../src/source/baidu'
 
-let globalPage = {}
+let globalPage: GetBaiduTranslatorTokenResult = {
+    message: null,
+    page: null,
+    cookie: null,
+    common: null,
+    gtk: null
+}
 
 test('Baidu token', async () => {
     globalPage = await GetBaiduTranslatorToken()
@@ -14,19 +20,19 @@ test('Baidu token', async () => {
 
 describe('Baidu predict', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await BaiduLanguagePredict('hello', globalPage.cookie)).toEqual('en')
+        expect(await BaiduLanguagePredict('hello', globalPage.cookie || undefined)).toEqual('en')
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await BaiduLanguagePredict('こんにちわ', globalPage.cookie)).toEqual('jp')
+        expect(await BaiduLanguagePredict('こんにちわ', globalPage.cookie || undefined)).toEqual('jp')
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await BaiduLanguagePredict('你好', globalPage.cookie)).toEqual('zh')
+        expect(await BaiduLanguagePredict('你好', globalPage.cookie || undefined)).toEqual('zh')
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await BaiduLanguagePredict('안녕하세요', globalPage.cookie)).toEqual('kor')
+        expect(await BaiduLanguagePredict('안녕하세요', globalPage.cookie || undefined)).toEqual('kor')
     })
     test.concurrent('Empty text', async ({ expect }) => {
-        expect(await BaiduLanguagePredict('', globalPage.cookie)).toEqual('_')
+        expect(await BaiduLanguagePredict('', globalPage.cookie || undefined)).toEqual('_')
     })
 })
 

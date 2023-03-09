@@ -1,5 +1,5 @@
 import { describe, test } from "vitest"
-import { DeepL } from '../src/source/deepl.mjs'
+import { DeepL } from '../src/source/deepl'
 
 describe('DeepL translator(web)', () => {
     test.concurrent('English', async ({ expect }) => {

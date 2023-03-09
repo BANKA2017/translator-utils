@@ -1,5 +1,5 @@
 import { describe, test } from "vitest"
-import { YandexDetect, YandexBrowserTranslator } from "../src/source/yandex.mjs"
+import { YandexDetect, YandexBrowserTranslator } from "../src/source/yandex"
 
 describe('Yandex predict', () => {
     test.concurrent('English', async ({ expect }) => {

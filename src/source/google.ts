@@ -1,12 +1,15 @@
-import axiosFetch from '../axios.mjs'
-import { SupportedLanguage } from '../misc.mjs'
+import axiosFetch from '../axios.js'
+import { SupportedLanguage } from '../misc.js'
 
 
-const GoogleTranslate = async (text = '', target = 'en', raw = false) => {
+const GoogleTranslate = async (text: string | string[] = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #GoogleTranslate ')}
     if (!SupportedLanguage('google', target)) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
 
-    const query = new URLSearchParams({"client": "webapp", "sl": "auto", "tl": target, "hl": target, "dt": "t", "clearbtn": 1, "otf": 1, "pc": 1, "ssel": 0, "tsel": 0, "kc": 2, "tk": "", "q": text})
+    if (Array.isArray(text)) {
+        text = text.join("\n")
+    }
+    const query = new URLSearchParams({"client": "webapp", "sl": "auto", "tl": target, "hl": target, "dt": "t", "clearbtn": '1', "otf": '1', "pc": '1', "ssel": '0', "tsel": '0', "kc": '2', "tk": "", "q": text})
     return await new Promise((resolve, reject) => {
         axiosFetch.get('https://translate.google.com/translate_a/single?' + query.toString(), {
             headers: {
@@ -25,13 +28,13 @@ const GoogleTranslate = async (text = '', target = 'en', raw = false) => {
     })
 }
 
-const GoogleBrowserTranslate = async (text = '', target = 'en', raw = false) => {
+const GoogleBrowserTranslate = async (text: string | string[] = '', target = 'en', raw = false) => {
     if (!text) {return await Promise.reject('Empty text #GoogleTranslate ')}
     if (!SupportedLanguage('google', target)) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
 
     //curl 'https://translate.googleapis.com/translate_a/t?anno=3&client=wt_lib&format=html&v=1.0&key&sl=auto&tl=zh&tc=1&sr=1&tk=164775.366094&mode=1' --data-raw 'q=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF' --compressed
     //https://vielhuber.de/zh-cn/blog-zh-cn/google-translation-api-hacking/
-    let query = new URLSearchParams({anno: 4, client: 'te_lib', format: 'html', v: 1.0, key: 'AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw', sl: 'auto', tl: target, tc: 1, sr: 1, tk: GoogleTranslateTk(text), mode: 1})
+    let query = new URLSearchParams({anno: '4', client: 'te_lib', format: 'html', v: '1.0', key: 'AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw', sl: 'auto', tl: target, tc: '1', sr: '1', tk: GoogleTranslateTk(text), mode: '1'})
     //let formData = new URLSearchParams({q: text})
     return await new Promise((resolve, reject) => {
         axiosFetch.post('https://translate.googleapis.com/translate_a/t?' + query.toString(), 'q=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&q=') : encodeURIComponent(text))).then(response => {
@@ -45,17 +48,17 @@ const GoogleBrowserTranslate = async (text = '', target = 'en', raw = false) => 
     })
 }
 
-const hl = function (a, b) {
+const hl = function (a: number, b: string) {
     let c = 0
     for (; c < b.length - 2; c += 3) {
-        let d = b.charAt(c + 2)
+        let d: string | number = b.charAt(c + 2)
         d = "a" <= d ? (d.charCodeAt(0) - 87) : Number(d)
         d = "+" == b.charAt(c + 1) ? (a >>> d) : (a << d)
         a = "+" == b.charAt(c) ? (a + d & 4294967295) : (a ^ d)
     }
     return a
 }
-const getCharCodeList = function (text) {
+const getCharCodeList = function (text: string) {
     let charCodeList = [], charCodeListIndex = 0
     for (let index = 0; index < text.length; index++) {
         let charCode = text.charCodeAt(index)
@@ -80,8 +83,8 @@ const getCharCodeList = function (text) {
     return charCodeList
 }
 
-//https://translate.google.com/translate_a/element.js?cb=gtElInit&hl=zh-CN&client=wt c._ctkk
-const GoogleTranslateTk = (originalText = '', tkk = [464385, 3806605782]) => {
+//https://translate.google.com/translate_a/element?cb=gtElInit&hl=zh-CN&client=wt c._ctkk
+const GoogleTranslateTk = (originalText: string | string[] = '', tkk: number[] = [464385, 3806605782]) => {
     //from https://translate.googleapis.com/_/translate_http/_/js/k=translate_http.tr.zh_CN.D7QeyoDkDhY.O/d=1/exm=el_conf/ed=1/rs=AN8SPfq20C5s1IToiD2r2PKoyh-SRQysPA/m=el_main
     let text
     if (originalText instanceof Array) {

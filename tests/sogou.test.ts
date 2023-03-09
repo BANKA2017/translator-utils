@@ -1,5 +1,5 @@
 import { describe, test } from "vitest"
-import { SogouBrowserTranslator } from '../src/source/sogou.mjs'
+import { SogouBrowserTranslator } from '../src/source/sogou'
 
 describe('Sogou translator(browser)', () => {
     test.concurrent('English', async ({ expect }) => {

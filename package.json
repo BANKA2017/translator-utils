@@ -1,10 +1,11 @@
 {
   "name": "@kdwnil/node-translator",
   "private": true,
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.2-alpha.2",
   "description": "translate service",
-  "main": "index.mjs",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "type": "module",
   "author": "BANKA2017",
   "license": "MIT",
   "dependencies": {
@@ -12,9 +13,15 @@
     "hpagent": "^1.2.0"
   },
   "devDependencies": {
+    "@types/node": "^18.14.6",
+    "tsc": "^2.0.4",
+    "typescript": "^4.9.5",
     "vitest": "^0.29.2"
   },
   "scripts": {
+    "build": "npx tsc -p tsconfig.json",
+    "rebuild": "rm -rf lib/* && npx tsc -p tsconfig.json",
+    "clean": "rm -rf lib/*",
     "test": "npx vitest"
   }
 }

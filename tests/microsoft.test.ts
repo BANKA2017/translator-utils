@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { GetMicrosoftBrowserTranslatorAuth, MicrosoftBrowserTranslator, MicrosoftTranslator } from "../src/source/microsoft.mjs";
+import { GetMicrosoftBrowserTranslatorAuth, MicrosoftBrowserTranslator, MicrosoftTranslator } from "../src/source/microsoft";
 
 
 test('Microsoft edge jwt', async () => {
