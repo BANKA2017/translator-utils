@@ -1,7 +1,7 @@
 {
   "name": "@kdwnil/node-translator",
   "private": true,
-  "version": "0.0.2-alpha.2",
+  "version": "0.0.2-alpha.3",
   "description": "translate service",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
