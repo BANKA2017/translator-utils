@@ -1,8 +1,9 @@
 import { AxiosResponse } from 'axios'
 import axiosFetch from '../axios.js'
 import { SupportedLanguage } from '../misc.js'
+import { TranslatorModuleFunction } from 'types.js'
 
-const MicrosoftTranslator = async (text: string | string[] = '', target = 'en', raw = false) => {
+const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target = 'en', raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
     if (!SupportedLanguage('microsoft', target)) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
@@ -32,9 +33,9 @@ const MicrosoftTranslator = async (text: string | string[] = '', target = 'en', 
                 to: target,
                 token: params_RichTranslateHelper[1],
                 key: params_RichTranslateHelper[0]
-            })).toString()).then(response => {
+            })).toString()).then((response: any) => {
                 if (!response.data.statusCode && response.data instanceof Array ) {
-                    resolve(raw ? response.data : response.data.map(x => x.translations.map((translation: any) => translation.text)).flat().join("\n"))
+                    resolve(raw ? response.data : response.data.map((x: any) => (x?.translations || []).map((translation: any) => translation?.text || '')).flat().join("\n"))
                 }
                 reject(raw ? response.data : 'Invalid content #MicrosoftTranslator ')
             }).catch(e => {
@@ -54,7 +55,7 @@ const GetMicrosoftBrowserTranslatorAuth = async () => {
     }
 }
 
-const MicrosoftBrowserTranslator = async (text: string | string[] = '', target = 'en', raw = false) => {
+const MicrosoftBrowserTranslator: TranslatorModuleFunction = async (text = '', target = 'en', raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
     if (!SupportedLanguage('microsoft', target)) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
@@ -67,9 +68,9 @@ const MicrosoftBrowserTranslator = async (text: string | string[] = '', target =
                     'content-type': 'application/json',
                     authorization: `Bearer ${jwt}`
                 }
-            }).then(response => {
+            }).then((response: any) => {
                 if (response.data && response.data instanceof Array) {
-                    resolve(raw ? response.data : response.data.map(x => x.translations[0].text).join("\n"))
+                    resolve(raw ? response.data : response.data.map((x: any) => (x?.translations || [])?.[0]?.text || '').join("\n"))
                 }
                 reject(raw ? response.data : 'Invalid content #MicrosoftTranslator ')
             }).catch(e => {

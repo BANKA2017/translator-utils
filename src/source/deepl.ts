@@ -1,3 +1,4 @@
+import { TranslatorModuleFunction } from 'types.js'
 import axiosFetch from '../axios.js'
 import { SupportedLanguage } from '../misc.js'
 
@@ -15,7 +16,7 @@ const getId = async () => {
 
 }
 
-const DeepL = async (text: string | string[] = '', target = 'en', raw = false) => {
+const DeepL: TranslatorModuleFunction = async (text: string | string[] = '', target = 'en', raw) => {
     if (!text) {return await Promise.reject('Empty text #DeepL ')}
     if (!SupportedLanguage('deepl', target)) {return await Promise.reject('Not supported target language #DeepL ')}
 

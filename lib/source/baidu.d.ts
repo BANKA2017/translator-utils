@@ -1,3 +1,4 @@
+import { TranslatorModuleFunction } from 'types.js';
 export interface GetBaiduTranslatorTokenResult {
     message: string | null;
     page: string | null;
@@ -9,5 +10,5 @@ export interface GetBaiduTranslatorTokenResult {
 }
 declare const GetBaiduTranslatorToken: (cookie?: string, loop?: number) => Promise<GetBaiduTranslatorTokenResult>;
 declare const BaiduLanguagePredict: (text?: string | string[], cookie?: string) => Promise<string | '_'>;
-declare const BaiduTranslator: (text?: string, target?: string, raw?: boolean) => Promise<string | unknown>;
+declare const BaiduTranslator: TranslatorModuleFunction;
 export { BaiduTranslator, BaiduLanguagePredict, GetBaiduTranslatorToken };

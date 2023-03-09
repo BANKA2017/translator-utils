@@ -6,8 +6,9 @@ import { SogouBrowserTranslator } from "./source/sogou.js"
 import { YandexDetect, YandexBrowserTranslator } from "./source/yandex.js"
 
 import { IsChs, IsCht } from "./misc.js"
+import { TranslatorFunction } from "types.js"
 
-const Translator = async (text = '', target = 'en', platform = 'google', raw = false) => {
+const Translator: TranslatorFunction = async (text = '', target, platform, raw) => {
     let result = {content: '', message: ''}
     try {
         switch (platform) {

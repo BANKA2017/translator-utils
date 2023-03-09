@@ -1,2 +1,3 @@
-declare const DeepL: (text?: string | string[], target?: string, raw?: boolean) => Promise<unknown>;
+import { TranslatorModuleFunction } from 'types.js';
+declare const DeepL: TranslatorModuleFunction;
 export { DeepL };

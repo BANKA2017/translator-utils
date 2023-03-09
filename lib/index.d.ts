@@ -5,8 +5,6 @@ import { MicrosoftTranslator, MicrosoftBrowserTranslator } from "./source/micros
 import { SogouBrowserTranslator } from "./source/sogou.js";
 import { YandexDetect, YandexBrowserTranslator } from "./source/yandex.js";
 import { IsChs, IsCht } from "./misc.js";
-declare const Translator: (text?: string, target?: string, platform?: string, raw?: boolean) => Promise<{
-    content: string;
-    message: string;
-}>;
+import { TranslatorFunction } from "types.js";
+declare const Translator: TranslatorFunction;
 export { Translator, BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, IsChs, IsCht };

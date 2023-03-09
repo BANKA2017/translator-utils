@@ -1,3 +1,4 @@
+import { TranslatorModuleFunction } from 'types.js'
 import axiosFetch from '../axios.js'
 import { SupportedLanguage } from '../misc.js'
 
@@ -13,7 +14,7 @@ const generateSid = async () => {
     }
 }
 
-const YandexDetect = async (text: string | string[] = '') => {
+const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'> => {
     if (!text) {return '_'}
     if (Array.isArray(text)) {
         text = text.join("\n")
@@ -26,7 +27,7 @@ const YandexDetect = async (text: string | string[] = '') => {
             //hint: 'en,zh'
         })).toString())
         if (languageResult.data?.code === 200 && languageResult.data?.lang) {
-            return languageResult.data?.lang
+            return languageResult.data?.lang || '_'
         } else {
             return '_'
         }
@@ -36,7 +37,7 @@ const YandexDetect = async (text: string | string[] = '') => {
 }
 
 
-const YandexBrowserTranslator = async (text: string | string[] = '', target = 'en', raw = false) => {
+const YandexBrowserTranslator: TranslatorModuleFunction = async (text: string | string[] = '', target = 'en', raw) => {
     if (!text) {return await Promise.reject('Empty text #YandexTranslator ')}
     if (!SupportedLanguage('yandex', target)) {return await Promise.reject('Not supported target language #YandexTranslator ')}
 

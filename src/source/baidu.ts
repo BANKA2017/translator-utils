@@ -1,3 +1,4 @@
+import { TranslatorModuleFunction } from 'types.js'
 import axiosFetch from '../axios.js'
 import { SupportedLanguage } from '../misc.js'
 import {GoogleTranslateTk} from './google.js'
@@ -61,7 +62,7 @@ const BaiduLanguagePredict = async (text: string | string[] = '', cookie = ''): 
     try {
         const languageResult = await axiosFetch.post('https://fanyi.baidu.com/langdetect', (new URLSearchParams({query: text})).toString(), { headers: { cookie } })
         if (languageResult.data?.error === 0 && languageResult.data?.lan) {
-            return languageResult.data?.lan
+            return languageResult.data?.lan || ''
         } else {
             return '_'
         }
@@ -71,7 +72,8 @@ const BaiduLanguagePredict = async (text: string | string[] = '', cookie = ''): 
     
 }
 
-const BaiduTranslator = async (text = '', target = 'en', raw = false): Promise<string | unknown> => {
+const BaiduTranslator: TranslatorModuleFunction = async (text = '', target = 'en', raw) => {
+    console.log(raw)
     if (!text) {return await Promise.reject('Empty text #BaiduTranslator ')}
     if (!SupportedLanguage('baidu', target)) {return await Promise.reject('Not supported target language #BaiduTranslator ')}
 
@@ -89,6 +91,9 @@ const BaiduTranslator = async (text = '', target = 'en', raw = false): Promise<s
         }
         
         return await new Promise((resolve, reject) => {
+            if (Array.isArray(text)) {
+                text = text.join("\n")
+            }
             axiosFetch.post('https://fanyi.baidu.com/v2transapi?' + (new URLSearchParams({
                 from: fromLaguage,
                 to: target

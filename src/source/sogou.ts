@@ -1,7 +1,8 @@
+import { TranslatorModuleFunction } from 'types.js'
 import axiosFetch from '../axios.js'
 import { SupportedLanguage } from '../misc.js'
 
-const SogouBrowserTranslator = async (text: string | string[] = '', target = 'en', raw = false) => {
+const SogouBrowserTranslator: TranslatorModuleFunction = async (text = '', target = 'en', raw) => {
     if (!text) {return await Promise.reject('Empty text #SogouTranslator ')}
     if (!SupportedLanguage('sogou', target)) {return await Promise.reject('Not supported target language #SogouTranslator ')}
 
