@@ -1,6 +1,6 @@
-export type TranslatorModuleFunction<P extends Platform> = <T extends string, R extends boolean = false>(text: string | string[], target?: T, raw?: R) => Promise<R extends true ? any : string>
+export type TranslatorModuleFunction<P extends Platform> = <T extends Target[P], R extends boolean = false>(text: string | string[], target: T, raw?: R) => Promise<R extends true ? any : string>
 
-export type TranslatorFunction = <P extends Platform, T extends string, R extends boolean = false>(text: string | string[], platform?: P, target?: T, raw?: R) => Promise<TranslatorResult<R>>
+export type TranslatorFunction = <P extends Platform, R extends boolean= false>(text: string | string[], platform: P, target: Target[P], raw?: R) => Promise<TranslatorResult<NonNullable<R>>>
 export interface TranslatorResult<K extends boolean> {
     content: K extends true ? any : string;
     message: string

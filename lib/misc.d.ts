@@ -17,6 +17,6 @@ export declare const SOGOU_LANGUAGES: {
 export declare const YANDEX_LANGUAGES: {
     [p in Target['yandex']]: string;
 };
-export declare const SupportedLanguage: <L extends string, P extends keyof Target = "google">(source: P, language: L) => boolean;
+export declare const SupportedLanguage: <L extends Target[P], P extends keyof Target = "google">(source: P, language: L) => boolean;
 export declare const IsChs: (lang?: string) => boolean;
 export declare const IsCht: (lang?: string) => boolean;

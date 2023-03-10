@@ -7,4 +7,5 @@ import { YandexDetect, YandexBrowserTranslator } from "./source/yandex.js";
 import { IsChs, IsCht } from "./misc.js";
 import { TranslatorFunction } from "types.js";
 declare const Translator: TranslatorFunction;
-export { Translator, BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, IsChs, IsCht };
+export { BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, IsChs, IsCht };
+export default Translator;
