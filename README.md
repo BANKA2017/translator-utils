@@ -39,7 +39,7 @@ await Translator('你好', 'google', 'zh-cn', true)  // { content: RESULT_CONTEN
 await GoogleBrowserTranslate('你好', 'zh-cn', false)
 ```
 
-To know more, view files in [~/src/source](https://github.com/BANKA2017/node-translator/tree/master/src/source)
+To know more, view files in [~/src/source](https://github.com/BANKA2017/translator-utils/tree/master/src/source)
 
 ## Browser
 
@@ -52,5 +52,5 @@ Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftB
 ## Install
 
 ```shell
-yarn add @kdwnil/translator-utils@github:BANKA2017/node-translator#master
+yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#master
 ```
