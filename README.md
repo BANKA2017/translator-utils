@@ -9,7 +9,7 @@ This is an early release version, everything are subject to change, please **DO 
 
 ---
 
-## Predict
+## Predict (Nodejs)
 
 only for `baidu` and `yandex`
 
@@ -51,6 +51,20 @@ Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftB
 
 ## Install
 
+### NPM
+
 ```shell
 yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#master
+```
+
+### UMD
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@master/dist/translator.min.js"></script>
+<!--example-->
+<script type="module">
+    console.log(await translator('hi','google','zh-cn',false))
+    console.log(await translator('hi','microsoft','zh-hans',false))
+    console.log(await translator('hi','sogou','ja',false))
+</script>
 ```
