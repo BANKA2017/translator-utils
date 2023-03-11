@@ -26,6 +26,6 @@ export type DEEPL_LIST = 'en'|'en-us'|'en-gb'|'de'|'fr'|'es'|'it'|'nl'|'pl'|'ru'
 
 export type BING_LIST = 'lzh'|'ikt'|'iu-latn'|'mn-cyrl'|'mn-mong'|'hsb'|'zh-hans'|'zh-hant'|'da'|'uk'|'uz'|'ur'|'nb'|'hy'|'ru'|'bg'|'tlh-latn'|'hr'|'otq'|'is'|'gl'|'ca'|'hu'|'af'|'kn'|'hi'|'id'|'gu'|'kk'|'iu'|'tk'|'tr'|'ty'|'sr-latn'|'sr-cyrl'|'or'|'cy'|'bn'|'yua'|'ne'|'ba'|'eu'|'he'|'el'|'ku'|'kmr'|'de'|'it'|'lv'|'cs'|'ti'|'fj'|'sk'|'sl'|'sw'|'pa'|'ja'|'ps'|'ky'|'ka'|'mi'|'to'|'fo'|'fr'|'fr-ca'|'pl'|'bs'|'fa'|'te'|'ta'|'th'|'ht'|'ga'|'et'|'sv'|'zu'|'lt'|'yue'|'so'|'ug'|'my'|'ro'|'lo'|'fi'|'mww'|'en'|'nl'|'fil'|'sm'|'pt'|'pt-pt'|'bo'|'es'|'vi'|'prs'|'dv'|'az'|'am'|'sq'|'ar'|'as'|'tt'|'ko'|'mk'|'mg'|'mr'|'ml'|'ms'|'mt'|'km'
 
-export type SOGOU_LIST = 'ar'|'pl'|'da'|'de'|'ru'|'fr'|'fi'|'ko'|'nl'|'cs'|'pt'|'ja'|'sv'|'th'|'tr'|'es'|'hu'|'en'|'it'|'vi'|'zh-chs'
+export type SOGOU_LIST = 'ar'|'pl'|'da'|'de'|'ru'|'fr'|'fi'|'ko'|'nl'|'cs'|'pt'|'ja'|'sv'|'th'|'tr'|'es'|'hu'|'en'|'it'|'vi'|'zh-CHS'
 
 export type YANDEX_LIST = 'af'|'sq'|'am'|'ar'|'hy'|'az'|'ba'|'eu'|'be'|'bn'|'bs'|'bg'|'my'|'ca'|'ceb'|'zh'|'cv'|'hr'|'cs'|'da'|'nl'|'sjn'|'emj'|'en'|'eo'|'et'|'fi'|'fr'|'gl'|'ka'|'de'|'el'|'gu'|'ht'|'he'|'mrj'|'hi'|'hu'|'is'|'id'|'ga'|'it'|'ja'|'jv'|'kn'|'kk'|'kazlat'|'km'|'ko'|'ky'|'lo'|'la'|'lv'|'lt'|'lb'|'mk'|'mg'|'ms'|'ml'|'mt'|'mi'|'mr'|'mhr'|'mn'|'ne'|'no'|'pap'|'fa'|'pl'|'pt'|'pt-br'|'pa'|'ro'|'ru'|'gd'|'sr'|'sr-latn'|'si'|'sk'|'sl'|'es'|'su'|'sw'|'sv'|'tl'|'tg'|'ta'|'tt'|'te'|'th'|'tr'|'udm'|'uk'|'ur'|'uz'|'uzbcyr'|'vi'|'cy'|'xh'|'sah'|'yi'|'zu'

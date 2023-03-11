@@ -3,7 +3,7 @@ import { DeepL } from "./source/deepl.js"
 import { GoogleTranslate, GoogleBrowserTranslate } from "./source/google.js"
 import { MicrosoftTranslator, MicrosoftBrowserTranslator } from "./source/microsoft.js"
 import { SogouBrowserTranslator } from "./source/sogou.js"
-import { YandexDetect, YandexBrowserTranslator } from "./source/yandex.js"
+import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from "./source/yandex.js"
 
 import { IsChs, IsCht } from "./misc.js"
 import { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, TranslatorFunction, YANDEX_LIST } from "types.js"
@@ -36,5 +36,5 @@ const Translator: TranslatorFunction = async (text = '', platform, target, raw) 
     return result
 }
 
-export { BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, IsChs, IsCht }
+export { BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexTranslator, YandexBrowserTranslator, IsChs, IsCht }
 export default Translator
