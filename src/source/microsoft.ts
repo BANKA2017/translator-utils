@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { SupportedLanguage } from '../misc.js'
-import { TranslatorModuleFunction } from 'types.js'
-import axiosConfig from '../axios.js'
+import { TranslatorModuleFunction } from '../types.js'
+import axiosConfig from '../axios.config.js'
 
 const MicrosoftTranslator: TranslatorModuleFunction<'microsoft'> = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}

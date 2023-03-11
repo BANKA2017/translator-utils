@@ -1,12 +1,12 @@
-import { TranslatorModuleFunction } from 'types.js'
+import { TranslatorModuleFunction } from '../types.js'
 import { SupportedLanguage } from '../misc.js'
 import axios from 'axios'
-import axiosConfig from '../axios.js'
+import axiosConfig from '../axios.config.js'
 
 const getId = async () => {
     if (typeof process !== 'undefined') {
         //nodejs
-        const {webcrypto} = await import('node:crypto')
+        const {webcrypto} = await import('crypto')
         return webcrypto.getRandomValues(new Uint32Array(1))[0]
     } else if (typeof window !== 'undefined') {
         //browser

@@ -1,21 +1,6 @@
 {
   "compilerOptions": {
-      "allowSyntheticDefaultImports": true,
-      "baseUrl": "src",
-      "declaration": true,
-      "downlevelIteration": true,
-      "esModuleInterop": true,
-      "lib": ["ESNext", "DOM"],
-      "moduleResolution": "nodenext",
-      "noFallthroughCasesInSwitch": true,
-      "skipLibCheck": true,
-      "strict": true,
-      "types": ["node", "vitest/globals"],
-      "module": "ESNext",
-      "outDir": "lib",
-      "target": "ESNext"
+      "declaration": true
   },
-  "compileOnSave": false,
-  "exclude": ["tests", "lib", "node_modules"],
-  "include": ["src"]
+  "extends": "./tsconfig.rollup.json"
 }

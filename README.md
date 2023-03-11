@@ -43,7 +43,7 @@ To know more, view files in [~/src/source](https://github.com/BANKA2017/translat
 
 ## Browser
 
-Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftBrowserTranslator`, `SogouBrowserTranslator` or `YandexBrowserTranslator` from browser
+Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftBrowserTranslator` or `SogouBrowserTranslator` in browser
 
 ## Nodejs
 

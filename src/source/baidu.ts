@@ -1,8 +1,8 @@
-import { TranslatorModuleFunction } from 'types.js'
+import { TranslatorModuleFunction } from '../types.js'
 import { SupportedLanguage } from '../misc.js'
 import {GoogleTranslateTk} from './google.js'
 import axios from 'axios'
-import axiosConfig from '../axios.js'
+import axiosConfig from '../axios.config.js'
 
 //const gtk =[320305, 131321201]
 

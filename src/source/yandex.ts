@@ -1,12 +1,12 @@
-import { TranslatorModuleFunction } from 'types.js'
+import { TranslatorModuleFunction } from '../types.js'
 import { SupportedLanguage } from '../misc.js'
 import axios from 'axios'
-import axiosConfig from '../axios.js'
+import axiosConfig from '../axios.config.js'
 
 //from yandex browser
 const generateSid = async () => {
     if (typeof process !== 'undefined') {
-        const {webcrypto} = await import('node:crypto')
+        const {webcrypto} = await import('crypto')
         return webcrypto.randomUUID().replaceAll('-', '')
     } else if (typeof window !== 'undefined') {
         return crypto.randomUUID().replaceAll('-', '')

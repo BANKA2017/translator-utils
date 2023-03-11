@@ -1,4 +1,4 @@
-import { TranslatorModuleFunction } from 'types.js';
+import { TranslatorModuleFunction } from '../types.js';
 export interface GetBaiduTranslatorTokenResult {
     message: string | null;
     page: string | null;

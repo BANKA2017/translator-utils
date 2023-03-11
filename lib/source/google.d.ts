@@ -1,4 +1,4 @@
-import { TranslatorModuleFunction } from 'types.js';
+import { TranslatorModuleFunction } from '../types.js';
 declare const GoogleTranslate: TranslatorModuleFunction<'google'>;
 declare const GoogleBrowserTranslate: TranslatorModuleFunction<'google'>;
 declare const GoogleTranslateTk: (originalText?: string | string[], tkk?: number[]) => string;

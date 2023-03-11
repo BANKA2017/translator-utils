@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "src",
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "lib": ["ESNext", "DOM"],
+        "moduleResolution": "nodenext",
+        "noFallthroughCasesInSwitch": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "types": ["node", "vitest/globals"],
+        "module": "ESNext",
+        "outDir": "lib",
+        "target": "ESNext"
+    },
+    "compileOnSave": false,
+    "exclude": ["tests", "lib", "dist", "node_modules"],
+    "include": ["src"]
+  }
+  
