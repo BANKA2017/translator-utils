@@ -26,3 +26,14 @@ export const SupportedLanguage = <L extends Target[P], P extends Platform = 'goo
 
 export const IsChs = (lang = 'zh') => /^zh(?:_|\-)(?:cn|sg|my|chs)|zh|chs|zho$/.test(lang.toLowerCase())
 export const IsCht = (lang = 'zh_tw') => /^zh(?:_|\-)(?:tw|hk|mo|cht)|cht$/.test(lang.toLowerCase())
+
+export const generateUUID = async (): Promise<string> => {
+    if (typeof process !== 'undefined') {
+        const {webcrypto} = await import('crypto')
+        return webcrypto.randomUUID()
+    } else if (typeof window !== 'undefined') {
+        return crypto.randomUUID()
+    } else {
+        return ''
+    }
+}

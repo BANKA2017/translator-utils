@@ -13,12 +13,8 @@ export default [{
         format: 'umd',
         sourcemap: true,
         name: "translator",
-        exports: "default",
-        globals: {
-            hpagent: '{}'
-        }
+        exports: "default"
     },
-    external: ['hpagent'],
     plugins: [
         commonjs(),
         typescript({tsconfig: './tsconfig.rollup.json'}), 
@@ -37,11 +33,7 @@ export default [{
         sourcemap: true,
         name: "translator",
         exports: "default",
-        globals: {
-            hpagent: '{}'
-        }
     },
-    external: ['hpagent'],
     plugins: [
         commonjs(),
         typescript({tsconfig: './tsconfig.rollup.json'}), 
@@ -53,5 +45,20 @@ export default [{
         }),
         terser(),
         bundleSize()
+    ]
+}, {
+    input: 'src/index.ts',
+    output: {
+        file: 'dist/esm/translator.js',
+        format: 'esm',
+        sourcemap: true,
+        name: "translator",
+        exports: "named"
+    },
+    external: ['hpagent'],
+    plugins: [
+        typescript({tsconfig: './tsconfig.json'}), 
+        resolve({browser: false}), 
+        peerDepsExternal('./package.json')
     ]
 }]

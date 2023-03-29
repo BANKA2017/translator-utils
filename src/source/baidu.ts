@@ -1,8 +1,7 @@
 import { TranslatorModuleFunction } from '../types.js'
 import { SupportedLanguage } from '../misc.js'
 import {GoogleTranslateTk} from './google.js'
-import axios from 'axios'
-import axiosConfig from '../axios.config.js'
+import axiosFetch from 'translator-utils-axios-helper'
 
 //const gtk =[320305, 131321201]
 
@@ -31,14 +30,14 @@ const GetBaiduTranslatorToken = async (cookie = '', loop = 0): Promise<GetBaiduT
     if (loop > 5) { resultContent.message = 'Unable to get translator page (Loop > 5) #BaiduTranslator '; return resultContent }
     if (cookie) { resultContent.cookie = cookie }
     try {
-        const tmpWebPage = await axios.get('https://fanyi.baidu.com/', await axiosConfig({headers: { cookie }}))
+        const tmpWebPage = await axiosFetch.get('https://fanyi.baidu.com/', {headers: { cookie }})
         if (tmpWebPage.headers['set-cookie']) {
             //get cookie again
             return GetBaiduTranslatorToken(tmpWebPage.headers['set-cookie'].map(cookie => cookie.split(';')[0]).join(';'), ++loop)
         } else {
             resultContent.page = tmpWebPage.data
             try {
-                resultContent.common = (new Function('let localStorage={getItem:function(n){return 1}};return ' + /window\['common'\](?:\s|)=(?:\s|)([^;]+);/.exec(tmpWebPage.data || '')?.[1] || 'null'))()
+                resultContent.common = (new Function('let localStorage={getItem:function(n){return 1}};return ' + /window\['common'\](?:\s|)=(?:\s|)([^;]+);/.exec(tmpWebPage.data || '')?.[1].replaceAll(':,', ':') || 'null'))()
                 const tmpGtk = String((new Function('return ' + /window\.gtk(?:\s|)=(?:\s|)"([^;]+)";/.exec(tmpWebPage.data || '')?.[1] || '""'))()).split('.').map(x => Number(x))
                 if (tmpGtk.length === 2) {resultContent.gtk = tmpGtk}
                 else {throw null}
@@ -61,7 +60,7 @@ const BaiduLanguagePredict = async (text: string | string[] = '', cookie = ''): 
         text = text.join("\n")
     }
     try {
-        const languageResult = await axios.post('https://fanyi.baidu.com/langdetect', (new URLSearchParams({query: text})).toString(), await axiosConfig({headers: { cookie }}))
+        const languageResult = await axiosFetch.post('https://fanyi.baidu.com/langdetect', (new URLSearchParams({query: text})).toString(), {headers: { cookie }})
         if (languageResult.data?.error === 0 && languageResult.data?.lan) {
             return languageResult.data?.lan || ''
         } else {
@@ -94,7 +93,7 @@ const BaiduTranslator: TranslatorModuleFunction<'baidu'> = async (text = '', tar
             if (Array.isArray(text)) {
                 text = text.join("\n")
             }
-            axios.post('https://fanyi.baidu.com/v2transapi?' + (new URLSearchParams({
+            axiosFetch.post('https://fanyi.baidu.com/v2transapi?' + (new URLSearchParams({
                 from: fromLaguage,
                 to: target || 'en'
             })).toString(), (new URLSearchParams({
@@ -106,7 +105,7 @@ const BaiduTranslator: TranslatorModuleFunction<'baidu'> = async (text = '', tar
                 sign: GoogleTranslateTk(baiduPreprocessing(text), gtk || []),
                 token: common?.token || '',
                 domain: 'common'
-            })).toString(), await axiosConfig({headers: { cookie }})).then(response => {
+            })).toString(), {headers: { cookie }}).then(response => {
                 if (response?.data?.trans_result?.data && response?.data?.trans_result?.data instanceof Array ) {
                     resolve(raw ? response.data : response.data.trans_result.data.map((x: any) => x.dst).join("\n"))
                 }

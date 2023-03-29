@@ -1,7 +1,6 @@
 import { TranslatorModuleFunction } from '../types.js'
 import { SupportedLanguage } from '../misc.js'
-import axios from 'axios'
-import axiosConfig from '../axios.config.js'
+import axiosFetch from 'translator-utils-axios-helper'
 
 
 const GoogleTranslate: TranslatorModuleFunction<'google'> = async (text = '', target, raw) => {
@@ -13,12 +12,12 @@ const GoogleTranslate: TranslatorModuleFunction<'google'> = async (text = '', ta
     }
     const query = new URLSearchParams({"client": "webapp", "sl": "auto", "tl": (target || 'en'), "hl": (target || 'en'), "dt": "t", "clearbtn": '1', "otf": '1', "pc": '1', "ssel": '0', "tsel": '0', "kc": '2', "tk": "", "q": text})
     return await new Promise(async (resolve, reject) => {
-        axios.get('https://translate.google.com/translate_a/single?' + query.toString(), await axiosConfig({
+        axiosFetch.get('https://translate.google.com/translate_a/single?' + query.toString(), {
             headers: {
                 referer: 'https://translate.google.com/',
                 authority: 'translate.google.com'
             }
-        })).then(response => {
+        }).then(response => {
             if (response.data && Array.isArray(response.data[0])) {
                 resolve(raw ? response.data : response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
                 //resolve(response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
@@ -39,7 +38,7 @@ const GoogleBrowserTranslate: TranslatorModuleFunction<'google'> = async (text =
     let query = new URLSearchParams({anno: '4', client: 'te_lib', format: 'html', v: '1.0', key: 'AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw', sl: 'auto', tl: (target || 'en'), tc: '1', sr: '1', tk: GoogleTranslateTk(text), mode: '1'})
     //let formData = new URLSearchParams({q: text})
     return await new Promise(async (resolve, reject) => {
-        axios.post('https://translate.googleapis.com/translate_a/t?' + query.toString(), 'q=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&q=') : encodeURIComponent(text)), await axiosConfig()).then((response: any) => {
+        axiosFetch.post('https://translate.googleapis.com/translate_a/t?' + query.toString(), 'q=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&q=') : encodeURIComponent(text))).then((response: any) => {
             if (response.data && response.data instanceof Array) {
                 resolve(raw ? response.data : response.data.map((x: any) => x?.[0] || '').join("\n"))
             }

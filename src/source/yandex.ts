@@ -1,18 +1,10 @@
 import { TranslatorModuleFunction } from '../types.js'
-import { SupportedLanguage } from '../misc.js'
-import axios from 'axios'
-import axiosConfig from '../axios.config.js'
+import { SupportedLanguage, generateUUID } from '../misc.js'
+import axiosFetch from 'translator-utils-axios-helper'
 
 //from yandex browser
 const generateSid = async () => {
-    if (typeof process !== 'undefined') {
-        const {webcrypto} = await import('crypto')
-        return webcrypto.randomUUID().replaceAll('-', '')
-    } else if (typeof window !== 'undefined') {
-        return crypto.randomUUID().replaceAll('-', '')
-    } else {
-        return ''
-    }
+    return (await generateUUID()).replaceAll('-', '')
 }
 
 const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'> => {
@@ -21,12 +13,12 @@ const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'>
         text = text.join("\n")
     }
     try {
-        const languageResult = await axios.get('https://translate.yandex.net/api/v1/tr.json/detect?' + (new URLSearchParams({
+        const languageResult = await axiosFetch.get('https://translate.yandex.net/api/v1/tr.json/detect?' + (new URLSearchParams({
             sid: await generateSid(),
             srv: 'android',// or 'ios'
             text,
             //hint: 'en,zh'
-        })).toString(), await axiosConfig())
+        })).toString())
         if (languageResult.data?.code === 200 && languageResult.data?.lang) {
             return languageResult.data?.lang || '_'
         } else {
@@ -48,14 +40,14 @@ const YandexTranslator: TranslatorModuleFunction<'yandex'> = async (text: string
     }
 
     return await new Promise(async (resolve, reject) => {
-        axios.post('https://translate.yandex.net/api/v1/tr.json/translate?' + (new URLSearchParams({
+        axiosFetch.post('https://translate.yandex.net/api/v1/tr.json/translate?' + (new URLSearchParams({
             id: `${await generateSid()}-0-0`,
             srv: 'android' // ios
         })).toString(), (new URLSearchParams({
             source_lang: lang,
             target_lang: target,
             text: Array.isArray(text) ? text.join("\n") : text
-        })).toString(), await axiosConfig()).then(response => {
+        })).toString()).then(response => {
             if (response?.data?.text && response?.data?.text instanceof Array) {
                 resolve(raw ? response.data : response.data.text.join("\n"))
             }
@@ -86,7 +78,7 @@ const YandexBrowserTranslator: TranslatorModuleFunction<'yandex'> = async (text:
         options: '2'
     })
     return await new Promise(async (resolve, reject) => {
-        axios.get('https://browser.translate.yandex.net/api/v1/tr.json/translate?' + query.toString() + '&text=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&text=') : encodeURIComponent(text)), await axiosConfig()).then(response => {
+        axiosFetch.get('https://browser.translate.yandex.net/api/v1/tr.json/translate?' + query.toString() + '&text=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&text=') : encodeURIComponent(text))).then(response => {
             if (response?.data?.text && response?.data?.text instanceof Array) {
                 resolve(raw ? response.data : response.data.text.join("\n"))
             }
