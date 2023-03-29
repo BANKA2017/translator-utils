@@ -471,7 +471,7 @@
               postData = JSON.stringify(postData);
               options.headers['content-type'] = 'application/json';
             }
-            options.headers['content-length'] = postData.byteLength;
+            options.headers['content-length'] = postData.length;
             options.body = postData;
           }
           return new Promise(function (resolve, reject) {
@@ -502,7 +502,10 @@
               resolve(_this.responseBuilder(res.response, res.data));
             })["catch"](function (e) {
               reject({
-                cause: e
+                cause: e,
+                toString: function toString() {
+                  return e.toString();
+                }
               });
             });
           });

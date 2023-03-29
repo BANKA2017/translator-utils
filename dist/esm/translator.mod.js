@@ -59,7 +59,7 @@ class AxiosRequest {
                 postData = JSON.stringify(postData);
                 options.headers['content-type'] = 'application/json';
             }
-            options.headers['content-length'] = postData.byteLength;
+            options.headers['content-length'] = postData.length;
             options.body = postData;
         }
         return new Promise((resolve, reject) => {
@@ -68,7 +68,7 @@ class AxiosRequest {
             }).then(res => {
                 resolve(this.responseBuilder(res.response, res.data));
             }).catch(e => {
-                reject({ cause: e });
+                reject({ cause: e, toString: () => e.toString() });
             });
         })
     }

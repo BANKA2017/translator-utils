@@ -43,7 +43,7 @@ class AxiosRequest {
             })
 
             req.on('error', (e) => {
-                reject({ cause: e })
+                reject({ cause: e, toString: () => e.toString() })
             })
             if (validPostRequest) {
                 req.write(postData)
