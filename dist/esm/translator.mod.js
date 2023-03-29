@@ -1,6 +1,3 @@
-import { HttpsProxyAgent } from 'hpagent';
-import https from 'node:https';
-
 const BAIDU_LANGUAGE = ["zh", "jp", "jpka", "th", "fra", "en", "spa", "kor", "tr", "vie", "ms", "de", "ru", "ir", "ara", "est", "be", "bul", "hi", "is", "pl", "fa", "dan", "tl", "fin", "nl", "ca", "cs", "hr", "lv", "lt", "rom", "af", "no", "pt_br", "pt", "swe", "sr", "eo", "sk", "slo", "sw", "uk", "iw", "el", "hu", "hy", "it", "id", "sq", "am", "as", "az", "eu", "bn", "bs", "gl", "ka", "gu", "ha", "ig", "iu", "ga", "zu", "kn", "kk", "ky", "lb", "mk", "mt", "mi", "mr", "ne", "or", "pa", "qu", "tn", "si", "ta", "tt", "te", "ur", "uz", "cy", "yo", "yue", "wyw", "cht"];
 const GOOGLE_LANGUAGE = ["sq", "ar", "am", "as", "az", "ee", "ay", "ga", "et", "or", "om", "eu", "be", "bm", "bg", "is", "pl", "bs", "fa", "bho", "af", "tt", "da", "de", "dv", "ti", "doi", "ru", "fr", "sa", "tl", "fi", "fy", "km", "ka", "gom", "gu", "gn", "kk", "ht", "ko", "ha", "nl", "ky", "gl", "ca", "cs", "kn", "co", "kri", "hr", "qu", "ku", "ckb", "la", "lv", "lo", "lt", "ln", "lg", "lb", "rw", "ro", "mg", "mt", "mr", "ml", "ms", "mk", "mai", "mi", "mni-mtei", "mn", "bn", "lus", "my", "hmn", "xh", "zu", "ne", "no", "pa", "pt", "ps", "ny", "ak", "ja", "sv", "sm", "sr", "nso", "st", "si", "eo", "sk", "sl", "sw", "gd", "ceb", "so", "tg", "te", "ta", "th", "tr", "tk", "cy", "ug", "ur", "uk", "uz", "es", "iw", "el", "haw", "sd", "hu", "sn", "hy", "ig", "ilo", "it", "yi", "hi", "su", "id", "jw", "en", "yo", "vi", "zh-tw", "zh-cn", "ts"];
 const DEEPL_LANGUAGE = ["en", "en-us", "en-gb", "de", "fr", "es", "it", "nl", "pl", "ru", "pt", "pt-pt", "pt-br", "ja", "zh", "bg", "cs", "da", "et", "fi", "el", "hu", "id", "lv", "lt", "ro", "sk", "sl", "sv", "uk", "tr", "ko", "nb"];
@@ -46,21 +43,14 @@ const generateUUID = async () => {
 
 class AxiosRequest {
     requestHandle (url, postData, options = {}) {
-        const HTTPS_PROXY = process.env.https_proxy ?? process.env.HTTPS_PROXY ?? '';
-        if (HTTPS_PROXY && HttpsProxyAgent) {
-            options.agent = new HttpsProxyAgent({ proxy: HTTPS_PROXY });
-        }
         if (!options.timeout) {
             options.timeout = 30000;
         }
-        const defaultUA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36';
-        if (!options.headers) {
-            options.headers = {'user-agent': defaultUA};
-        } else {
-            options.headers['user-agent'] = defaultUA;
-        }
         const validPostRequest = (options?.method??'').toLowerCase() === 'post' && postData;
-        if (!options.headers['content-type']) {
+        if (!options.headers) {
+            options.headers = {};
+        }
+        if (!options.headers?.['content-type']) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded';
         }
         if (validPostRequest) {
@@ -68,25 +58,17 @@ class AxiosRequest {
                 postData = JSON.stringify(postData);
                 options.headers['content-type'] = 'application/json';
             }
-            options.headers['content-length'] = Buffer.byteLength(postData);
+            options.headers['content-length'] = postData.byteLength;
+            options.body = postData;
         }
         return new Promise((resolve, reject) => {
-            const req = https.request(url, options, (res) => {
-                let tmpData = [];
-                res.on('data', (data) => {
-                    tmpData.push(data);
-                });
-                res.on('close', () => {
-                    resolve(this.responseBuilder(res, Buffer.concat(tmpData)));
-                });
-            });
-            req.on('error', (e) => {
+            fetch(url, options).then(async response => {
+                return {response, data: await response.text()}
+            }).then(res => {
+                resolve(this.responseBuilder(res.response, res.data));
+            }).catch(e => {
                 reject({ cause: e });
             });
-            if (validPostRequest) {
-                req.write(postData);
-            }
-            req.end();
         })
     }
     isJson (str) {
@@ -100,10 +82,14 @@ class AxiosRequest {
     responseBuilder (res, data) {
         const dataString = data.toString();
         const isJson = this.isJson(dataString);
+        let headers = Object.fromEntries(res.headers.entries());
+        if (headers['set-cookie'] && res.headers.getAll) {
+            headers['set-cookie'] = res.headers.getAll('set-cookie');
+        }
         return {
-            status: res.statusCode,
-            statusText: res.statusMessage,
-            headers: res.headers,
+            status: res.status,
+            statusText: res.statusText,
+            headers,
             data: isJson ? JSON.parse(dataString) : dataString
         }
     }
@@ -633,4 +619,4 @@ const Translator = async (text = '', platform, target, raw) => {
 };
 
 export { BaiduLanguagePredict, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, IsChs, IsCht, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexBrowserTranslator, YandexDetect, YandexTranslator, Translator as default };
-//# sourceMappingURL=translator.js.map
+//# sourceMappingURL=translator.mod.js.map

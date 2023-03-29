@@ -17,7 +17,7 @@ class AxiosRequest {
                 postData = JSON.stringify(postData)
                 options.headers['content-type'] = 'application/json'
             }
-            options.headers['content-length'] = ArrayBuffer.byteLength(postData)
+            options.headers['content-length'] = postData.byteLength
             options.body = postData
         }
         return new Promise((resolve, reject) => {

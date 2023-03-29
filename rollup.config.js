@@ -65,4 +65,22 @@ export default [{
         peerDepsExternal('./package.json'),
         cleanup()
     ]
+}, {
+    input: 'src/index.ts',
+    output: {
+        file: 'dist/esm/translator.mod.js',
+        format: 'esm',
+        sourcemap: true,
+        name: "translator",
+        exports: "named",
+        globals: {
+            hpagent: '{}'
+        }
+    },
+    plugins: [
+        typescript({tsconfig: './tsconfig.json'}), 
+        resolve({browser: true}), 
+        peerDepsExternal('./package.json'),
+        cleanup()
+    ]
 }]

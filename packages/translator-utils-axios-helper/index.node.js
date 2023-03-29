@@ -7,16 +7,17 @@ class AxiosRequest {
 
         const HTTPS_PROXY = process.env.https_proxy ?? process.env.HTTPS_PROXY ?? ''
 
-        if (HTTPS_PROXY) {
+        if (HTTPS_PROXY && HttpsProxyAgent) {
             options.agent = new HttpsProxyAgent({ proxy: HTTPS_PROXY })
         }
         if (!options.timeout) {
             options.timeout = 30000
         }
+        const defaultUA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
         if (!options.headers) {
-            options.headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'}
+            options.headers = {'user-agent': defaultUA}
         } else {
-            options.headers['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+            options.headers['user-agent'] = defaultUA
         }
         
         const validPostRequest = (options?.method??'').toLowerCase() === 'post' && postData
