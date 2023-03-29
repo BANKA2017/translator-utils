@@ -32,7 +32,8 @@ const SupportedLanguage = (source, language) => {
 const IsChs = (lang = 'zh') => /^zh(?:_|\-)(?:cn|sg|my|chs)|zh|chs|zho$/.test(lang.toLowerCase());
 const IsCht = (lang = 'zh_tw') => /^zh(?:_|\-)(?:tw|hk|mo|cht)|cht$/.test(lang.toLowerCase());
 const generateUUID = async () => {
-    if (typeof process !== 'undefined') {
+    // @ts-ignore
+    if (typeof process !== 'undefined' && !process?.browser) {
         const { webcrypto } = await import('crypto');
         return webcrypto.randomUUID();
     }
@@ -350,13 +351,14 @@ const BaiduTranslator = async (text = '', target, raw) => {
 };
 
 const getId = async () => {
-    if (typeof process !== 'undefined') {
+    // @ts-ignore
+    if (typeof process !== 'undefined' && !process?.browser) {
         //nodejs
         const { webcrypto } = await import('crypto');
         return webcrypto.getRandomValues(new Uint32Array(1))[0];
     }
     else if (typeof window !== 'undefined') {
-        //browser
+        //browser // workers // deno
         return crypto.getRandomValues(new Uint32Array(1))[0];
     }
     else {

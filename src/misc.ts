@@ -28,7 +28,8 @@ export const IsChs = (lang = 'zh') => /^zh(?:_|\-)(?:cn|sg|my|chs)|zh|chs|zho$/.
 export const IsCht = (lang = 'zh_tw') => /^zh(?:_|\-)(?:tw|hk|mo|cht)|cht$/.test(lang.toLowerCase())
 
 export const generateUUID = async (): Promise<string> => {
-    if (typeof process !== 'undefined') {
+    // @ts-ignore
+    if (typeof process !== 'undefined' && !process?.browser) {
         const {webcrypto} = await import('crypto')
         return webcrypto.randomUUID()
     } else if (typeof window !== 'undefined') {

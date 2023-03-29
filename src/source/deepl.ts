@@ -3,12 +3,13 @@ import { SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
 const getId = async () => {
-    if (typeof process !== 'undefined') {
+    // @ts-ignore
+    if (typeof process !== 'undefined' && !process?.browser) {
         //nodejs
         const {webcrypto} = await import('crypto')
         return webcrypto.getRandomValues(new Uint32Array(1))[0]
     } else if (typeof window !== 'undefined') {
-        //browser
+        //browser // workers // deno
         return crypto.getRandomValues(new Uint32Array(1))[0]
     } else {
         return 0
