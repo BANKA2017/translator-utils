@@ -9,7 +9,7 @@ This is an early release version, everything are subject to change, please **DO 
 
 ---
 
-## Predict (Nodejs)
+## Predict (Nodejs/Deno)
 
 only for `baidu` and `yandex`
 
@@ -67,4 +67,11 @@ yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#master
     console.log(await translator('hi','microsoft','zh-hans',false))
     console.log(await translator('hi','sogou','ja',false))
 </script>
+```
+
+### Deno
+
+```javascript
+//like npm
+import Translator, {GoogleBrowserTranslate, BaiduLanguagePredict} from "https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@master/dist/esm/translator.mod.js"
 ```
