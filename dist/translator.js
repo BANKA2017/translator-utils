@@ -445,7 +445,7 @@
       return typeof key === "symbol" ? key : String(key);
     }
 
-    var AxiosRequest = /*#__PURE__*/function () {
+    var AxiosRequest = function () {
       function AxiosRequest() {
         _classCallCheck(this, AxiosRequest);
       }
@@ -475,8 +475,8 @@
             options.body = postData;
           }
           return new Promise(function (resolve, reject) {
-            fetch(url, options).then( /*#__PURE__*/function () {
-              var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(response) {
+            fetch(url, options).then( function () {
+              var _ref = _asyncToGenerator( _regeneratorRuntime().mark(function _callee(response) {
                 return _regeneratorRuntime().wrap(function _callee$(_context) {
                   while (1) switch (_context.prev = _context.next) {
                     case 0:
@@ -507,7 +507,6 @@
             });
           });
         }
-        //https://stackoverflow.com/questions/9804777/how-to-test-if-a-string-is-json-or-not
       }, {
         key: "isJson",
         value: function isJson(str) {
@@ -524,7 +523,6 @@
           var dataString = data.toString();
           var isJson = this.isJson(dataString);
           var headers = Object.fromEntries(res.headers.entries());
-          //for workers
           if (headers['set-cookie'] && res.headers.getAll) {
             headers['set-cookie'] = res.headers.getAll('set-cookie');
           }

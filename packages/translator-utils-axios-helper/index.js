@@ -1,3 +1,4 @@
+/// <reference path="index.d.ts" />
 class AxiosRequest {
     requestHandle (url, postData, options = {}) {
         if (!options.timeout) {

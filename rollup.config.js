@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import { babel } from '@rollup/plugin-babel'
 import bundleSize from 'rollup-plugin-bundle-size'
 import terser from "@rollup/plugin-terser"
+import cleanup from 'rollup-plugin-cleanup'
 
 export default [{
     input: 'src/index.browser.ts',
@@ -23,7 +24,8 @@ export default [{
         babel({
             babelHelpers: 'bundled',
             presets: ['@babel/preset-env']
-        })
+        }),
+        cleanup()
     ]
 }, {
     input: 'src/index.browser.ts',
@@ -44,7 +46,8 @@ export default [{
             presets: ['@babel/preset-env']
         }),
         terser(),
-        bundleSize()
+        bundleSize(),
+        cleanup()
     ]
 }, {
     input: 'src/index.ts',
@@ -59,6 +62,7 @@ export default [{
     plugins: [
         typescript({tsconfig: './tsconfig.json'}), 
         resolve({browser: false}), 
-        peerDepsExternal('./package.json')
+        peerDepsExternal('./package.json'),
+        cleanup()
     ]
 }]

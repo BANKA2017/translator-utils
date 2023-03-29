@@ -1,9 +1,10 @@
+/// <reference path="index.node.d.ts" />
 import { HttpsProxyAgent } from "hpagent"
 import https from 'node:https'
 
 class AxiosRequest {
     requestHandle (url, postData, options = {}) {
-        
+
         const HTTPS_PROXY = process.env.https_proxy ?? process.env.HTTPS_PROXY ?? ''
 
         if (HTTPS_PROXY) {
@@ -36,7 +37,7 @@ class AxiosRequest {
                     tmpData.push(data)
                 })
                 res.on('close', () => {
-                    resolve(this.responseBuilder(res, tmpData))
+                    resolve(this.responseBuilder(res, Buffer.concat(tmpData)))
                 })
             })
 

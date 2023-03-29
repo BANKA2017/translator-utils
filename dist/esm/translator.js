@@ -46,9 +46,7 @@ const generateUUID = async () => {
 
 class AxiosRequest {
     requestHandle (url, postData, options = {}) {
-        
         const HTTPS_PROXY = process.env.https_proxy ?? process.env.HTTPS_PROXY ?? '';
-
         if (HTTPS_PROXY) {
             options.agent = new HttpsProxyAgent({ proxy: HTTPS_PROXY });
         }
@@ -60,7 +58,6 @@ class AxiosRequest {
         } else {
             options.headers['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36';
         }
-        
         const validPostRequest = (options?.method??'').toLowerCase() === 'post' && postData;
         if (!options.headers['content-type']) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded';
@@ -79,10 +76,9 @@ class AxiosRequest {
                     tmpData.push(data);
                 });
                 res.on('close', () => {
-                    resolve(this.responseBuilder(res, tmpData));
+                    resolve(this.responseBuilder(res, Buffer.concat(tmpData)));
                 });
             });
-
             req.on('error', (e) => {
                 reject({ cause: e });
             });
@@ -92,7 +88,6 @@ class AxiosRequest {
             req.end();
         })
     }
-    //https://stackoverflow.com/questions/9804777/how-to-test-if-a-string-is-json-or-not
     isJson (str) {
         try {
             JSON.parse(str);
@@ -118,7 +113,6 @@ class AxiosRequest {
         return this.requestHandle(url, data, {method: 'POST', ...options})
     }
 }
-
 const axiosFetch = new AxiosRequest;
 
 const GoogleTranslate = async (text = '', target, raw) => {
