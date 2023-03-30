@@ -44,9 +44,14 @@ class AxiosRequest {
         const isJson = this.isJson(dataString)
 
         let headers = Object.fromEntries(res.headers.entries())
-        //for workers
+        
         if (headers['set-cookie'] && res.headers.getAll) {
+            //workers
+            //TypeError: getAll() can only be used with the header name "Set-Cookie".
             headers['set-cookie'] = res.headers.getAll('set-cookie')
+        } else if (headers['set-cookie'] && typeof Deno !== 'undefined') {
+            //https://github.com/denoland/deno/pull/5100
+            headers['set-cookie'] = [...res.headers.entries()].filter(header => header[0] === 'set-cookie').map(header => header[1])
         }
         return {
             status: res.status,

@@ -86,6 +86,8 @@ class AxiosRequest {
         let headers = Object.fromEntries(res.headers.entries());
         if (headers['set-cookie'] && res.headers.getAll) {
             headers['set-cookie'] = res.headers.getAll('set-cookie');
+        } else if (headers['set-cookie'] && typeof Deno !== 'undefined') {
+            headers['set-cookie'] = [...res.headers.entries()].filter(header => header[0] === 'set-cookie').map(header => header[1]);
         }
         return {
             status: res.status,
