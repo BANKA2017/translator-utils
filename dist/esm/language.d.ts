@@ -1,19 +1,19 @@
-import { Target } from "types.js";
+import { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, YANDEX_LIST } from "types.js";
 export declare const BAIDU_LANGUAGE_OBJECT: {
-    [p in Target['baidu']]: string;
+    [p in BAIDU_LIST]: string;
 };
 export declare const GOOGLE_LANGUAGE_OBJECT: {
-    [p in Target['google']]: string;
+    [p in GOOGLE_LIST]: string;
 };
 export declare const DEEPL_LANGUAGE_OBJECT: {
-    [p in Target['deepl']]: string;
+    [p in DEEPL_LIST]: string;
 };
 export declare const BING_LANGUAGE_OBJECT: {
-    [p in Target['microsoft']]: string;
+    [p in BING_LIST]: string;
 };
 export declare const SOGOU_LANGUAGE_OBJECT: {
-    [p in Target['sogou']]: string;
+    [p in SOGOU_LIST]: string;
 };
 export declare const YANDEX_LANGUAGE_OBJECT: {
-    [p in Target['yandex']]: string;
+    [p in YANDEX_LIST]: string;
 };

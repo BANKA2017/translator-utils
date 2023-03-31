@@ -60,8 +60,9 @@ yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#master
 ### UMD
 
 ```html
+<!-- es6 only -->
 <script src="https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@master/dist/translator.min.js"></script>
-<!--example-->
+<!-- example -->
 <script type="module">
     console.log(await translator('hi','google','zh-cn',false))
     console.log(await translator('hi','microsoft','zh-hans',false))

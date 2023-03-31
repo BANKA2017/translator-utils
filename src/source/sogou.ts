@@ -1,10 +1,10 @@
 import { TranslatorModuleFunction } from '../types.js'
-import { SupportedLanguage } from '../misc.js'
+import { SOGOU_LANGUAGE, SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
-const SogouBrowserTranslator: TranslatorModuleFunction<'sogou'> = async (text = '', target, raw) => {
+const SogouBrowserTranslator: TranslatorModuleFunction = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #SogouTranslator ')}
-    if (!SupportedLanguage('sogou', target || 'en')) {return await Promise.reject('Not supported target language #SogouTranslator ')}
+    if (!SupportedLanguage(SOGOU_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #SogouTranslator ')}
 
     let body = JSON.stringify({
         from_lang: "auto",

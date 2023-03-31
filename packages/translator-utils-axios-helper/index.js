@@ -31,17 +31,10 @@ class AxiosRequest {
         })
     }
     //https://stackoverflow.com/questions/9804777/how-to-test-if-a-string-is-json-or-not
-    isJson (str) {
-        try {
-            JSON.parse(str)
-        } catch (e) {
-            return false
-        }
-        return true
-    }
+
     responseBuilder (res, data) {
-        const dataString = data.toString()
-        const isJson = this.isJson(dataString)
+        data = data.toString()
+        try {data = JSON.parse(data)} catch (e) {}
 
         let headers = Object.fromEntries(res.headers.entries())
         
@@ -49,7 +42,8 @@ class AxiosRequest {
             //workers
             //TypeError: getAll() can only be used with the header name "Set-Cookie".
             headers['set-cookie'] = res.headers.getAll('set-cookie')
-        } else if (headers['set-cookie'] && typeof Deno !== 'undefined') {
+        } else if (headers['set-cookie']) {
+            //Deno and Node.js 18
             //https://github.com/denoland/deno/pull/5100
             headers['set-cookie'] = [...res.headers.entries()].filter(header => header[0] === 'set-cookie').map(header => header[1])
         }
@@ -57,14 +51,16 @@ class AxiosRequest {
             status: res.status,
             statusText: res.statusText,
             headers,
-            data: isJson ? JSON.parse(dataString) : dataString
+            data
         }
     }
     get (url, options) {
-        return this.requestHandle(url, null, {method: 'GET', ...options})
+        options.method = 'GET'
+        return this.requestHandle(url, null, options)
     }
     post (url, data, options) {
-        return this.requestHandle(url, data, {method: 'POST', ...options})
+        options.method = 'POST'
+        return this.requestHandle(url, data, options)
     }
 }
 

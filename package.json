@@ -7,7 +7,7 @@
     "bugs": {
         "url": "https://github.com/BANKA2017/translator-utils/issues"
     },
-    "main": "dist/esm/index.js",
+    "main": "dist/esm/translator.js",
     "exports": {
         ".": {
             "workerd": {
@@ -52,7 +52,7 @@
     "scripts": {
         "build": "npx tsc -p tsconfig.json",
         "build:umd": "npx rollup -c rollup.config.js",
-        "rebuild": "npm run clean && npm run build && npm run build:umd",
+        "rebuild": "npm run clean && npm run build:umd",
         "clean": "rm -rf lib/* dist/*",
         "test": "npx vitest"
     },

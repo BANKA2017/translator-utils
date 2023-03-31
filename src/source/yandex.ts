@@ -1,5 +1,5 @@
 import { TranslatorModuleFunction } from '../types.js'
-import { SupportedLanguage, generateUUID } from '../misc.js'
+import { SupportedLanguage, YANDEX_LANGUAGE, generateUUID } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
 //from yandex browser
@@ -29,9 +29,9 @@ const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'>
     }
 }
 
-const YandexTranslator: TranslatorModuleFunction<'yandex'> = async (text: string | string[] = '', target, raw) => {
+const YandexTranslator: TranslatorModuleFunction = async (text: string | string[] = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #YandexTranslator ')}
-    if (!SupportedLanguage('yandex', target || 'en')) {return await Promise.reject('Not supported target language #YandexTranslator ')}
+    if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #YandexTranslator ')}
 
     const lang = await YandexDetect((Array.isArray(text) ? text.join(' ') : text))
 
@@ -58,9 +58,9 @@ const YandexTranslator: TranslatorModuleFunction<'yandex'> = async (text: string
     })
 }
 
-const YandexBrowserTranslator: TranslatorModuleFunction<'yandex'> = async (text: string | string[] = '', target, raw) => {
+const YandexBrowserTranslator: TranslatorModuleFunction = async (text: string | string[] = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #YandexTranslator ')}
-    if (!SupportedLanguage('yandex', target || 'en')) {return await Promise.reject('Not supported target language #YandexTranslator ')}
+    if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #YandexTranslator ')}
 
     const lang = await YandexDetect((Array.isArray(text) ? text.join(' ') : text).replaceAll(/<a id=\d><><\/a>/gm, ''))
 

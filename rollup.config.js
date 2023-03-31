@@ -7,80 +7,63 @@ import bundleSize from 'rollup-plugin-bundle-size'
 import terser from "@rollup/plugin-terser"
 import cleanup from 'rollup-plugin-cleanup'
 
-export default [{
-    input: 'src/index.browser.ts',
-    output: {
-        file: 'dist/translator.js',
-        format: 'umd',
-        sourcemap: true,
-        name: "translator",
-        exports: "default"
-    },
-    plugins: [
-        commonjs(),
-        typescript({tsconfig: './tsconfig.rollup.json'}), 
-        resolve({browser: true}), 
-        peerDepsExternal('./package.json'),
-        babel({
-            babelHelpers: 'bundled',
-            presets: ['@babel/preset-env']
-        }),
-        cleanup()
-    ]
-}, {
-    input: 'src/index.browser.ts',
-    output: {
-        file: 'dist/translator.min.js',
-        format: 'umd',
-        sourcemap: true,
-        name: "translator",
-        exports: "default",
-    },
-    plugins: [
-        commonjs(),
-        typescript({tsconfig: './tsconfig.rollup.json'}), 
-        resolve({browser: true}), 
-        peerDepsExternal('./package.json'),
-        babel({
-            babelHelpers: 'bundled',
-            presets: ['@babel/preset-env']
-        }),
-        terser(),
-        bundleSize(),
-        cleanup()
-    ]
-}, {
-    input: 'src/index.ts',
-    output: {
-        file: 'dist/esm/translator.js',
-        format: 'esm',
-        sourcemap: true,
-        name: "translator",
-        exports: "named"
-    },
-    external: ['hpagent'],
-    plugins: [
-        typescript({tsconfig: './tsconfig.json'}), 
-        resolve({browser: false}), 
-        peerDepsExternal('./package.json'),
-        cleanup()
-    ]
-}, {
-    input: 'src/index.ts',
-    output: {
-        file: 'dist/esm/translator.mod.js',
-        format: 'esm',
-        sourcemap: true,
-        name: "translator",
-        exports: "named",
-        globals: {
-            hpagent: '{}'
-        }
-    },
-    plugins: [
-        typescript({tsconfig: './tsconfig.json'}), 
-        resolve({browser: true}), 
-        peerDepsExternal('./package.json'),
-        cleanup()
-    ]
-}]
+const buildConfig = (input, output, format = 'esm', minified = false, browser = false, es5 = false, external = []) => {
+    const tmpConfig = []
+    tmpConfig.push({
+        input,
+        output: {
+            file: output,
+            format: format,
+            sourcemap: true,
+            name: "translator",
+            exports: format === 'esm' ? "named" : "default"
+        },
+        external,
+        plugins: [
+            commonjs(),
+            typescript({tsconfig: format === 'esm' ? './tsconfig.json' : './tsconfig.rollup.json' }), 
+            resolve({browser}), 
+            peerDepsExternal('./package.json'),
+            ...(es5 ? [babel({
+                babelHelpers: 'bundled',
+                presets: ['@babel/preset-env']
+            })] : []),
+            bundleSize(),
+            cleanup()
+        ]
+    })
+    if (minified) {
+        tmpConfig.push({
+            input,
+            output: {
+                file: output.replace('.js', '.min.js'),
+                format: format,
+                sourcemap: true,
+                name: "translator",
+                exports: format === 'esm' ? "named" : "default"
+            },
+            external,
+            plugins: [
+                commonjs(),
+                typescript({tsconfig: format === 'esm' ? './tsconfig.json' : './tsconfig.rollup.json' }), 
+                resolve({browser}), 
+                peerDepsExternal('./package.json'),
+                ...(es5 ? [babel({
+                    babelHelpers: 'bundled',
+                    presets: ['@babel/preset-env']
+                })] : []),
+                terser(),
+                bundleSize(),
+                cleanup()
+            ]
+        })
+    }
+    return tmpConfig
+}
+
+export default [
+    ...buildConfig('src/index.browser.ts', 'dist/translator.js', 'umd', true, true),
+    //...buildConfig('src/index.browser.ts', 'dist/translator.es5.js', 'umd', true, true, true),
+    ...buildConfig('src/index.ts', 'dist/esm/translator.js', 'esm', false, false, false, ['hpagent']),
+    ...buildConfig('src/index.ts', 'dist/esm/translator.mod.js', 'esm', false, true),
+]

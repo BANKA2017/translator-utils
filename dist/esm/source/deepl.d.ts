@@ -1,3 +1,3 @@
 import { TranslatorModuleFunction } from '../types.js';
-declare const DeepL: TranslatorModuleFunction<'deepl'>;
+declare const DeepL: TranslatorModuleFunction;
 export { DeepL };

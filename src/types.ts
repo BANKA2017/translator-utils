@@ -1,22 +1,15 @@
-export type TranslatorModuleFunction<P extends Platform> = <T extends Target[P], R extends boolean = false>(text: string | string[], target: T, raw?: R) => Promise<R extends true ? any : string>
+export type TranslatorModuleFunction = <T extends Target, R extends boolean = false>(text: string | string[], target: T, raw?: R) => Promise<R extends true ? any : string>
 
-export type TranslatorFunction = <P extends Platform, R extends boolean= false>(text: string | string[], platform: P, target: Target[P], raw?: R) => Promise<TranslatorResult<NonNullable<R>>>
+export type TranslatorFunction = <P extends Platform, R extends boolean= false>(text: string | string[], platform: Platform, target: Target, raw?: R) => Promise<TranslatorResult<NonNullable<R>>>
 export interface TranslatorResult<K extends boolean> {
     content: K extends true ? any : string;
     message: string
 }
 
-export type Platform = keyof Target
-export type BrowserPlatform = Exclude<Platform, 'baidu' | 'deepl'>
+export type Platform = 'google'|'microsoft'|'sogou'|'yandex'|'baidu'|'deepl'
+export type BrowserPlatform = 'google'|'microsoft'|'sogou'|'yandex'
 
-export interface Target {
-    baidu: BAIDU_LIST
-    google: GOOGLE_LIST
-    deepl: DEEPL_LIST
-    microsoft: BING_LIST
-    sogou: SOGOU_LIST
-    yandex: YANDEX_LIST
-}
+export type Target = BAIDU_LIST | GOOGLE_LIST | DEEPL_LIST | BING_LIST | SOGOU_LIST | YANDEX_LIST
 
 export type BAIDU_LIST = 'zh'|'jp'|'jpka'|'th'|'fra'|'en'|'spa'|'kor'|'tr'|'vie'|'ms'|'de'|'ru'|'ir'|'ara'|'est'|'be'|'bul'|'hi'|'is'|'pl'|'fa'|'dan'|'tl'|'fin'|'nl'|'ca'|'cs'|'hr'|'lv'|'lt'|'rom'|'af'|'no'|'pt_br'|'pt'|'swe'|'sr'|'eo'|'sk'|'slo'|'sw'|'uk'|'iw'|'el'|'hu'|'hy'|'it'|'id'|'sq'|'am'|'as'|'az'|'eu'|'bn'|'bs'|'gl'|'ka'|'gu'|'ha'|'ig'|'iu'|'ga'|'zu'|'kn'|'kk'|'ky'|'lb'|'mk'|'mt'|'mi'|'mr'|'ne'|'or'|'pa'|'qu'|'tn'|'si'|'ta'|'tt'|'te'|'ur'|'uz'|'cy'|'yo'|'yue'|'wyw'|'cht'
 

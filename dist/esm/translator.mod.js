@@ -4,27 +4,8 @@ const DEEPL_LANGUAGE = ["en", "en-us", "en-gb", "de", "fr", "es", "it", "nl", "p
 const BING_LANGUAGE = ["lzh", "ikt", "iu-latn", "mn-cyrl", "mn-mong", "hsb", "zh-hans", "zh-hant", "da", "uk", "uz", "ur", "nb", "hy", "ru", "bg", "tlh-latn", "hr", "otq", "is", "gl", "ca", "hu", "af", "kn", "hi", "id", "gu", "kk", "iu", "tk", "tr", "ty", "sr-latn", "sr-cyrl", "or", "cy", "bn", "yua", "ne", "ba", "eu", "he", "el", "ku", "kmr", "de", "it", "lv", "cs", "ti", "fj", "sk", "sl", "sw", "pa", "ja", "ps", "ky", "ka", "mi", "to", "fo", "fr", "fr-ca", "pl", "bs", "fa", "te", "ta", "th", "ht", "ga", "et", "sv", "zu", "lt", "yue", "so", "ug", "my", "ro", "lo", "fi", "mww", "en", "nl", "fil", "sm", "pt", "pt-pt", "bo", "es", "vi", "prs", "dv", "az", "am", "sq", "ar", "as", "tt", "ko", "mk", "mg", "mr", "ml", "ms", "mt", "km"];
 const SOGOU_LANGUAGE = ["ar", "pl", "da", "de", "ru", "fr", "fi", "ko", "nl", "cs", "pt", "ja", "sv", "th", "tr", "es", "hu", "en", "it", "vi", "zh-CHS"];
 const YANDEX_LANGUAGE = ["af", "sq", "am", "ar", "hy", "az", "ba", "eu", "be", "bn", "bs", "bg", "my", "ca", "ceb", "zh", "cv", "hr", "cs", "da", "nl", "sjn", "emj", "en", "eo", "et", "fi", "fr", "gl", "ka", "de", "el", "gu", "ht", "he", "mrj", "hi", "hu", "is", "id", "ga", "it", "ja", "jv", "kn", "kk", "kazlat", "km", "ko", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mhr", "mn", "ne", "no", "pap", "fa", "pl", "pt", "pt-br", "pa", "ro", "ru", "gd", "sr", "sr-latn", "si", "sk", "sl", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "tr", "udm", "uk", "ur", "uz", "uzbcyr", "vi", "cy", "xh", "sah", "yi", "zu"];
-const SupportedLanguage = (source, language) => {
-    let tmpList = [];
-    switch (source) {
-        case 'baidu':
-            tmpList = BAIDU_LANGUAGE;
-            break;
-        case 'deepl':
-            tmpList = DEEPL_LANGUAGE;
-            break;
-        case 'microsoft':
-            tmpList = BING_LANGUAGE;
-            break;
-        case 'sogou':
-            tmpList = SOGOU_LANGUAGE;
-            break;
-        case 'yandex':
-            tmpList = YANDEX_LANGUAGE;
-            break;
-        default: tmpList = GOOGLE_LANGUAGE;
-    }
-    return tmpList.map(x => x.toLowerCase()).includes(language.toLowerCase());
+const SupportedLanguage = (List, language) => {
+    return List.map(x => x.toLowerCase()).includes(language.toLowerCase());
 };
 const IsChs = (lang = 'zh') => /^zh(?:_|\-)(?:cn|sg|my|chs)|zh|chs|zho$/.test(lang.toLowerCase());
 const IsCht = (lang = 'zh_tw') => /^zh(?:_|\-)(?:tw|hk|mo|cht)|cht$/.test(lang.toLowerCase());
@@ -72,35 +53,29 @@ class AxiosRequest {
             });
         })
     }
-    isJson (str) {
-        try {
-            JSON.parse(str);
-        } catch (e) {
-            return false
-        }
-        return true
-    }
     responseBuilder (res, data) {
-        const dataString = data.toString();
-        const isJson = this.isJson(dataString);
+        data = data.toString();
+        try {data = JSON.parse(data);} catch (e) {}
         let headers = Object.fromEntries(res.headers.entries());
         if (headers['set-cookie'] && res.headers.getAll) {
             headers['set-cookie'] = res.headers.getAll('set-cookie');
-        } else if (headers['set-cookie'] && typeof Deno !== 'undefined') {
+        } else if (headers['set-cookie']) {
             headers['set-cookie'] = [...res.headers.entries()].filter(header => header[0] === 'set-cookie').map(header => header[1]);
         }
         return {
             status: res.status,
             statusText: res.statusText,
             headers,
-            data: isJson ? JSON.parse(dataString) : dataString
+            data
         }
     }
     get (url, options) {
-        return this.requestHandle(url, null, {method: 'GET', ...options})
+        options.method = 'GET';
+        return this.requestHandle(url, null, options)
     }
     post (url, data, options) {
-        return this.requestHandle(url, data, {method: 'POST', ...options})
+        options.method = 'POST';
+        return this.requestHandle(url, data, options)
     }
 }
 const axiosFetch = new AxiosRequest;
@@ -109,7 +84,7 @@ const GoogleTranslate = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #GoogleTranslate ');
     }
-    if (!SupportedLanguage('google', target || 'en')) {
+    if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #GoogleTranslate ');
     }
     if (Array.isArray(text)) {
@@ -137,7 +112,7 @@ const GoogleBrowserTranslate = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #GoogleTranslate ');
     }
-    if (!SupportedLanguage('google', target || 'en')) {
+    if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #GoogleTranslate ');
     }
     //curl 'https://translate.googleapis.com/translate_a/t?anno=3&client=wt_lib&format=html&v=1.0&key&sl=auto&tl=zh&tc=1&sr=1&tk=164775.366094&mode=1' --data-raw 'q=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF' --compressed
@@ -294,7 +269,7 @@ const BaiduTranslator = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #BaiduTranslator ');
     }
-    if (!SupportedLanguage('baidu', target || 'en')) {
+    if (!SupportedLanguage(BAIDU_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #BaiduTranslator ');
     }
     //get baidu translator page
@@ -357,7 +332,7 @@ const DeepL = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #DeepL ');
     }
-    if (!SupportedLanguage('deepl', target || 'en')) {
+    if (!SupportedLanguage(DEEPL_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #DeepL ');
     }
     //{"jsonrpc":"2.0","method": "LMT_handle_texts","params":{"texts":[{"text":"[Schoolgirl Strikers: Animation Channel]"}],"splitting":"newlines","lang":{"target_lang":"ZH","source_lang_user_selected":"auto","preference":{"weight":{}}},"timestamp":0},"id":0}
@@ -394,7 +369,7 @@ const MicrosoftTranslator = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #MicrosoftTranslator ');
     }
-    if (!SupportedLanguage('microsoft', target || 'en')) {
+    if (!SupportedLanguage(BING_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #MicrosoftTranslator ');
     }
     //get IG, token, key
@@ -452,7 +427,7 @@ const MicrosoftBrowserTranslator = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #MicrosoftTranslator ');
     }
-    if (!SupportedLanguage('microsoft', target || 'en')) {
+    if (!SupportedLanguage(BING_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #MicrosoftTranslator ');
     }
     //get jwt
@@ -483,7 +458,7 @@ const SogouBrowserTranslator = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #SogouTranslator ');
     }
-    if (!SupportedLanguage('sogou', target || 'en')) {
+    if (!SupportedLanguage(SOGOU_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #SogouTranslator ');
     }
     let body = JSON.stringify({
@@ -536,7 +511,7 @@ const YandexTranslator = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #YandexTranslator ');
     }
-    if (!SupportedLanguage('yandex', target || 'en')) {
+    if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #YandexTranslator ');
     }
     const lang = await YandexDetect((Array.isArray(text) ? text.join(' ') : text));
@@ -565,7 +540,7 @@ const YandexBrowserTranslator = async (text = '', target, raw) => {
     if (!text) {
         return await Promise.reject('Empty text #YandexTranslator ');
     }
-    if (!SupportedLanguage('yandex', target || 'en')) {
+    if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en')) {
         return await Promise.reject('Not supported target language #YandexTranslator ');
     }
     const lang = await YandexDetect((Array.isArray(text) ? text.join(' ') : text).replaceAll(/<a id=\d><><\/a>/gm, ''));

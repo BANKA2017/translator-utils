@@ -1,5 +1,5 @@
 import { TranslatorModuleFunction } from '../types.js'
-import { SupportedLanguage } from '../misc.js'
+import { DEEPL_LANGUAGE, SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
 const getId = async () => {
@@ -17,9 +17,9 @@ const getId = async () => {
 
 }
 
-const DeepL: TranslatorModuleFunction<'deepl'> = async (text: string | string[] = '', target, raw) => {
+const DeepL: TranslatorModuleFunction = async (text: string | string[] = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #DeepL ')}
-    if (!SupportedLanguage('deepl', target || 'en')) {return await Promise.reject('Not supported target language #DeepL ')}
+    if (!SupportedLanguage(DEEPL_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #DeepL ')}
 
     //{"jsonrpc":"2.0","method": "LMT_handle_texts","params":{"texts":[{"text":"[Schoolgirl Strikers: Animation Channel]"}],"splitting":"newlines","lang":{"target_lang":"ZH","source_lang_user_selected":"auto","preference":{"weight":{}}},"timestamp":0},"id":0}
     const realTimeStamp = Number(new Date())

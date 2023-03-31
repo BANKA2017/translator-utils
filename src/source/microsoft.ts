@@ -1,10 +1,10 @@
-import { SupportedLanguage } from '../misc.js'
+import { BING_LANGUAGE, SupportedLanguage } from '../misc.js'
 import { TranslatorModuleFunction } from '../types.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
-const MicrosoftTranslator: TranslatorModuleFunction<'microsoft'> = async (text = '', target, raw) => {
+const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
-    if (!SupportedLanguage('microsoft', target || 'en')) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
+    if (!SupportedLanguage(BING_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
     //get IG, token, key
     //TODO fix type 
@@ -55,9 +55,9 @@ const GetMicrosoftBrowserTranslatorAuth = async () => {
     }
 }
 
-const MicrosoftBrowserTranslator: TranslatorModuleFunction<'microsoft'> = async (text = '', target, raw) => {
+const MicrosoftBrowserTranslator: TranslatorModuleFunction = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
-    if (!SupportedLanguage('microsoft', target || 'en')) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
+    if (!SupportedLanguage(BING_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
     //get jwt
     const jwt = await GetMicrosoftBrowserTranslatorAuth()

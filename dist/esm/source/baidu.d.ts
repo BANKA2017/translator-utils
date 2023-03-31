@@ -10,5 +10,5 @@ export interface GetBaiduTranslatorTokenResult {
 }
 declare const GetBaiduTranslatorToken: (cookie?: string, loop?: number) => Promise<GetBaiduTranslatorTokenResult>;
 declare const BaiduLanguagePredict: (text?: string | string[], cookie?: string) => Promise<string | '_'>;
-declare const BaiduTranslator: TranslatorModuleFunction<'baidu'>;
+declare const BaiduTranslator: TranslatorModuleFunction;
 export { BaiduTranslator, BaiduLanguagePredict, GetBaiduTranslatorToken };

@@ -1,5 +1,5 @@
 import { TranslatorModuleFunction } from '../types.js'
-import { SupportedLanguage } from '../misc.js'
+import { BAIDU_LANGUAGE, SupportedLanguage } from '../misc.js'
 import {GoogleTranslateTk} from './google.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
@@ -72,9 +72,9 @@ const BaiduLanguagePredict = async (text: string | string[] = '', cookie = ''): 
     
 }
 
-const BaiduTranslator: TranslatorModuleFunction<'baidu'> = async (text = '', target, raw) => {
+const BaiduTranslator: TranslatorModuleFunction = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #BaiduTranslator ')}
-    if (!SupportedLanguage('baidu', target || 'en')) {return await Promise.reject('Not supported target language #BaiduTranslator ')}
+    if (!SupportedLanguage(BAIDU_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #BaiduTranslator ')}
 
 
     //get baidu translator page

@@ -1,11 +1,11 @@
 import { TranslatorModuleFunction } from '../types.js'
-import { SupportedLanguage } from '../misc.js'
+import { GOOGLE_LANGUAGE, SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
 
-const GoogleTranslate: TranslatorModuleFunction<'google'> = async (text = '', target, raw) => {
+const GoogleTranslate: TranslatorModuleFunction = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #GoogleTranslate ')}
-    if (!SupportedLanguage('google', target || 'en')) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
+    if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
 
     if (Array.isArray(text)) {
         text = text.join("\n")
@@ -29,9 +29,9 @@ const GoogleTranslate: TranslatorModuleFunction<'google'> = async (text = '', ta
     })
 }
 
-const GoogleBrowserTranslate: TranslatorModuleFunction<'google'> = async (text = '', target, raw) => {
+const GoogleBrowserTranslate: TranslatorModuleFunction = async (text = '', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #GoogleTranslate ')}
-    if (!SupportedLanguage('google', target || 'en')) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
+    if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
 
     //curl 'https://translate.googleapis.com/translate_a/t?anno=3&client=wt_lib&format=html&v=1.0&key&sl=auto&tl=zh&tc=1&sr=1&tk=164775.366094&mode=1' --data-raw 'q=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF' --compressed
     //https://vielhuber.de/zh-cn/blog-zh-cn/google-translation-api-hacking/
