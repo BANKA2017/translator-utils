@@ -1,6 +1,5 @@
 import typescript from "@rollup/plugin-typescript"
 import resolve from '@rollup/plugin-node-resolve'
-import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import commonjs from '@rollup/plugin-commonjs'
 import { babel } from '@rollup/plugin-babel'
 import bundleSize from 'rollup-plugin-bundle-size'
@@ -23,7 +22,6 @@ const buildConfig = (input, output, format = 'esm', minified = false, browser = 
             commonjs(),
             typescript({tsconfig: format === 'esm' ? './tsconfig.json' : './tsconfig.rollup.json' }), 
             resolve({browser}), 
-            peerDepsExternal('./package.json'),
             ...(es5 ? [babel({
                 babelHelpers: 'bundled',
                 presets: ['@babel/preset-env']
@@ -47,7 +45,6 @@ const buildConfig = (input, output, format = 'esm', minified = false, browser = 
                 commonjs(),
                 typescript({tsconfig: format === 'esm' ? './tsconfig.json' : './tsconfig.rollup.json' }), 
                 resolve({browser}), 
-                peerDepsExternal('./package.json'),
                 ...(es5 ? [babel({
                     babelHelpers: 'bundled',
                     presets: ['@babel/preset-env']
@@ -63,7 +60,8 @@ const buildConfig = (input, output, format = 'esm', minified = false, browser = 
 
 export default [
     ...buildConfig('src/index.browser.ts', 'dist/translator.js', 'umd', true, true),
-    //...buildConfig('src/index.browser.ts', 'dist/translator.es5.js', 'umd', true, true, true),
-    ...buildConfig('src/index.ts', 'dist/esm/translator.js', 'esm', false, false, false, ['hpagent']),
+    //...buildConfig('src/index.browser.ts', 'dist/translator.cjs', 'cjs', false, true),
+    //...buildConfig('src/index.ts', 'dist/cjs/translator.cjs', 'cjs', false, false),
+    ...buildConfig('src/index.ts', 'dist/esm/index.js', 'esm', false, false, false, ['hpagent']),
     ...buildConfig('src/index.ts', 'dist/esm/translator.mod.js', 'esm', false, true),
 ]

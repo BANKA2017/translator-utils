@@ -2,9 +2,9 @@ import { BING_LANGUAGE, SupportedLanguage } from '../misc.js'
 import { TranslatorModuleFunction } from '../types.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
-const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target, raw) => {
+const MicrosoftTranslator: TranslatorModuleFunction<"microsoft"> = async (text = '', source = 'auto', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
-    if (!SupportedLanguage(BING_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
+    if (!SupportedLanguage(BING_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(BING_LANGUAGE, source || 'en'))) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
     //get IG, token, key
     //TODO fix type 
@@ -28,7 +28,7 @@ const MicrosoftTranslator: TranslatorModuleFunction = async (text = '', target, 
                 IG: _G.IG,
                 IID: 'translator.5024.1'
             })).toString(), (new URLSearchParams({
-                fromLang: 'auto-detect',
+                fromLang: source === 'auto' ? 'auto-detect' : source,
                 text: Array.isArray(text) ? text.join("\n") : text,
                 to: (target || 'en'),
                 token: params_AbusePreventionHelper[1],
@@ -55,15 +55,15 @@ const GetMicrosoftBrowserTranslatorAuth = async () => {
     }
 }
 
-const MicrosoftBrowserTranslator: TranslatorModuleFunction = async (text = '', target, raw) => {
+const MicrosoftBrowserTranslator: TranslatorModuleFunction<"microsoft_browser"> = async (text = '', source = 'auto', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #MicrosoftTranslator ')}
-    if (!SupportedLanguage(BING_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
+    if (!SupportedLanguage(BING_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(BING_LANGUAGE, source || 'en'))) {return await Promise.reject('Not supported target language #MicrosoftTranslator ')}
 
     //get jwt
     const jwt = await GetMicrosoftBrowserTranslatorAuth()
     if (jwt) {
         return await new Promise(async (resolve, reject) => {
-            axiosFetch.post(`https://api.cognitive.microsofttranslator.com/translate?from=&to=${target}&api-version=3.0&includeSentenceLength=true`, JSON.stringify(text instanceof Array ? text.map(tmpText => ({Text: tmpText})) : [{Text: text}]), {
+            axiosFetch.post(`https://api.cognitive.microsofttranslator.com/translate?from=${source === 'auto' ? '' : source}&to=${target}&api-version=3.0&includeSentenceLength=true`, JSON.stringify(text instanceof Array ? text.map(tmpText => ({Text: tmpText})) : [{Text: text}]), {
                 headers: {
                     'content-type': 'application/json',
                     authorization: `Bearer ${jwt}`

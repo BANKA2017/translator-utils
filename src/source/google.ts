@@ -3,16 +3,16 @@ import { GOOGLE_LANGUAGE, SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
 
-const GoogleTranslate: TranslatorModuleFunction = async (text = '', target, raw) => {
+const GoogleTranslate: TranslatorModuleFunction<"google"> = async (text = '', source = 'auto', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #GoogleTranslate ')}
-    if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
+    if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(GOOGLE_LANGUAGE, source || 'en'))) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
 
     if (Array.isArray(text)) {
         text = text.join("\n")
     }
-    const query = new URLSearchParams({"client": "webapp", "sl": "auto", "tl": (target || 'en'), "hl": (target || 'en'), "dt": "t", "clearbtn": '1', "otf": '1', "pc": '1', "ssel": '0', "tsel": '0', "kc": '2', "tk": "", "q": text})
+    const query = new URLSearchParams({"client": "webapp", "sl": source, "tl": (target || 'en'), "hl": (target || 'en'), "dt": "t", "clearbtn": '1', "otf": '1', "pc": '1', "ssel": '0', "tsel": '0', "kc": '2', "tk": "", "q": text})
     return await new Promise(async (resolve, reject) => {
-        axiosFetch.get('https://translate.google.com/translate_a/single?' + query.toString(), {
+        axiosFetch.get('https://translate.google.com/translate_a/single?' + 'dt=at&dt=bd&dt=ex&dt=md&dt=rw&dt=ss&dt=rm&' + query.toString(), {
             headers: {
                 referer: 'https://translate.google.com/',
                 authority: 'translate.google.com'
@@ -29,13 +29,13 @@ const GoogleTranslate: TranslatorModuleFunction = async (text = '', target, raw)
     })
 }
 
-const GoogleBrowserTranslate: TranslatorModuleFunction = async (text = '', target, raw) => {
+const GoogleBrowserTranslate: TranslatorModuleFunction<"google_browser"> = async (text = '', source = 'auto', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #GoogleTranslate ')}
-    if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
+    if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(GOOGLE_LANGUAGE, source || 'en'))) {return await Promise.reject('Not supported target language #GoogleTranslate ')}
 
     //curl 'https://translate.googleapis.com/translate_a/t?anno=3&client=wt_lib&format=html&v=1.0&key&sl=auto&tl=zh&tc=1&sr=1&tk=164775.366094&mode=1' --data-raw 'q=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF' --compressed
     //https://vielhuber.de/zh-cn/blog-zh-cn/google-translation-api-hacking/
-    let query = new URLSearchParams({anno: '4', client: 'te_lib', format: 'html', v: '1.0', key: 'AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw', sl: 'auto', tl: (target || 'en'), tc: '1', sr: '1', tk: GoogleTranslateTk(text), mode: '1'})
+    let query = new URLSearchParams({anno: '4', client: 'te_lib', format: 'html', v: '1.0', key: 'AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw', sl: source, tl: (target || 'en'), tc: '1', sr: '1', tk: GoogleTranslateTk(text), mode: '1'})
     //let formData = new URLSearchParams({q: text})
     return await new Promise(async (resolve, reject) => {
         axiosFetch.post('https://translate.googleapis.com/translate_a/t?' + query.toString(), 'q=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&q=') : encodeURIComponent(text))).then((response: any) => {

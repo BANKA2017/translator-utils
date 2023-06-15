@@ -29,11 +29,11 @@ const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'>
     }
 }
 
-const YandexTranslator: TranslatorModuleFunction = async (text: string | string[] = '', target, raw) => {
+const YandexTranslator: TranslatorModuleFunction<"yandex"> = async (text: string | string[] = '', source = 'auto', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #YandexTranslator ')}
-    if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #YandexTranslator ')}
+    if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(YANDEX_LANGUAGE, source || 'en'))) {return await Promise.reject('Not supported target language #YandexTranslator ')}
 
-    const lang = await YandexDetect((Array.isArray(text) ? text.join(' ') : text))
+    const lang = source === 'auto' ? await YandexDetect((Array.isArray(text) ? text.join(' ') : text)) : source
 
     if (lang === '_') {
         return await Promise.reject('Not supported source language #YandexTranslator ')
@@ -58,11 +58,11 @@ const YandexTranslator: TranslatorModuleFunction = async (text: string | string[
     })
 }
 
-const YandexBrowserTranslator: TranslatorModuleFunction = async (text: string | string[] = '', target, raw) => {
+const YandexBrowserTranslator: TranslatorModuleFunction<"yandex_browser"> = async (text: string | string[] = '', source = 'auto', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #YandexTranslator ')}
-    if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #YandexTranslator ')}
+    if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(YANDEX_LANGUAGE, source || 'en'))) {return await Promise.reject('Not supported target language #YandexTranslator ')}
 
-    const lang = await YandexDetect((Array.isArray(text) ? text.join(' ') : text).replaceAll(/<a id=\d><><\/a>/gm, ''))
+    const lang = source === 'auto' ? await YandexDetect((Array.isArray(text) ? text.join(' ') : text).replaceAll(/<a id=\d><><\/a>/gm, '')) : source
 
     if (lang === '_') {
         return await Promise.reject('Not supported source language #YandexTranslator ')

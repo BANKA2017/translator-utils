@@ -31,19 +31,21 @@ await YandexDetect('')      // _
 ```javascript
 import Translator, { GoogleBrowserTranslate } from '@kdwnil/translator-utils'
 
-await Translator('你好', 'google', 'zh-cn', false) // { content: 'hello', message: '' }
-await Translator('你好', 'google', 'zh-cn', true)  // { content: RESULT_CONTENT_FROM_GOOGLE_TRANSLATOR, message: '' }
+await Translator('你好', 'google', 'auto', 'zh-cn', false) // { content: 'hello', message: '' }
+await Translator('你好', 'google', 'auto', 'zh-cn', true)  // { content: RESULT_CONTENT_FROM_GOOGLE_TRANSLATOR, message: '' }
 
 // or...
 
-await GoogleBrowserTranslate('你好', 'zh-cn', false)
+await GoogleBrowserTranslate('你好', 'auto', 'zh-cn', false)
 ```
 
 To know more, view files in [~/src/source](https://github.com/BANKA2017/translator-utils/tree/master/src/source)
 
 ## Browser
 
-Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftBrowserTranslator` or `SogouBrowserTranslator` in browser
+Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftBrowserTranslator` or `SogouBrowserTranslator` in browser.
+
+`YandexBrowserTranslate` is supported in browser, but predicted service is **NOT** supported, so you can't set `source` as `auto` in function calling.
 
 ## Nodejs
 
@@ -64,9 +66,10 @@ yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#master
 <script src="https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@master/dist/translator.min.js"></script>
 <!-- example -->
 <script type="module">
-    console.log(await translator('hi','google','zh-cn',false))
-    console.log(await translator('hi','microsoft','zh-hans',false))
-    console.log(await translator('hi','sogou','ja',false))
+    console.log(await translator('hi','google','auto','zh-cn',false))
+    console.log(await translator('hi','microsoft','auto','zh-hans',false))
+    console.log(await translator('hi','sogou','auto','ja',false))
+    console.log(await translator('hi','yandex','en','ja',false))//couldn't use 'auto'
 </script>
 ```
 

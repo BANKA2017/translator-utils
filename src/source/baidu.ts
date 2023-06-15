@@ -72,9 +72,9 @@ const BaiduLanguagePredict = async (text: string | string[] = '', cookie = ''): 
     
 }
 
-const BaiduTranslator: TranslatorModuleFunction = async (text = '', target, raw) => {
+const BaiduTranslator: TranslatorModuleFunction<"baidu"> = async (text = '', source = 'auto', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #BaiduTranslator ')}
-    if (!SupportedLanguage(BAIDU_LANGUAGE, target || 'en')) {return await Promise.reject('Not supported target language #BaiduTranslator ')}
+    if (!SupportedLanguage(BAIDU_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(BAIDU_LANGUAGE, source || 'en'))) {return await Promise.reject('Not supported target language #BaiduTranslator ')}
 
 
     //get baidu translator page
@@ -84,7 +84,7 @@ const BaiduTranslator: TranslatorModuleFunction = async (text = '', target, raw)
     }
     if (page && cookie) {
 
-        const fromLaguage = await BaiduLanguagePredict(text, cookie)
+        const fromLaguage = source === 'auto' ? await BaiduLanguagePredict(text, cookie) : source
         if (fromLaguage === '_') {
             return await Promise.reject('Not supported source language #BaiduTranslator ')
         }

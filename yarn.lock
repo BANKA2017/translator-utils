@@ -1502,7 +1502,6 @@ __metadata:
     rollup: ^3.19.1
     rollup-plugin-bundle-size: ^1.0.3
     rollup-plugin-cleanup: ^3.2.1
-    rollup-plugin-peer-deps-external: ^2.2.4
     tsc: ^2.0.4
     tslib: ^2.5.0
     typescript: ^4.9.5
@@ -3312,15 +3311,6 @@ __metadata:
   peerDependencies:
     rollup: ">=2.0"
   checksum: e11a6ac0a697a9c17154073cf1e663e31e7b99e3e507dacccd58ea10e9c9ae4c10fe93ee93f68432b9beda8834a71b4dfa73700923f3415ecdac4ee283531c54
-  languageName: node
-  linkType: hard
-
-"rollup-plugin-peer-deps-external@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "rollup-plugin-peer-deps-external@npm:2.2.4"
-  peerDependencies:
-    rollup: "*"
-  checksum: 597bc7631f4e3cfc066a7da4e09e507258aba932008148328c1a4b48e7ffa755592ef4bcf0165320bbd5019afbdd326f569cd0c68406d820da9ab52e971c009b
   languageName: node
   linkType: hard
 

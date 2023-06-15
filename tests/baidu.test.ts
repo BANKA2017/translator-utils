@@ -38,18 +38,18 @@ describe('Baidu predict', () => {
 
 describe('Baidu translator(web)', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await BaiduTranslator('hello', 'zh', false)).toMatch('你好')
+        expect(await BaiduTranslator('hello', 'auto', 'zh', false)).toMatch('你好')
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await BaiduTranslator('こんにちわ', 'zh', false)).toMatch('你好')
+        expect(await BaiduTranslator('こんにちわ', 'auto', 'zh', false)).toMatch('你好')
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await BaiduTranslator('你好', 'zh', false)).toMatch(/(H|h)ello/)
+        expect(await BaiduTranslator('你好', 'auto', 'zh', false)).toMatch(/(H|h)ello/)
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await BaiduTranslator('안녕하세요', 'zh', false)).toMatch('你好')
+        expect(await BaiduTranslator('안녕하세요', 'auto', 'zh', false)).toMatch('你好')
     })
     test.concurrent('Empty text', async ({ expect }) => {
-        await expect(BaiduTranslator('', 'zh', false)).rejects.toMatch('Empty text #BaiduTranslator ')
+        await expect(BaiduTranslator('', 'auto', 'zh', false)).rejects.toMatch('Empty text #BaiduTranslator ')
     })
 })

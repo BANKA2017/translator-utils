@@ -7,8 +7,22 @@
     const GOOGLE_LANGUAGE = ["sq", "ar", "am", "as", "az", "ee", "ay", "ga", "et", "or", "om", "eu", "be", "bm", "bg", "is", "pl", "bs", "fa", "bho", "af", "tt", "da", "de", "dv", "ti", "doi", "ru", "fr", "sa", "tl", "fi", "fy", "km", "ka", "gom", "gu", "gn", "kk", "ht", "ko", "ha", "nl", "ky", "gl", "ca", "cs", "kn", "co", "kri", "hr", "qu", "ku", "ckb", "la", "lv", "lo", "lt", "ln", "lg", "lb", "rw", "ro", "mg", "mt", "mr", "ml", "ms", "mk", "mai", "mi", "mni-mtei", "mn", "bn", "lus", "my", "hmn", "xh", "zu", "ne", "no", "pa", "pt", "ps", "ny", "ak", "ja", "sv", "sm", "sr", "nso", "st", "si", "eo", "sk", "sl", "sw", "gd", "ceb", "so", "tg", "te", "ta", "th", "tr", "tk", "cy", "ug", "ur", "uk", "uz", "es", "iw", "el", "haw", "sd", "hu", "sn", "hy", "ig", "ilo", "it", "yi", "hi", "su", "id", "jw", "en", "yo", "vi", "zh-tw", "zh-cn", "ts"];
     const BING_LANGUAGE = ["lzh", "ikt", "iu-latn", "mn-cyrl", "mn-mong", "hsb", "zh-hans", "zh-hant", "da", "uk", "uz", "ur", "nb", "hy", "ru", "bg", "tlh-latn", "hr", "otq", "is", "gl", "ca", "hu", "af", "kn", "hi", "id", "gu", "kk", "iu", "tk", "tr", "ty", "sr-latn", "sr-cyrl", "or", "cy", "bn", "yua", "ne", "ba", "eu", "he", "el", "ku", "kmr", "de", "it", "lv", "cs", "ti", "fj", "sk", "sl", "sw", "pa", "ja", "ps", "ky", "ka", "mi", "to", "fo", "fr", "fr-ca", "pl", "bs", "fa", "te", "ta", "th", "ht", "ga", "et", "sv", "zu", "lt", "yue", "so", "ug", "my", "ro", "lo", "fi", "mww", "en", "nl", "fil", "sm", "pt", "pt-pt", "bo", "es", "vi", "prs", "dv", "az", "am", "sq", "ar", "as", "tt", "ko", "mk", "mg", "mr", "ml", "ms", "mt", "km"];
     const SOGOU_LANGUAGE = ["ar", "pl", "da", "de", "ru", "fr", "fi", "ko", "nl", "cs", "pt", "ja", "sv", "th", "tr", "es", "hu", "en", "it", "vi", "zh-CHS"];
+    const YANDEX_LANGUAGE = ["af", "sq", "am", "ar", "hy", "az", "ba", "eu", "be", "bn", "bs", "bg", "my", "ca", "ceb", "zh", "cv", "hr", "cs", "da", "nl", "sjn", "emj", "en", "eo", "et", "fi", "fr", "gl", "ka", "de", "el", "gu", "ht", "he", "mrj", "hi", "hu", "is", "id", "ga", "it", "ja", "jv", "kn", "kk", "kazlat", "km", "ko", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mhr", "mn", "ne", "no", "pap", "fa", "pl", "pt", "pt-br", "pa", "ro", "ru", "gd", "sr", "sr-latn", "si", "sk", "sl", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "tr", "udm", "uk", "ur", "uz", "uzbcyr", "vi", "cy", "xh", "sah", "yi", "zu"];
     const SupportedLanguage = (List, language) => {
         return List.map(x => x.toLowerCase()).includes(language.toLowerCase());
+    };
+    const generateUUID = async () => {
+        // @ts-ignore
+        if (typeof process !== 'undefined' && !process?.browser) {
+            const { webcrypto } = await import('crypto');
+            return webcrypto.randomUUID();
+        }
+        else if (typeof window !== 'undefined') {
+            return crypto.randomUUID();
+        }
+        else {
+            return '';
+        }
     };
 
     class AxiosRequest {
@@ -68,16 +82,16 @@
     }
     const axiosFetch = new AxiosRequest;
 
-    const GoogleBrowserTranslate = async (text = '', target, raw) => {
+    const GoogleBrowserTranslate = async (text = '', source = 'auto', target, raw) => {
         if (!text) {
             return await Promise.reject('Empty text #GoogleTranslate ');
         }
-        if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en')) {
+        if (!SupportedLanguage(GOOGLE_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(GOOGLE_LANGUAGE, source || 'en'))) {
             return await Promise.reject('Not supported target language #GoogleTranslate ');
         }
         //curl 'https://translate.googleapis.com/translate_a/t?anno=3&client=wt_lib&format=html&v=1.0&key&sl=auto&tl=zh&tc=1&sr=1&tk=164775.366094&mode=1' --data-raw 'q=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF' --compressed
         //https://vielhuber.de/zh-cn/blog-zh-cn/google-translation-api-hacking/
-        let query = new URLSearchParams({ anno: '4', client: 'te_lib', format: 'html', v: '1.0', key: 'AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw', sl: 'auto', tl: (target || 'en'), tc: '1', sr: '1', tk: GoogleTranslateTk(text), mode: '1' });
+        let query = new URLSearchParams({ anno: '4', client: 'te_lib', format: 'html', v: '1.0', key: 'AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw', sl: source, tl: (target || 'en'), tc: '1', sr: '1', tk: GoogleTranslateTk(text), mode: '1' });
         //let formData = new URLSearchParams({q: text})
         return await new Promise(async (resolve, reject) => {
             axiosFetch.post('https://translate.googleapis.com/translate_a/t?' + query.toString(), 'q=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&q=') : encodeURIComponent(text))).then((response) => {
@@ -160,18 +174,18 @@
             return '';
         }
     };
-    const MicrosoftBrowserTranslator = async (text = '', target, raw) => {
+    const MicrosoftBrowserTranslator = async (text = '', source = 'auto', target, raw) => {
         if (!text) {
             return await Promise.reject('Empty text #MicrosoftTranslator ');
         }
-        if (!SupportedLanguage(BING_LANGUAGE, target || 'en')) {
+        if (!SupportedLanguage(BING_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(BING_LANGUAGE, source || 'en'))) {
             return await Promise.reject('Not supported target language #MicrosoftTranslator ');
         }
         //get jwt
         const jwt = await GetMicrosoftBrowserTranslatorAuth();
         if (jwt) {
             return await new Promise(async (resolve, reject) => {
-                axiosFetch.post(`https://api.cognitive.microsofttranslator.com/translate?from=&to=${target}&api-version=3.0&includeSentenceLength=true`, JSON.stringify(text instanceof Array ? text.map(tmpText => ({ Text: tmpText })) : [{ Text: text }]), {
+                axiosFetch.post(`https://api.cognitive.microsofttranslator.com/translate?from=${source === 'auto' ? '' : source}&to=${target}&api-version=3.0&includeSentenceLength=true`, JSON.stringify(text instanceof Array ? text.map(tmpText => ({ Text: tmpText })) : [{ Text: text }]), {
                     headers: {
                         'content-type': 'application/json',
                         authorization: `Bearer ${jwt}`
@@ -191,15 +205,15 @@
         }
     };
 
-    const SogouBrowserTranslator = async (text = '', target, raw) => {
+    const SogouBrowserTranslator = async (text = '', source = 'auto', target, raw) => {
         if (!text) {
             return await Promise.reject('Empty text #SogouTranslator ');
         }
-        if (!SupportedLanguage(SOGOU_LANGUAGE, target || 'en')) {
+        if (!SupportedLanguage(SOGOU_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(SOGOU_LANGUAGE, source || 'en'))) {
             return await Promise.reject('Not supported target language #SogouTranslator ');
         }
         let body = JSON.stringify({
-            from_lang: "auto",
+            from_lang: source,
             to_lang: target,
             trans_frag: text instanceof Array ? text.map(x => ({ text: x })) : [{ text }]
         });
@@ -215,18 +229,86 @@
         });
     };
 
-    const Translator = async (text = '', platform, target, raw) => {
+    //from yandex browser
+    const generateSid = async () => {
+        return (await generateUUID()).replaceAll('-', '');
+    };
+    const YandexDetect = async (text = '') => {
+        if (!text) {
+            return '_';
+        }
+        if (Array.isArray(text)) {
+            text = text.join("\n");
+        }
+        try {
+            const languageResult = await axiosFetch.get('https://translate.yandex.net/api/v1/tr.json/detect?' + (new URLSearchParams({
+                sid: await generateSid(),
+                srv: 'android',
+                text,
+                //hint: 'en,zh'
+            })).toString());
+            if (languageResult.data?.code === 200 && languageResult.data?.lang) {
+                return languageResult.data?.lang || '_';
+            }
+            else {
+                return '_';
+            }
+        }
+        catch (e) {
+            return '_';
+        }
+    };
+    const YandexBrowserTranslator = async (text = '', source = 'auto', target, raw) => {
+        if (!text) {
+            return await Promise.reject('Empty text #YandexTranslator ');
+        }
+        if (!SupportedLanguage(YANDEX_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(YANDEX_LANGUAGE, source || 'en'))) {
+            return await Promise.reject('Not supported target language #YandexTranslator ');
+        }
+        const lang = source === 'auto' ? await YandexDetect((Array.isArray(text) ? text.join(' ') : text).replaceAll(/<a id=\d><><\/a>/gm, '')) : source;
+        if (lang === '_') {
+            return await Promise.reject('Not supported source language #YandexTranslator ');
+        }
+        let query = new URLSearchParams({
+            translateMode: 'context',
+            context_title: 'Twitter Monitor Translator',
+            id: `${await generateSid()}-0-0`,
+            srv: 'yabrowser',
+            lang: `${lang}-${target}`,
+            format: 'html',
+            options: '2'
+        });
+        return await new Promise(async (resolve, reject) => {
+            axiosFetch.get('https://browser.translate.yandex.net/api/v1/tr.json/translate?' + query.toString() + '&text=' + ((text instanceof Array) ? text.map(x => encodeURIComponent(x)).join('&text=') : encodeURIComponent(text))).then(response => {
+                if (response?.data?.text && response?.data?.text instanceof Array) {
+                    resolve(raw ? response.data : response.data.text.join("\n"));
+                }
+                reject(raw ? response.data : 'Invalid content #YandexTranslator ');
+            }).catch(e => {
+                reject(raw ? e : e.toString());
+            });
+        });
+    };
+
+    const Translator = async (text = '', platform, source, target, raw) => {
         let result = { content: '', message: '' };
         try {
             switch (platform) {
                 case 'google':
-                    result.content = await GoogleBrowserTranslate(text, target, !!raw);
+                case 'google_browser':
+                    result.content = await GoogleBrowserTranslate(text, source, target, !!raw);
                     break;
                 case 'microsoft':
-                    result.content = await MicrosoftBrowserTranslator(text, target, !!raw);
+                case 'microsoft_browser':
+                    result.content = await MicrosoftBrowserTranslator(text, source, target, !!raw);
                     break;
                 case 'sogou':
-                    result.content = await SogouBrowserTranslator(text, target, !!raw);
+                case 'sogou_browser':
+                    result.content = await SogouBrowserTranslator(text, source, target, !!raw);
+                    break;
+                case 'sogou':
+                case 'sogou_browser':
+                    result.content = await YandexBrowserTranslator(text, source, target, !!raw);
                     break;
             }
         }
