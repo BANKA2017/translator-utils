@@ -11,7 +11,7 @@
         "strict": true,
         "types": ["node", "vitest/globals"],
         "module": "ESNext",
-        "outDir": "lib",
+        "outDir": ".",
         "target": "ESNext"
     },
     "compileOnSave": false,

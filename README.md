@@ -45,7 +45,7 @@ To know more, view files in [~/src/source](https://github.com/BANKA2017/translat
 
 Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftBrowserTranslator` or `SogouBrowserTranslator` in browser.
 
-`YandexBrowserTranslate` is supported in browser, but predicted service is **NOT** supported, so you can't set `source` as `auto` in function calling.
+`YandexBrowserTranslate` is supported in browser, but predicted service is **NOT** supported, so you can't set `source` to `auto` in function calling.
 
 ## Nodejs
 
@@ -56,14 +56,17 @@ Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftB
 ### NPM
 
 ```shell
-yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#master
+# npm
+npm i @kdwnil/translator-utils@github:BANKA2017/translator-utils#npm
+# yarn
+yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#npm
 ```
 
 ### UMD
 
 ```html
 <!-- es6 only -->
-<script src="https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@master/dist/translator.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@npm/dist/translator.min.js"></script>
 <!-- example -->
 <script type="module">
     console.log(await translator('hi','google','auto','zh-cn',false))
@@ -77,5 +80,5 @@ yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#master
 
 ```javascript
 //like npm
-import Translator, {GoogleBrowserTranslate, BaiduLanguagePredict} from "https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@master/dist/esm/translator.mod.js"
+import Translator, {GoogleBrowserTranslate, BaiduLanguagePredict} from "https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@npm/dist/esm/translator.mod.js"
 ```
