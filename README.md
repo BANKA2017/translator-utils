@@ -73,6 +73,14 @@ yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#npm
     console.log(await translator('hi','microsoft','auto','zh-hans',false))
     console.log(await translator('hi','sogou','auto','ja',false))
     console.log(await translator('hi','yandex','en','ja',false))//couldn't use 'auto'
+
+    //or
+    translator('hi','google','auto','zh-cn',true).then(response => {
+        console.log(response)
+    }).catch(e => {
+        console.log(e)
+    })
+
 </script>
 ```
 

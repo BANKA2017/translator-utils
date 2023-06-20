@@ -70,10 +70,10 @@ class AxiosRequest {
             data: isJson ? JSON.parse(dataString) : dataString
         }
     }
-    get (url, options) {
+    get (url, options = {}) {
         return this.requestHandle(url, null, {method: 'GET', ...options})
     }
-    post (url, data, options) {
+    post (url, data = '', options = {}) {
         return this.requestHandle(url, data, {method: 'POST', ...options})
     }
 }

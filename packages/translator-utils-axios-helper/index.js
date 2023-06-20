@@ -54,11 +54,11 @@ class AxiosRequest {
             data
         }
     }
-    get (url, options) {
+    get (url, options = {}) {
         options.method = 'GET'
         return this.requestHandle(url, null, options)
     }
-    post (url, data, options) {
+    post (url, data = '', options = {}) {
         options.method = 'POST'
         return this.requestHandle(url, data, options)
     }
