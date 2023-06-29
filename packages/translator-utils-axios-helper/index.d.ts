@@ -3,6 +3,8 @@ type Response = any
 export interface responseBuilder {
     status: number
     statusText: string
+    // @ts-ignore
+    // set-cookie only invalid in browser
     headers: {'set-cookie'?: string[], [p in string]: string | string[]}
     data: Response
 }

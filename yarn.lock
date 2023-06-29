@@ -3910,6 +3910,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"translator-utils-crypto@workspace:packages/translator-utils-crypto":
+  version: 0.0.0-use.local
+  resolution: "translator-utils-crypto@workspace:packages/translator-utils-crypto"
+  languageName: unknown
+  linkType: soft
+
 "tsc@npm:^2.0.4":
   version: 2.0.4
   resolution: "tsc@npm:2.0.4"

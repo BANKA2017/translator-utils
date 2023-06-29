@@ -1,21 +1,9 @@
 import { TranslatorModuleFunction } from '../types.js'
 import { DEEPL_LANGUAGE, SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
+import cryptoHandle from 'translator-utils-crypto'
 
-const getId = async () => {
-    // @ts-ignore
-    if (typeof process !== 'undefined' && !process?.browser) {
-        //nodejs
-        const {webcrypto} = await import('crypto')
-        return webcrypto.getRandomValues(new Uint32Array(1))[0]
-    } else if (typeof window !== 'undefined') {
-        //browser // workers // deno
-        return crypto.getRandomValues(new Uint32Array(1))[0]
-    } else {
-        return 0
-    }
-
-}
+const getId = () => cryptoHandle.getRandomValues(new Uint32Array(1))[0]
 
 const DeepL: TranslatorModuleFunction<"deepl"> = async (text: string | string[] = '', source = 'auto', target, raw) => {
     if (!text) {return await Promise.reject('Empty text #DeepL ')}
@@ -24,7 +12,7 @@ const DeepL: TranslatorModuleFunction<"deepl"> = async (text: string | string[] 
     //{"jsonrpc":"2.0","method": "LMT_handle_texts","params":{"texts":[{"text":"[Schoolgirl Strikers: Animation Channel]"}],"splitting":"newlines","lang":{"target_lang":"ZH","source_lang_user_selected":"auto","preference":{"weight":{}}},"timestamp":0},"id":0}
     const realTimeStamp = Number(new Date())
     const i_count = (text instanceof Array ? text.join('') : text).split('i').length
-    const id = await getId()// + 1
+    const id = getId()// + 1
 
     const postBody = JSON.stringify({
         jsonrpc: "2.0",

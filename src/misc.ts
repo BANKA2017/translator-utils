@@ -1,4 +1,5 @@
 import { TargetFilter } from "types.js"
+import cryptoHandle from "translator-utils-crypto"
 
 export const BAIDU_LANGUAGE: TargetFilter["baidu"][] = ["zh","jp","jpka","th","fra","en","spa","kor","tr","vie","ms","de","ru","ir","ara","est","be","bul","hi","is","pl","fa","dan","tl","fin","nl","ca","cs","hr","lv","lt","rom","af","no","pt_br","pt","swe","sr","eo","sk","slo","sw","uk","iw","el","hu","hy","it","id","sq","am","as","az","eu","bn","bs","gl","ka","gu","ha","ig","iu","ga","zu","kn","kk","ky","lb","mk","mt","mi","mr","ne","or","pa","qu","tn","si","ta","tt","te","ur","uz","cy","yo","yue","wyw","cht"]
 
@@ -17,14 +18,4 @@ export const SupportedLanguage = (List: string[], language: string): boolean => 
 export const IsChs = (lang = 'zh') => /^zh(?:_|\-)(?:cn|sg|my|chs)|zh|chs|zho$/.test(lang.toLowerCase())
 export const IsCht = (lang = 'zh_tw') => /^zh(?:_|\-)(?:tw|hk|mo|cht)|cht$/.test(lang.toLowerCase())
 
-export const generateUUID = async (): Promise<string> => {
-    // @ts-ignore
-    if (typeof process !== 'undefined' && !process?.browser) {
-        const {webcrypto} = await import('crypto')
-        return webcrypto.randomUUID()
-    } else if (typeof window !== 'undefined') {
-        return crypto.randomUUID()
-    } else {
-        return ''
-    }
-}
+export const generateUUID = async (): Promise<string> => cryptoHandle.randomUUID() || ''
