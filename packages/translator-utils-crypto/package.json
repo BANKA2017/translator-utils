@@ -6,6 +6,9 @@
     "types": "index.node.d.ts",
     "exports": {
         ".": {
+            "workerd": {
+                "default": "./index.js"
+            },
             "browser": {
                 "default": "./index.js"
             },

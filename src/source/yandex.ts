@@ -3,9 +3,7 @@ import { SupportedLanguage, YANDEX_LANGUAGE, generateUUID } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 
 //from yandex browser
-const generateSid = async () => {
-    return (await generateUUID()).replaceAll('-', '')
-}
+const generateSid = () => generateUUID().replaceAll('-', '')
 
 const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'> => {
     if (!text) {return '_'}
@@ -14,7 +12,7 @@ const YandexDetect = async (text: string | string[] = ''): Promise<string | '_'>
     }
     try {
         const languageResult = await axiosFetch.get('https://translate.yandex.net/api/v1/tr.json/detect?' + (new URLSearchParams({
-            sid: await generateSid(),
+            sid: generateSid(),
             srv: 'android',// or 'ios'
             text,
             //hint: 'en,zh'
@@ -41,7 +39,7 @@ const YandexTranslator: TranslatorModuleFunction<"yandex"> = async (text: string
 
     return await new Promise(async (resolve, reject) => {
         axiosFetch.post('https://translate.yandex.net/api/v1/tr.json/translate?' + (new URLSearchParams({
-            id: `${await generateSid()}-0-0`,
+            id: `${generateSid()}-0-0`,
             srv: 'android' // ios
         })).toString(), (new URLSearchParams({
             source_lang: lang,
@@ -71,7 +69,7 @@ const YandexBrowserTranslator: TranslatorModuleFunction<"yandex_browser"> = asyn
     let query = new URLSearchParams({
         translateMode: 'context',
         context_title: 'Twitter Monitor Translator',
-        id: `${await generateSid()}-0-0`,
+        id: `${generateSid()}-0-0`,
         srv: 'yabrowser',
         lang: `${lang}-${target}`,
         format: 'html',

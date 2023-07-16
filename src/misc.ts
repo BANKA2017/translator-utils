@@ -18,4 +18,4 @@ export const SupportedLanguage = (List: string[], language: string): boolean => 
 export const IsChs = (lang = 'zh') => /^zh(?:_|\-)(?:cn|sg|my|chs)|zh|chs|zho$/.test(lang.toLowerCase())
 export const IsCht = (lang = 'zh_tw') => /^zh(?:_|\-)(?:tw|hk|mo|cht)|cht$/.test(lang.toLowerCase())
 
-export const generateUUID = async (): Promise<string> => cryptoHandle.randomUUID() || ''
+export const generateUUID = (): string => cryptoHandle.randomUUID() || ''
