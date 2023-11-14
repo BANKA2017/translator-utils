@@ -27,5 +27,8 @@ jobs:
                 REPO: git@github.com:BANKA2017/translator-utils.git
                 BRANCH: npm
                 FOLDER: npm
+                COMMIT_NAME: ${{ secrets.COMMIT_NAME }}
+                COMMIT_EMAIL: ${{ secrets.COMMIT_EMAIL }}
+                SQUASH_HISTORY: true
                 MESSAGE: "npm: {msg} ~ {sha}"
                 SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
