@@ -17,5 +17,4 @@
     "compileOnSave": false,
     "exclude": ["tests", "lib", "dist", "node_modules"],
     "include": ["src"]
-  }
-  
+}

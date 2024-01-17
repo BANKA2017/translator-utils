@@ -1,6 +1,7 @@
 {
-  "compilerOptions": {
-      "declaration": true
-  },
-  "extends": "./tsconfig.rollup.json"
+    "compilerOptions": {
+        "declaration": true,
+        "module": "NodeNext"
+    },
+    "extends": "./tsconfig.rollup.json"
 }

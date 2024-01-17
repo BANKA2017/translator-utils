@@ -1,5 +1,5 @@
-import { expect, test, describe } from "vitest"
-import { GoogleBrowserTranslate, GoogleTranslate, GoogleTranslateTk } from "../src/source/google"
+import { expect, test, describe } from 'vitest'
+import { GoogleBrowserTranslate, GoogleTranslate, GoogleTranslateTk } from '../src/source/google'
 
 test('Google TK', async () => {
     expect(GoogleTranslateTk('test content')).toEqual('531820.985965')

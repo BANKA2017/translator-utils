@@ -1,4 +1,4 @@
-import { describe, test } from "vitest"
+import { describe, test } from 'vitest'
 import { SogouBrowserTranslator } from '../src/source/sogou'
 
 describe('Sogou translator(browser)', () => {

@@ -1,13 +1,26 @@
-export type TranslatorModuleFunction<P extends Platform> = <R extends boolean = false>(text: string | string[], source: TargetFilter[P] | "auto", target: TargetFilter[P], raw?: R) => Promise<R extends true ? any : string>
+export type TranslatorModuleFunction<P extends Platform> = <R extends boolean = false>(
+    text: string | string[],
+    source: TargetFilter[P] | 'auto',
+    target: TargetFilter[P],
+    raw?: R,
+    ext?: { [p in string]: unknown }
+) => Promise<R extends true ? any : string>
 
-export type TranslatorFunction = <P extends Platform, R extends boolean= false>(text: string | string[], platform: P, source: TargetFilter[P] | "auto", target: TargetFilter[P], raw?: R) => Promise<TranslatorResult<NonNullable<R>>>
+export type TranslatorFunction = <P extends Platform, R extends boolean = false>(
+    text: string | string[],
+    platform: P,
+    source: TargetFilter[P] | 'auto',
+    target: TargetFilter[P],
+    raw?: R,
+    ext?: { [p in string]: unknown }
+) => Promise<TranslatorResult<NonNullable<R>>>
 export interface TranslatorResult<K extends boolean> {
-    content: K extends true ? any : string;
+    content: K extends true ? any : string
     message: string
 }
 
-export type Platform = 'google'|'google_browser'|'microsoft'|'microsoft_browser'|'sogou'|'sogou_browser'|'yandex'|'yandex_browser'|'baidu'|'deepl'
-export type BrowserPlatform = 'google_browser'|'microsoft_browser'|'sogou'|'sogou_browser'|'yandex_browser'
+export type Platform = 'google' | 'google_browser' | 'microsoft' | 'microsoft_browser' | 'sogou' | 'sogou_browser' | 'yandex' | 'yandex_browser' | 'baidu' | 'deepl'
+export type BrowserPlatform = 'google_browser' | 'microsoft_browser' | 'sogou' | 'sogou_browser' | 'yandex_browser'
 
 export type TargetFilter = {
     baidu: BAIDU_LIST

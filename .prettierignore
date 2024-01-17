@@ -1,0 +1,6 @@
+package-lock.json
+node_modules/
+.yarn/
+dist/
+src/types.ts
+src/misc.ts

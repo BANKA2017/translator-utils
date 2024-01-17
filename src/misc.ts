@@ -1,5 +1,5 @@
-import { TargetFilter } from "types.js"
-import cryptoHandle from "translator-utils-crypto"
+import { TargetFilter } from 'types.js'
+import cryptoHandle from 'translator-utils-crypto'
 
 export const BAIDU_LANGUAGE: TargetFilter["baidu"][] = ["zh","jp","jpka","th","fra","en","spa","kor","tr","vie","ms","de","ru","ir","ara","est","be","bul","hi","is","pl","fa","dan","tl","fin","nl","ca","cs","hr","lv","lt","rom","af","no","pt_br","pt","swe","sr","eo","sk","slo","sw","uk","iw","el","hu","hy","it","id","sq","am","as","az","eu","bn","bs","gl","ka","gu","ha","ig","iu","ga","zu","kn","kk","ky","lb","mk","mt","mi","mr","ne","or","pa","qu","tn","si","ta","tt","te","ur","uz","cy","yo","yue","wyw","cht"]
 
@@ -12,10 +12,10 @@ export const BING_LANGUAGE: TargetFilter["microsoft"][] = ["lzh","ikt","iu-latn"
 export const SOGOU_LANGUAGE: TargetFilter["sogou"][] = ["ar","pl","da","de","ru","fr","fi","ko","nl","cs","pt","ja","sv","th","tr","es","hu","en","it","vi","zh-CHS"]
 export const YANDEX_LANGUAGE: TargetFilter["yandex"][] = ["af","sq","am","ar","hy","az","ba","eu","be","bn","bs","bg","my","ca","ceb","zh","cv","hr","cs","da","nl","sjn","emj","en","eo","et","fi","fr","gl","ka","de","el","gu","ht","he","mrj","hi","hu","is","id","ga","it","ja","jv","kn","kk","kazlat","km","ko","ky","lo","la","lv","lt","lb","mk","mg","ms","ml","mt","mi","mr","mhr","mn","ne","no","pap","fa","pl","pt","pt-br","pa","ro","ru","gd","sr","sr-latn","si","sk","sl","es","su","sw","sv","tl","tg","ta","tt","te","th","tr","udm","uk","ur","uz","uzbcyr","vi","cy","xh","sah","yi","zu"]
 export const SupportedLanguage = (List: string[], language: string): boolean => {
-    return List.map(x => x.toLowerCase()).includes(language.toLowerCase())
+    return List.map((x) => x.toLowerCase()).includes(language.toLowerCase())
 }
 
 export const IsChs = (lang = 'zh') => /^zh(?:_|\-)(?:cn|sg|my|chs)|zh|chs|zho$/.test(lang.toLowerCase())
 export const IsCht = (lang = 'zh_tw') => /^zh(?:_|\-)(?:tw|hk|mo|cht)|cht$/.test(lang.toLowerCase())
 
-export const generateUUID = (): string => cryptoHandle.randomUUID() || ''
+export const generateUUID = (): string => cryptoHandle.randomUUID() || '00000000-0000-0000-0000-000000000000'

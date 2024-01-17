@@ -40,6 +40,7 @@
         "@rollup/plugin-terser": "^0.4.0",
         "@rollup/plugin-typescript": "^11.0.0",
         "@types/node": "20.3.1",
+        "prettier": "^3.2.3",
         "rollup": "^3.19.1",
         "rollup-plugin-bundle-size": "^1.0.3",
         "rollup-plugin-cleanup": "^3.2.1",
@@ -53,7 +54,9 @@
         "build:umd": "npx rollup -c rollup.config.js",
         "rebuild": "npm run clean && npm run build:umd",
         "clean": "rm -rf lib/* dist/*",
-        "test": "npx vitest"
+        "test": "npx vitest",
+        "lint": "npx prettier --check .",
+        "format": "npx prettier --write ."
     },
     "workspaces": [
         "packages/*"

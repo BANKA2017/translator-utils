@@ -18,17 +18,17 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - name: yarn install and build
               run: |
-                yarn
-                yarn run build:umd
-                mkdir npm && mv dist LICENSE README.md package.json npm && mv npm/dist/esm/index.browser.d.ts npm/dist/esm/translator.mod.d.ts
+                  yarn
+                  yarn run build:umd
+                  mkdir npm && mv dist LICENSE README.md package.json npm && mv npm/dist/esm/index.browser.d.ts npm/dist/esm/translator.mod.d.ts
             - name: Deploy
               uses: s0/git-publish-subdir-action@develop
               env:
-                REPO: git@github.com:BANKA2017/translator-utils.git
-                BRANCH: npm
-                FOLDER: npm
-                COMMIT_NAME: ${{ secrets.COMMIT_NAME }}
-                COMMIT_EMAIL: ${{ secrets.COMMIT_EMAIL }}
-                SQUASH_HISTORY: true
-                MESSAGE: "npm: {msg} ~ {sha}"
-                SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+                  REPO: git@github.com:BANKA2017/translator-utils.git
+                  BRANCH: npm
+                  FOLDER: npm
+                  COMMIT_NAME: ${{ secrets.COMMIT_NAME }}
+                  COMMIT_EMAIL: ${{ secrets.COMMIT_EMAIL }}
+                  SQUASH_HISTORY: true
+                  MESSAGE: 'npm: {msg} ~ {sha}'
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

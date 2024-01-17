@@ -1,10 +1,9 @@
 /// <reference path="index.node.d.ts" />
-import { HttpsProxyAgent } from "hpagent"
+import { HttpsProxyAgent } from 'hpagent'
 import https from 'node:https'
 
 class AxiosRequest {
-    requestHandle (url, postData, options = {}) {
-
+    requestHandle(url, postData, options = {}) {
         const HTTPS_PROXY = process.env.https_proxy ?? process.env.HTTPS_PROXY ?? ''
 
         if (HTTPS_PROXY && HttpsProxyAgent) {
@@ -15,12 +14,12 @@ class AxiosRequest {
         }
         const defaultUA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
         if (!options.headers) {
-            options.headers = {'user-agent': defaultUA}
+            options.headers = { 'user-agent': defaultUA }
         } else {
             options.headers['user-agent'] = defaultUA
         }
-        
-        const validPostRequest = (options?.method??'').toLowerCase() === 'post' && postData
+
+        const validPostRequest = (options?.method ?? '').toLowerCase() === 'post' && postData
         if (!options.headers['content-type']) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded'
         }
@@ -52,7 +51,7 @@ class AxiosRequest {
         })
     }
     //https://stackoverflow.com/questions/9804777/how-to-test-if-a-string-is-json-or-not
-    isJson (str) {
+    isJson(str) {
         try {
             JSON.parse(str)
         } catch (e) {
@@ -60,7 +59,7 @@ class AxiosRequest {
         }
         return true
     }
-    responseBuilder (res, data) {
+    responseBuilder(res, data) {
         const dataString = data.toString()
         const isJson = this.isJson(dataString)
         return {
@@ -70,14 +69,14 @@ class AxiosRequest {
             data: isJson ? JSON.parse(dataString) : dataString
         }
     }
-    get (url, options = {}) {
-        return this.requestHandle(url, null, {method: 'GET', ...options})
+    get(url, options = {}) {
+        return this.requestHandle(url, null, { method: 'GET', ...options })
     }
-    post (url, data = '', options = {}) {
-        return this.requestHandle(url, data, {method: 'POST', ...options})
+    post(url, data = '', options = {}) {
+        return this.requestHandle(url, data, { method: 'POST', ...options })
     }
 }
 
-const axiosFetch = new AxiosRequest
+const axiosFetch = new AxiosRequest()
 
 export default axiosFetch
