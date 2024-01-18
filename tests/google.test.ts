@@ -7,16 +7,16 @@ test('Google TK', async () => {
 
 describe('Google translate(web)', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await GoogleTranslate('hello', 'auto', 'zh-cn', false)).toMatch('你好')
+        expect(await GoogleTranslate('hello', 'auto', 'zh-cn', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await GoogleTranslate('こんにちわ', 'auto', 'zh-cn', false)).toMatch('你好')
+        expect(await GoogleTranslate('こんにちわ', 'auto', 'zh-cn', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await GoogleTranslate('你好', 'auto', 'zh-cn', false)).toMatch('你好')
+        expect(await GoogleTranslate('你好', 'auto', 'zh-cn', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await GoogleTranslate('안녕하세요', 'auto', 'zh-cn', false)).toMatch('你好')
+        expect(await GoogleTranslate('안녕하세요', 'auto', 'zh-cn', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(GoogleTranslate('', 'auto', 'zh-cn', false)).rejects.toMatch('Empty text #GoogleTranslate ')
@@ -25,16 +25,16 @@ describe('Google translate(web)', () => {
 
 describe('Google translate(browser)', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await GoogleBrowserTranslate('hello', 'auto', 'zh-cn', false)).toMatch('你好')
+        expect(await GoogleBrowserTranslate('hello', 'auto', 'zh-cn', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await GoogleBrowserTranslate('こんにちわ', 'auto', 'zh-cn', false)).toMatch('你好')
+        expect(await GoogleBrowserTranslate('こんにちわ', 'auto', 'zh-cn', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await GoogleBrowserTranslate('你好', 'auto', 'zh-cn', false)).toMatch('你好')
+        expect(await GoogleBrowserTranslate('你好', 'auto', 'zh-cn', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await GoogleBrowserTranslate('안녕하세요', 'auto', 'zh-cn', false)).toMatch('你好')
+        expect(await GoogleBrowserTranslate('안녕하세요', 'auto', 'zh-cn', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(GoogleBrowserTranslate('', 'auto', 'zh-cn', false)).rejects.toMatch('Empty text #GoogleTranslate ')

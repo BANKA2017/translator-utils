@@ -10,10 +10,10 @@ This is an early release version, everything are subject to change, please **DO 
 
 ## Predict (Nodejs/Deno)
 
-`baidu` and `yandex` only
+`baidu` / `yandex` / `microsoft`
 
 ```javascript
-import { BaiduLanguagePredict, YandexDetect } from '@kdwnil/translator-utils'
+import { BaiduLanguagePredict, YandexDetect, MicrosoftBrowserPredict } from '@kdwnil/translator-utils'
 
 await BaiduLanguagePredict('hello') // en
 await BaiduLanguagePredict('你好') // zh
@@ -22,6 +22,23 @@ await BaiduLanguagePredict('') // _
 await YandexDetect('hello') // en
 await YandexDetect('你好') // zh
 await YandexDetect('') // _
+
+const jwt = await GetMicrosoftBrowserTranslatorAuth()
+await MicrosoftBrowserPredict(['hello', '你好'], jwt)
+// [
+//   {
+//     "isTranslationSupported": true,
+//     "isTransliterationSupported": false,
+//     "language": "en",
+//     "score": 1.0
+//   },
+//   {
+//     "isTranslationSupported": true,
+//     "isTransliterationSupported": true,
+//     "language": "zh-Hant",
+//     "score": 0.67
+//   }
+// ]
 ```
 
 ## Translator

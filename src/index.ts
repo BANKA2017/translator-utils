@@ -1,7 +1,7 @@
 import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken } from './source/baidu.js'
 import { DeepL } from './source/deepl.js'
 import { GoogleTranslate, GoogleBrowserTranslate } from './source/google.js'
-import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken } from './source/microsoft.js'
+import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict } from './source/microsoft.js'
 import { SogouBrowserTranslator } from './source/sogou.js'
 import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from './source/yandex.js'
 
@@ -46,6 +46,21 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
     return result
 }
 
-export { BaiduLanguagePredict, YandexDetect, BaiduTranslator, DeepL, GoogleBrowserTranslate, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexTranslator, YandexBrowserTranslator, IsChs, IsCht }
+export {
+    BaiduLanguagePredict,
+    YandexDetect,
+    MicrosoftBrowserPredict,
+    BaiduTranslator,
+    DeepL,
+    GoogleBrowserTranslate,
+    GoogleTranslate,
+    MicrosoftBrowserTranslator,
+    MicrosoftTranslator,
+    SogouBrowserTranslator,
+    YandexTranslator,
+    YandexBrowserTranslator,
+    IsChs,
+    IsCht
+}
 export { GetBaiduTranslatorToken, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken }
 export default Translator

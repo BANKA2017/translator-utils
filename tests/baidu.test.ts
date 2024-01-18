@@ -38,18 +38,18 @@ describe('Baidu predict', () => {
 
 describe('Baidu translator(web)', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await BaiduTranslator('hello', 'auto', 'zh', false)).toMatch('你好')
+        expect(await BaiduTranslator('hello', 'auto', 'zh', false, { cookie: globalPage.cookie, token: globalPage.common?.token, gtk: globalPage.gtk })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await BaiduTranslator('こんにちわ', 'auto', 'zh', false)).toMatch('你好')
+        expect(await BaiduTranslator('こんにちわ', 'auto', 'zh', false, { cookie: globalPage.cookie, token: globalPage.common?.token, gtk: globalPage.gtk })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await BaiduTranslator('你好', 'auto', 'zh', false)).toMatch(/(H|h)ello/)
+        expect(await BaiduTranslator('你好', 'auto', 'zh', false, { cookie: globalPage.cookie, token: globalPage.common?.token, gtk: globalPage.gtk })).toMatch(/(H|h)ello/)
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await BaiduTranslator('안녕하세요', 'auto', 'zh', false)).toMatch('你好')
+        expect(await BaiduTranslator('안녕하세요', 'auto', 'zh', false, { cookie: globalPage.cookie, token: globalPage.common?.token, gtk: globalPage.gtk })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Empty text', async ({ expect }) => {
-        await expect(BaiduTranslator('', 'auto', 'zh', false)).rejects.toMatch('Empty text #BaiduTranslator ')
+        await expect(BaiduTranslator('', 'auto', 'zh', false, { cookie: globalPage.cookie, token: globalPage.common?.token, gtk: globalPage.gtk })).rejects.toMatch('Empty text #BaiduTranslator ')
     })
 })

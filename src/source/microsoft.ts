@@ -103,6 +103,37 @@ const GetMicrosoftBrowserTranslatorAuth = async () => {
     }
 }
 
+type MicrosoftBrowserPredictResponseType = {
+    isTranslationSupported: boolean
+    isTransliterationSupported: boolean
+    language: string
+    score: number
+}
+
+const MicrosoftBrowserPredict = async (text: string | string[] = '', jwt = ''): Promise<MicrosoftBrowserPredictResponseType[]> => {
+    if (!text || !jwt) {
+        return []
+    }
+
+    let content = []
+
+    if (!Array.isArray(text)) {
+        content.push({ Text: text })
+    } else {
+        content.push(...text.map((x) => ({ Text: x })))
+    }
+    try {
+        const languageResult = await axiosFetch.post('https://api.cognitive.microsofttranslator.com/detect?api-version=3.0', JSON.stringify(content), { headers: { authorization: jwt, 'content-type': 'application/json' } })
+        if (!languageResult.data?.error && Array.isArray(languageResult.data)) {
+            return languageResult.data
+        } else {
+            return []
+        }
+    } catch (e) {
+        return []
+    }
+}
+
 const MicrosoftBrowserTranslator: TranslatorModuleFunction<'microsoft_browser'> = async (text = '', source = 'auto', target, raw, ext = {}) => {
     if (!text) {
         return Promise.reject('Empty text #MicrosoftTranslator ')
@@ -146,4 +177,5 @@ const MicrosoftBrowserTranslator: TranslatorModuleFunction<'microsoft_browser'> 
     }
 }
 
-export { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken }
+export type { MicrosoftBrowserPredictResponseType }
+export { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, MicrosoftBrowserPredict, GetMicrosoftTranslatorToken }

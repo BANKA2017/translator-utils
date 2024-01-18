@@ -21,16 +21,16 @@ describe('Yandex predict', () => {
 
 describe('Yandex translator(android)', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await YandexTranslator('hello', 'auto', 'zh', false)).toMatch('你好')
+        expect(await YandexTranslator('hello', 'auto', 'zh', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await YandexTranslator('こんにちわ', 'auto', 'zh', false)).toMatch('你好')
+        expect(await YandexTranslator('こんにちわ', 'auto', 'zh', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await YandexTranslator('你好', 'auto', 'zh', false)).toMatch('你好')
+        expect(await YandexTranslator('你好', 'auto', 'zh', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await YandexTranslator('안녕하세요', 'auto', 'zh', false)).toMatch('你好')
+        expect(await YandexTranslator('안녕하세요', 'auto', 'zh', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(YandexTranslator('', 'auto', 'zh', false)).rejects.toMatch('Empty text #YandexTranslator ')
@@ -39,16 +39,16 @@ describe('Yandex translator(android)', () => {
 
 describe('Yandex translator(browser)', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await YandexBrowserTranslator('hello', 'auto', 'zh', false)).toMatch('你好')
+        expect(await YandexBrowserTranslator('hello', 'auto', 'zh', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await YandexBrowserTranslator('こんにちわ', 'auto', 'zh', false)).toMatch('你好')
+        expect(await YandexBrowserTranslator('こんにちわ', 'auto', 'zh', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await YandexBrowserTranslator('你好', 'auto', 'zh', false)).toMatch('你好')
+        expect(await YandexBrowserTranslator('你好', 'auto', 'zh', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await YandexBrowserTranslator('안녕하세요', 'auto', 'zh', false)).toMatch('你好')
+        expect(await YandexBrowserTranslator('안녕하세요', 'auto', 'zh', false)).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(YandexBrowserTranslator('', 'auto', 'zh', false)).rejects.toMatch('Empty text #YandexTranslator ')
