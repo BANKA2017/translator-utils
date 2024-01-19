@@ -53,7 +53,7 @@
         "build": "npx tsc -p tsconfig.json --outDir lib/",
         "build:umd": "npx rollup -c rollup.config.js",
         "rebuild": "npm run clean && npm run build && npm run build:umd",
-        "clean": "rm -r lib/* dist/*",
+        "clean": "rm -rf lib/ dist/",
         "test": "npx vitest",
         "lint": "npx prettier --check .",
         "format": "npx prettier --write ."
