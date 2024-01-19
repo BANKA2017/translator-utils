@@ -5,7 +5,7 @@ export interface responseBuilder {
     statusText: string
     // @ts-ignore
     // set-cookie only invalid in browser
-    headers: { 'set-cookie'?: string[]; [p in string]: string | string[] }
+    headers: { 'set-cookie'?: string | string[]; 'content-type'?: string | string[]; 'content-length'?: string | string[]; [p in string]: string | string[] }
     data: Response
 }
 

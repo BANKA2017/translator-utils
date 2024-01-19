@@ -19,8 +19,8 @@ jobs:
             - name: yarn install and build
               run: |
                   yarn
-                  yarn run build:umd
-                  mkdir npm && mv dist LICENSE README.md package.json src npm && mv npm/dist/esm/index.browser.d.ts npm/dist/esm/translator.mod.d.ts
+                  yarn run rebuild
+                  mkdir npm && mv dist LICENSE README.md package.json lib npm && mv npm/dist/esm/index.browser.d.ts npm/dist/esm/translator.mod.d.ts
             - name: Deploy
               uses: s0/git-publish-subdir-action@develop
               env:

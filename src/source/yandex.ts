@@ -1,6 +1,7 @@
 import { TranslatorModuleFunction } from '../types.js'
-import { SupportedLanguage, YANDEX_LANGUAGE, generateUUID } from '../misc.js'
+import { SupportedLanguage, generateUUID } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
+import { YANDEX_LANGUAGE } from '../language.js'
 
 //from yandex browser
 const generateSid = () => generateUUID().replaceAll('-', '')
@@ -109,5 +110,7 @@ const YandexBrowserTranslator: TranslatorModuleFunction<'yandex_browser'> = asyn
             })
     })
 }
+
+// yandex tts use websocket...
 
 export { YandexDetect, YandexTranslator, YandexBrowserTranslator }

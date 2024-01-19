@@ -1,7 +1,8 @@
 import { TranslatorModuleFunction } from '../types.js'
-import { DEEPL_LANGUAGE, SupportedLanguage } from '../misc.js'
+import { SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 import cryptoHandle from 'translator-utils-crypto'
+import { DEEPL_LANGUAGE } from '../language.js'
 
 const getId = () => cryptoHandle.getRandomValues(new Uint32Array(1))[0]
 
@@ -47,5 +48,7 @@ const DeepL: TranslatorModuleFunction<'deepl'> = async (text: string | string[] 
             })
     })
 }
+
+// deepl use system tts
 
 export { DeepL }

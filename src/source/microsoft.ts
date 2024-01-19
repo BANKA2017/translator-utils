@@ -1,6 +1,8 @@
-import { BING_LANGUAGE, SupportedLanguage } from '../misc.js'
-import { TranslatorModuleFunction } from '../types.js'
+import type { TTSModuleFunction, TranslatorModuleFunction } from '../types.js'
+
+import { SupportedLanguage } from '../misc.js'
 import axiosFetch, { responseBuilder } from 'translator-utils-axios-helper'
+import { MICROSOFT_TTS_LIST, BING_LANGUAGE } from '../language.js'
 
 const GetMicrosoftTranslatorToken = async () => {
     let response: { IG: string; token: string; key: number; message: string } = { IG: '', token: '', key: 0, message: '' }
@@ -177,5 +179,46 @@ const MicrosoftBrowserTranslator: TranslatorModuleFunction<'microsoft_browser'> 
     }
 }
 
+const MicrosoftTTS: TTSModuleFunction<'microsoft_tts'> = async (lang = 'en', text = '', ext = {}) => {
+    try {
+        // get IG, token and key
+        let IG = '',
+            token = '',
+            key = 0
+        if (ext.IG && typeof ext.IG === 'string' && ext.token && typeof ext.token === 'string' && ext.key && typeof ext.key === 'number') {
+            IG = ext.IG
+            token = ext.token
+            key = ext.key
+        }
+        // find model
+        const modelInfo = MICROSOFT_TTS_LIST.find((msTTSItem) => msTTSItem.code === lang.toLocaleLowerCase())
+        if (modelInfo) {
+            const response = await axiosFetch.post(
+                'https://www.bing.com/tfettts?' +
+                    new URLSearchParams({
+                        isVertical: '1',
+                        IG,
+                        IID: 'translator.5023.2'
+                    }).toString(),
+                new URLSearchParams({
+                    ssml: `<speak version='1.0' xml:lang='${modelInfo.language}'><voice xml:lang='${modelInfo.language}' xml:gender='${modelInfo.gender}' name='${modelInfo.model}'><prosody rate='-20.00%'>${text}</prosody></voice></speak>`,
+                    token,
+                    key: key.toString()
+                }).toString(),
+                { responseType: 'arraybuffer' }
+            )
+            return {
+                buffer: response.data,
+                content_length: response.data?.byteLength || response.data?.length || 0,
+                content_type: ((Array.isArray(response.headers['content-type']) ? response.headers['content-type'].join(' ') : response.headers['content-type']) || '').split(';')[0]
+            }
+        } else {
+            return { buffer: new Uint8Array().buffer, content_type: '', content_length: 0 }
+        }
+    } catch {
+        return { buffer: new Uint8Array().buffer, content_type: '', content_length: 0 }
+    }
+}
+
 export type { MicrosoftBrowserPredictResponseType }
-export { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, MicrosoftBrowserPredict, GetMicrosoftTranslatorToken }
+export { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, MicrosoftBrowserPredict, GetMicrosoftTranslatorToken, MicrosoftTTS }

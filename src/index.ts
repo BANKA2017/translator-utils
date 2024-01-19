@@ -1,12 +1,13 @@
-import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken } from './source/baidu.js'
+import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, BaiduTTS } from './source/baidu.js'
 import { DeepL } from './source/deepl.js'
-import { GoogleTranslate, GoogleBrowserTranslate } from './source/google.js'
-import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict } from './source/microsoft.js'
-import { SogouBrowserTranslator } from './source/sogou.js'
+import { GoogleTranslate, GoogleBrowserTranslate, GoogleTTS } from './source/google.js'
+import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftTTS } from './source/microsoft.js'
+import { SogouBrowserTranslator, SogouTTS } from './source/sogou.js'
 import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from './source/yandex.js'
 
 import { IsChs, IsCht } from './misc.js'
-import { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, TranslatorFunction, YANDEX_LIST } from 'types.js'
+import type { TranslatorFunction } from 'types.js'
+import type { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, YANDEX_LIST } from 'language.js'
 
 const Translator: TranslatorFunction = async (text = '', platform, source, target, raw, ext = {}) => {
     let result = { content: '', message: '' }
@@ -58,9 +59,9 @@ export {
     MicrosoftTranslator,
     SogouBrowserTranslator,
     YandexTranslator,
-    YandexBrowserTranslator,
-    IsChs,
-    IsCht
+    YandexBrowserTranslator
 }
 export { GetBaiduTranslatorToken, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken }
+export { IsChs, IsCht }
+export { GoogleTTS, MicrosoftTTS, BaiduTTS, SogouTTS }
 export default Translator

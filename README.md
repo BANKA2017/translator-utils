@@ -78,6 +78,26 @@ console.log(await Translator('hello', 'microsoft_browser', 'auto', 'zh-hans', fa
 
 To know more, view files in [~/src/source](https://github.com/BANKA2017/translator-utils/tree/master/src/source)
 
+## TTS
+
+`google`/`microsoft_tts`/`baidu`/`sogou`
+
+```javascript
+import { BaiduTTS, GetMicrosoftTranslatorToken, MicrosoftTTS, GoogleTTS, SogouTTS } from '@kdwnil/translator-util'
+
+// google
+console.log(await GoogleTTS('en', 'hi'))
+
+// ms
+const msToken = await GetMicrosoftTranslatorToken()
+console.log(await MicrosoftTTS('en', 'hi', { IG: msToken.IG, token: msToken.token, key: msToken.key }))
+
+// baidu & sogou
+// * baidu always returns an empty response
+console.log(await BaiduTTS('en', 'hi'))
+console.log(await SogouTTS('en', 'hi'))
+```
+
 ## Browser
 
 Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftBrowserTranslator` or `SogouBrowserTranslator` in browser.

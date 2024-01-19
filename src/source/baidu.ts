@@ -1,7 +1,8 @@
-import { TranslatorModuleFunction } from '../types.js'
-import { BAIDU_LANGUAGE, SupportedLanguage } from '../misc.js'
+import type { TTSModuleFunction, TranslatorModuleFunction } from '../types.js'
+import { SupportedLanguage } from '../misc.js'
 import { GoogleTranslateTk } from './google.js'
 import axiosFetch from 'translator-utils-axios-helper'
+import { BAIDU_LANGUAGE } from '../language.js'
 
 //const gtk =[320305, 131321201]
 
@@ -39,8 +40,9 @@ const GetBaiduTranslatorToken = async (cookie = '', loop = 0): Promise<GetBaiduT
             headers: { cookie }
         })
         if (tmpWebPage.headers['set-cookie']) {
+            const tmpBaiduCookie = Array.isArray(tmpWebPage.headers['set-cookie']) ? tmpWebPage.headers['set-cookie'] : [tmpWebPage.headers['set-cookie']]
             //get cookie again
-            return GetBaiduTranslatorToken(tmpWebPage.headers['set-cookie'].map((cookie) => cookie.split(';')[0]).join(';'), ++loop)
+            return GetBaiduTranslatorToken(tmpBaiduCookie.map((cookie) => cookie.split(';')[0]).join(';'), ++loop)
         } else {
             resultContent.page = tmpWebPage.data
             try {
@@ -154,4 +156,26 @@ const BaiduTranslator: TranslatorModuleFunction<'baidu'> = async (text = '', sou
     })
 }
 
-export { BaiduTranslator, BaiduLanguagePredict, GetBaiduTranslatorToken }
+const BaiduTTS: TTSModuleFunction<'baidu_tts'> = async (lang = 'en', text = '', ext = {}) => {
+    try {
+        const response = await axiosFetch.get(
+            'https://fanyi.baidu.com/gettts?' +
+                new URLSearchParams({
+                    lan: lang,
+                    text: Array.isArray(text) ? text.join('\n') : text,
+                    spd: lang === 'zh' ? '5' : '3',
+                    source: 'web'
+                }).toString(),
+            { responseType: 'arraybuffer' }
+        )
+        return {
+            buffer: response.data,
+            content_length: response.data?.byteLength || response.data?.length || 0,
+            content_type: ((Array.isArray(response.headers['content-type']) ? response.headers['content-type'].join(' ') : response.headers['content-type']) || '').split(';')[0]
+        }
+    } catch {
+        return { buffer: new Uint8Array().buffer, content_type: '', content_length: 0 }
+    }
+}
+
+export { BaiduTranslator, BaiduLanguagePredict, GetBaiduTranslatorToken, BaiduTTS }

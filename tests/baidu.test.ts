@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, GetBaiduTranslatorTokenResult } from '../src/source/baidu'
+import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, BaiduTTS } from '../lib/index.js'
+import { GetBaiduTranslatorTokenResult } from '../lib/source/baidu.js'
 
 let globalPage: GetBaiduTranslatorTokenResult = {
     message: null,
@@ -52,4 +53,11 @@ describe('Baidu translator(web)', () => {
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(BaiduTranslator('', 'auto', 'zh', false, { cookie: globalPage.cookie, token: globalPage.common?.token, gtk: globalPage.gtk })).rejects.toMatch('Empty text #BaiduTranslator ')
     })
+})
+
+// Note: baidu tts is always return an empty response
+test('Baidu TTS', async () => {
+    const baiduTTS = await BaiduTTS('en', 'hi')
+    expect(baiduTTS.content_length).toBeGreaterThan(0)
+    expect(baiduTTS.content_type).toMatch('audio/')
 })

@@ -1,6 +1,7 @@
-import { TranslatorModuleFunction } from '../types.js'
-import { GOOGLE_LANGUAGE, SupportedLanguage } from '../misc.js'
+import { TTSModuleFunction, TranslatorModuleFunction } from '../types.js'
+import { SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
+import { GOOGLE_LANGUAGE } from '../language.js'
 
 const GoogleTranslate: TranslatorModuleFunction<'google'> = async (text = '', source = 'auto', target, raw, ext = {}) => {
     if (!text) {
@@ -155,4 +156,28 @@ const GoogleTranslateTk = (originalText: string | string[] = '', tkk: number[] =
     return a.toString() + '.' + (a ^ tkk[0])
 }
 
-export { GoogleTranslate, GoogleBrowserTranslate, GoogleTranslateTk }
+const GoogleTTS: TTSModuleFunction<'google'> = async (lang = 'en', text = '', ext = {}) => {
+    try {
+        text = Array.isArray(text) ? text.join('\n') : text
+        const response = await axiosFetch.get(
+            'https://translate.googleapis.com/translate_tts?' +
+                new URLSearchParams({
+                    //tk: GoogleTranslateTk(text),
+                    client: 'tw-ob',
+                    q: text,
+                    tl: lang,
+                    ttsspeed: '0.8' // unused
+                }).toString(),
+            { responseType: 'arraybuffer' }
+        )
+        return {
+            buffer: response.data,
+            content_length: response.data?.byteLength || response.data?.length || 0,
+            content_type: ((Array.isArray(response.headers['content-type']) ? response.headers['content-type'].join(' ') : response.headers['content-type']) || '').split(';')[0]
+        }
+    } catch {
+        return { buffer: new Uint8Array().buffer, content_type: '', content_length: 0 }
+    }
+}
+
+export { GoogleTranslate, GoogleBrowserTranslate, GoogleTranslateTk, GoogleTTS }

@@ -1,5 +1,5 @@
-import { describe, test } from 'vitest'
-import { SogouBrowserTranslator } from '../src/source/sogou'
+import { describe, expect, test } from 'vitest'
+import { SogouBrowserTranslator, SogouTTS } from '../lib/index.js'
 
 describe('Sogou translator(browser)', () => {
     test.concurrent('English', async ({ expect }) => {
@@ -17,4 +17,10 @@ describe('Sogou translator(browser)', () => {
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(SogouBrowserTranslator('', 'auto', 'zh-CHS', false)).rejects.toMatch('Empty text #SogouTranslator ')
     })
+})
+
+test('Sogou TTS', async () => {
+    const sogouTTS = await SogouTTS('en', 'hi')
+    expect(sogouTTS.content_length).toBeGreaterThan(0)
+    expect(sogouTTS.content_type).toMatch('audio/')
 })

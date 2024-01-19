@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftTranslator } from '../src/source/microsoft'
+import { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftTranslator, MicrosoftTTS } from '../lib/index.js'
 
 let jwt = ''
 test('Microsoft edge jwt', async () => {
@@ -58,4 +58,10 @@ describe('Microsoft edge translator(web)', () => {
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(MicrosoftBrowserTranslator('', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).rejects.toMatch('Empty text #MicrosoftTranslator ')
     })
+})
+
+test('Microsoft TTS', async () => {
+    const msTTS = await MicrosoftTTS('en', 'hi', { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })
+    expect(msTTS.content_length).toBeGreaterThan(0)
+    expect(msTTS.content_type).toMatch('audio/')
 })

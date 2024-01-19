@@ -1,8 +1,9 @@
 import { expect, test, describe } from 'vitest'
-import { GoogleBrowserTranslate, GoogleTranslate, GoogleTranslateTk } from '../src/source/google'
+import { GoogleBrowserTranslate, GoogleTranslate, GoogleTTS } from '../lib/index.js'
+import { GoogleTranslateTk } from '../lib/source/google.js'
 
 test('Google TK', async () => {
-    expect(GoogleTranslateTk('test content')).toEqual('531820.985965')
+    expect(GoogleTranslateTk('test content', [464385, 3806605782])).toEqual('531820.985965')
 })
 
 describe('Google translate(web)', () => {
@@ -39,4 +40,10 @@ describe('Google translate(browser)', () => {
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(GoogleBrowserTranslate('', 'auto', 'zh-cn', false)).rejects.toMatch('Empty text #GoogleTranslate ')
     })
+})
+
+test('Google TTS', async () => {
+    const googleTTS = await GoogleTTS('en', 'hi')
+    expect(googleTTS.content_length).toBeGreaterThan(0)
+    expect(googleTTS.content_type).toMatch('audio/')
 })

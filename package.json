@@ -1,13 +1,13 @@
 {
     "name": "@kdwnil/translator-utils",
     "private": true,
-    "version": "0.0.2-alpha.24",
+    "version": "0.0.2-alpha.25",
     "description": "translate utils",
     "homepage": "https://github.com/BANKA2017/translator-utils",
     "bugs": {
         "url": "https://github.com/BANKA2017/translator-utils/issues"
     },
-    "main": "dist/esm/index.js",
+    "main": "lib/index.js",
     "exports": {
         ".": {
             "workerd": {
@@ -50,10 +50,10 @@
         "vitest": "^0.34.5"
     },
     "scripts": {
-        "build": "npx tsc -p tsconfig.json",
+        "build": "npx tsc -p tsconfig.json --outDir lib/",
         "build:umd": "npx rollup -c rollup.config.js",
-        "rebuild": "npm run clean && npm run build:umd",
-        "clean": "rm -rf lib/* dist/*",
+        "rebuild": "npm run clean && npm run build && npm run build:umd",
+        "clean": "rm -r lib/* dist/*",
         "test": "npx vitest",
         "lint": "npx prettier --check .",
         "format": "npx prettier --write ."

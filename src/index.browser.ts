@@ -1,9 +1,10 @@
-import { YandexBrowserTranslator } from 'index.js'
+import { YandexBrowserTranslator } from './source/yandex.js'
 import { GoogleBrowserTranslate } from './source/google.js'
 import { MicrosoftBrowserTranslator } from './source/microsoft.js'
 import { SogouBrowserTranslator } from './source/sogou.js'
 
-import { BING_LIST, GOOGLE_LIST, SOGOU_LIST, TranslatorFunction, YANDEX_LIST } from 'types.js'
+import type { TranslatorFunction } from 'types.js'
+import type { BING_LIST, GOOGLE_LIST, SOGOU_LIST, YANDEX_LIST } from 'language.js'
 
 const Translator: TranslatorFunction = async (text = '', platform, source, target, raw, ext = {}) => {
     let result = { content: '', message: '' }
@@ -21,8 +22,8 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
             case 'sogou_browser':
                 result.content = await SogouBrowserTranslator(text, source as SOGOU_LIST, target as SOGOU_LIST, !!raw, ext)
                 break
-            case 'sogou':
-            case 'sogou_browser':
+            case 'yandex':
+            case 'yandex_browser':
                 result.content = await YandexBrowserTranslator(text, source as YANDEX_LIST, target as YANDEX_LIST, !!raw, ext)
                 break
         }
