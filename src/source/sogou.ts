@@ -1,4 +1,4 @@
-import { TTSModuleFunction, TranslatorModuleFunction } from '../types.js'
+import type { TTSModuleFunction, TranslatorModuleFunction } from '../types.js'
 import { SupportedLanguage, buffer_to_base64 } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 import cryptoHandle from 'translator-utils-crypto'

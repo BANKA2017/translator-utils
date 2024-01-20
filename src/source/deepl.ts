@@ -1,4 +1,4 @@
-import { TranslatorModuleFunction } from '../types.js'
+import type { TranslatorModuleFunction } from '../types.js'
 import { SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 import cryptoHandle from 'translator-utils-crypto'

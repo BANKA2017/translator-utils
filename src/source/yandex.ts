@@ -1,4 +1,4 @@
-import { TranslatorModuleFunction } from '../types.js'
+import type { TranslatorModuleFunction } from '../types.js'
 import { SupportedLanguage, generateUUID } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
 import { YANDEX_LANGUAGE } from '../language.js'

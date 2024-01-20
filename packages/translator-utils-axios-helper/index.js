@@ -5,7 +5,7 @@ class AxiosRequest {
             options.timeout = 30000
         }
 
-        const validPostRequest = (options?.method ?? '').toLowerCase() === 'post' && postData
+        const validPostRequest = (options?.method || '').toLowerCase() === 'post' && postData
         if (!options.headers) {
             options.headers = {}
         }

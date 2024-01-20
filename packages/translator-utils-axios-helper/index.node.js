@@ -4,7 +4,7 @@ import https from 'node:https'
 
 class AxiosRequest {
     requestHandle(url, postData, options = {}) {
-        const HTTPS_PROXY = process.env.https_proxy ?? process.env.HTTPS_PROXY ?? ''
+        const HTTPS_PROXY = process.env.https_proxy || process.env.HTTPS_PROXY || ''
 
         if (HTTPS_PROXY && HttpsProxyAgent) {
             options.agent = new HttpsProxyAgent({ proxy: HTTPS_PROXY })
@@ -19,7 +19,7 @@ class AxiosRequest {
             options.headers['user-agent'] = defaultUA
         }
 
-        const validPostRequest = (options?.method ?? '').toLowerCase() === 'post' && postData
+        const validPostRequest = (options?.method || '').toLowerCase() === 'post' && postData
         if (!options.headers['content-type']) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded'
         }
