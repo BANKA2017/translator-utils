@@ -1,6 +1,6 @@
 import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, BaiduTTS } from './source/baidu.js'
 import { DeepL } from './source/deepl.js'
-import { GoogleTranslate, GoogleBrowserTranslate, GoogleTTS } from './source/google.js'
+import { GoogleTranslate, GoogleBrowserTranslate, GoogleTTS, GoogleTranslateTk } from './source/google.js'
 import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftTTS } from './source/microsoft.js'
 import { SogouBrowserTranslator, SogouTTS } from './source/sogou.js'
 import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from './source/yandex.js'
@@ -62,6 +62,7 @@ export {
     YandexBrowserTranslator
 }
 export { GetBaiduTranslatorToken, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken }
+export { GoogleTranslateTk }
 export { IsChs, IsCht }
 export { GoogleTTS, MicrosoftTTS, BaiduTTS, SogouTTS }
 export default Translator

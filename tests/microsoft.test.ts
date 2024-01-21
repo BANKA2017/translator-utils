@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftTranslator, MicrosoftTTS } from '../lib/index.js'
+import { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftTranslator, MicrosoftTTS } from '../dist/esm/index.js'
 
 let jwt = ''
 test('Microsoft edge jwt', async () => {

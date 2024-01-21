@@ -1,5 +1,5 @@
 import { describe, test } from 'vitest'
-import { YandexDetect, YandexBrowserTranslator, YandexTranslator } from '../lib/index.js'
+import { YandexDetect, YandexBrowserTranslator, YandexTranslator } from '../dist/esm/index.js'
 
 describe('Yandex predict', () => {
     test.concurrent('English', async ({ expect }) => {

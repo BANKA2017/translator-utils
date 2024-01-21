@@ -1,6 +1,5 @@
 import { expect, test, describe } from 'vitest'
-import { GoogleBrowserTranslate, GoogleTranslate, GoogleTTS } from '../lib/index.js'
-import { GoogleTranslateTk } from '../lib/source/google.js'
+import { GoogleBrowserTranslate, GoogleTranslate, GoogleTTS, GoogleTranslateTk } from '../dist/esm/index.js'
 
 test('Google TK', async () => {
     expect(GoogleTranslateTk('test content', [464385, 3806605782])).toEqual('531820.985965')

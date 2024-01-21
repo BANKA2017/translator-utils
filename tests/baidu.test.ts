@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, BaiduTTS } from '../lib/index.js'
-import { GetBaiduTranslatorTokenResult } from '../lib/source/baidu.js'
+import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, BaiduTTS } from '../dist/esm/index.js'
+import type { GetBaiduTranslatorTokenResult } from '../lib/source/baidu.js'
 
 let globalPage: GetBaiduTranslatorTokenResult = {
     message: null,
