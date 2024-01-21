@@ -51,7 +51,6 @@ class AxiosRequest {
         }
     }
     responseBuilder(res, data, options = {}) {
-        console.log(data)
         switch (options?.responseType) {
             case 'arraybuffer':
                 break
