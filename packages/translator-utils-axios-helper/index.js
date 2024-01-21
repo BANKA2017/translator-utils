@@ -20,41 +20,15 @@ class AxiosRequest {
             options.headers['content-length'] = postData.length
             options.body = postData
         }
+        const method = options?.method || 'GET'
         return new Promise((resolve, reject) => {
-            if (typeof fetch === 'undefined' && ['function', 'object'].includes(typeof XMLHttpRequest)) {
-                const xhr = new XMLHttpRequest()
-                xhr.open(method, url, true)
-                xhr.timeout = options.timeout
-                xhr.onloadend = (response) => {
-                    try {
-                        resolve(this.xhrResponseBuilder(response, response.target?.response))
-                    } catch (e) {
-                        reject({
-                            cause: response.target?.response,
-                            toString: () => response.target?.response?.toString()
-                        })
-                    }
-                }
-                xhr.onerror = (response) => {
-                    reject({
-                        cause: response.target?.response,
-                        toString: () => response.target?.response?.toString()
-                    })
-                }
-                xhr.ontimeout = (response) => {
-                    reject({ cause: 'Timeout', toString: () => 'Timeout' })
-                }
-                for (const header of Object.entries(options.headers)) {
-                    xhr.setRequestHeader(header[0], header[1])
-                }
-                xhr.send(method === 'POST' && options.body ? options.body : null)
-            } else if (typeof fetch === 'function') {
+            if (typeof fetch === 'function') {
                 fetch(url, options)
                     .then(async (response) => {
-                        return { response, data: await response.text() }
+                        return { response, data: await response.arrayBuffer() }
                     })
                     .then((res) => {
-                        resolve(this.responseBuilder(res.response, res.data))
+                        resolve(this.responseBuilder(res.response, res.data, options))
                     })
                     .catch((e) => {
                         reject({ cause: e, toString: () => e.toString() })
@@ -68,12 +42,25 @@ class AxiosRequest {
         })
     }
     //https://stackoverflow.com/questions/9804777/how-to-test-if-a-string-is-json-or-not
-
-    responseBuilder(res, data) {
-        data = data.toString()
+    isJson(str) {
         try {
-            data = JSON.parse(data)
-        } catch (e) {}
+            JSON.parse(str)
+            return true
+        } catch (e) {
+            return false
+        }
+    }
+    responseBuilder(res, data, options = {}) {
+        console.log(data)
+        switch (options?.responseType) {
+            case 'arraybuffer':
+                break
+            default:
+                data = data.toString()
+                if (this.isJson(data)) {
+                    data = JSON.parse(data)
+                }
+        }
 
         let headers = Object.fromEntries(res.headers.entries())
 
@@ -90,24 +77,6 @@ class AxiosRequest {
             status: res.status,
             statusText: res.statusText,
             headers,
-            data
-        }
-    }
-    xhrResponseBuilder(res, data) {
-        data = data.toString()
-        try {
-            data = JSON.parse(data)
-        } catch (e) {}
-        return {
-            status: res.status,
-            statusText: res.statusText,
-            headers: Object.fromEntries(
-                res.target
-                    .getAllResponseHeaders()
-                    .trim()
-                    .split('\r\n')
-                    .map((header) => header.split(': '))
-            ),
             data
         }
     }

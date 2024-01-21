@@ -37,7 +37,7 @@ class AxiosRequest {
                     tmpData.push(data)
                 })
                 res.on('close', () => {
-                    resolve(this.responseBuilder(res, Buffer.concat(tmpData)))
+                    resolve(this.responseBuilder(res, Buffer.concat(tmpData), options))
                 })
             })
 
@@ -54,19 +54,26 @@ class AxiosRequest {
     isJson(str) {
         try {
             JSON.parse(str)
+            return true
         } catch (e) {
             return false
         }
-        return true
     }
-    responseBuilder(res, data) {
-        const dataString = data.toString()
-        const isJson = this.isJson(dataString)
+    responseBuilder(res, data, options = {}) {
+        switch (options?.responseType) {
+            case 'arraybuffer':
+                break
+            default:
+                data = data.toString()
+                if (this.isJson(data)) {
+                    data = JSON.parse(data)
+                }
+        }
         return {
             status: res.statusCode,
             statusText: res.statusMessage,
             headers: res.headers,
-            data: isJson ? JSON.parse(dataString) : dataString
+            data
         }
     }
     get(url, options = {}) {
