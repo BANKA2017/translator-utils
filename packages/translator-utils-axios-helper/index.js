@@ -55,7 +55,7 @@ class AxiosRequest {
             case 'arraybuffer':
                 break
             default:
-                data = data.toString()
+                data = new TextDecoder().decode(data)
                 if (this.isJson(data)) {
                     data = JSON.parse(data)
                 }
