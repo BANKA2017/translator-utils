@@ -63,7 +63,10 @@ class AxiosRequest {
 
         let headers = Object.fromEntries(res.headers.entries())
 
-        if (headers['set-cookie'] && res.headers.getAll) {
+        if (headers['set-cookie'] && res.headers.getSetCookie) {
+            //https://developer.mozilla.org/en-US/docs/Web/API/Headers/getSetCookie
+            headers['set-cookie'] = res.headers.getSetCookie()
+        } else if (headers['set-cookie'] && res.headers.getAll) {
             //workers
             //TypeError: getAll() can only be used with the header name "Set-Cookie".
             headers['set-cookie'] = res.headers.getAll('set-cookie')
