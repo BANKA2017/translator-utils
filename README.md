@@ -80,10 +80,10 @@ To know more, view files in [~/src/source](https://github.com/BANKA2017/translat
 
 ## TTS
 
-`google`/`microsoft_tts`/`baidu`/`sogou`
+`google`/`microsoft_tts`/`microsoft_edge_tts`/`baidu`/`sogou`
 
 ```javascript
-import { BaiduTTS, GetMicrosoftTranslatorToken, MicrosoftTTS, GoogleTTS, SogouTTS } from '@kdwnil/translator-util'
+import { BaiduTTS, GetMicrosoftTranslatorToken, MicrosoftTTS, MicrosoftBrowserTTS, GoogleTTS, SogouTTS } from '@kdwnil/translator-util'
 
 // google
 console.log(await GoogleTTS('en', 'hi'))
@@ -91,6 +91,10 @@ console.log(await GoogleTTS('en', 'hi'))
 // ms
 const msToken = await GetMicrosoftTranslatorToken()
 console.log(await MicrosoftTTS('en', 'hi', { IG: msToken.IG, token: msToken.token, key: msToken.key }))
+
+// ms edge
+// You can use MicrosoftBrowserTTS in cli and browser
+console.log(await MicrosoftBrowserTTS('en-US', 'hi', { optput_format: 'webm-24khz-16bit-mono-opus', voice: 'en-US-AvaNeural' }))
 
 // baidu & sogou
 // * baidu always returns an empty response

@@ -1,7 +1,7 @@
 {
     "name": "@kdwnil/translator-utils",
     "private": true,
-    "version": "0.0.2-alpha.30",
+    "version": "0.0.2-alpha.31",
     "description": "translate utils",
     "homepage": "https://github.com/BANKA2017/translator-utils",
     "bugs": {
@@ -30,7 +30,9 @@
     "jsdelivr": "dist/translator.min.js",
     "unpkg": "dist/translator.min.js",
     "dependencies": {
-        "hpagent": "^1.2.0"
+        "hpagent": "^1.2.0",
+        "unws": "^0.2.4",
+        "ws": "^8.16.0"
     },
     "devDependencies": {
         "@babel/core": "^7.21.0",

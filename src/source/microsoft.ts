@@ -1,11 +1,17 @@
-import type { TTSModuleFunction, TranslatorModuleFunction } from '../types.js'
+import type { TranslatorModuleFunction, TTSModuleFunction, TTSResponse } from '../types.js'
 
-import { SupportedLanguage } from '../misc.js'
+import { concatBuffer, generateUUID, htmlentities, SupportedLanguage } from '../misc.js'
 import axiosFetch, { responseBuilder } from 'translator-utils-axios-helper'
-import { MICROSOFT_TTS_LIST, BING_LANGUAGE } from '../language.js'
+import { BING_LANGUAGE, MICROSOFT_TTS_LIST } from '../language.js'
+import { WebSocket } from 'unws'
 
 const GetMicrosoftTranslatorToken = async () => {
-    let response: { IG: string; token: string; key: number; message: string } = { IG: '', token: '', key: 0, message: '' }
+    let response: { IG: string; token: string; key: number; message: string } = {
+        IG: '',
+        token: '',
+        key: 0,
+        message: ''
+    }
 
     let page: responseBuilder
     try {
@@ -213,12 +219,156 @@ const MicrosoftTTS: TTSModuleFunction<'microsoft_tts'> = async (lang = 'en', tex
                 content_type: ((Array.isArray(response.headers['content-type']) ? response.headers['content-type'].join(' ') : response.headers['content-type']) || '').split(';')[0]
             }
         } else {
-            return { buffer: new Uint8Array().buffer, content_type: '', content_length: 0 }
+            return {
+                buffer: new Uint8Array().buffer,
+                content_type: '',
+                content_length: 0
+            }
         }
     } catch {
-        return { buffer: new Uint8Array().buffer, content_type: '', content_length: 0 }
+        return {
+            buffer: new Uint8Array().buffer,
+            content_type: '',
+            content_length: 0
+        }
     }
 }
 
+//const MicrosoftBrowserTTSList = async () => {
+//    const response = await axiosFetch.get('https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/voices/list?trustedclienttoken=6A5AA1D4EAFF4E9FB37E23D68491D6F4')
+//    return response.data
+//}
+
+const MicrosoftBrowserTTS: TTSModuleFunction<'microsoft_edge_tts'> = async (lang = 'en-US', text = '', ext = {}) => {
+    const requestID = generateUUID().replaceAll('-', '')
+    // edge default `webm-24khz-16bit-mono-opus`
+    const outputFormat = ext?.optput_format ? ext?.optput_format : 'audio-24khz-48kbitrate-mono-mp3'
+    const voice = ext.voice ? ext.voice : 'en-US-AriaNeural'
+
+    const ws = new WebSocket('wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4')
+
+    return new Promise((resolve, reject) => {
+        let response: TTSResponse = {
+            buffer: new Uint8Array().buffer,
+            content_type: '',
+            content_length: 0,
+            ext: {}
+        }
+        const responseContent: { header: { [p in string]: string }; body: string | Uint8Array; type: string }[] = []
+
+        ws.addEventListener('message', async (event) => {
+            try {
+                if (typeof event.data === 'string') {
+                    // split header and body
+                    const [header, body] = event?.data?.split('\r\n\r\n')
+                    const tmpContent = {
+                        header: Object.fromEntries(
+                            header.split('\r\n').map((header_) => {
+                                const tmpHeaderContent = header_.split(':')
+                                return [tmpHeaderContent.shift(), tmpHeaderContent.join('')]
+                            })
+                        ),
+                        body,
+                        type: 'text'
+                    }
+                    responseContent.push(tmpContent)
+                    if (tmpContent.header.Path === 'turn.end') {
+                        ws.close()
+                    }
+                } else if ((typeof Buffer !== 'undefined' && event.data instanceof Buffer) || (typeof Blob !== 'undefined' && event.data instanceof Blob)) {
+                    let buffer = new Uint8Array()
+                    // browser
+                    //@ts-ignore
+                    if (event.data?.arrayBuffer) {
+                        //@ts-ignore
+                        buffer = new Uint8Array(await event.data.arrayBuffer())
+                    } else if (typeof Buffer !== 'undefined' && event.data instanceof Buffer) {
+                        // binary from npm:ws
+                        buffer = new Uint8Array(event.data)
+                    }
+                    // header length
+                    const headerLength = new DataView(buffer.slice(0, 2).buffer).getUint16(0)
+                    const tmpContent = {
+                        header: Object.fromEntries(
+                            new TextDecoder()
+                                .decode(buffer.slice(2, headerLength + 2))
+                                .split('\r\n')
+                                .map((header_) => {
+                                    const tmpHeaderContent = header_.split(':')
+                                    return [tmpHeaderContent.shift(), tmpHeaderContent.join('')]
+                                })
+                        ),
+                        body: buffer.slice(headerLength + 2),
+                        type: 'audio'
+                    }
+                    if (response.content_type === '') {
+                        response.content_type = tmpContent.header['Content-Type']
+                    }
+                    responseContent.push(tmpContent)
+                }
+            } catch (e) {
+                console.error(e)
+                reject(response)
+            }
+        })
+        ws.addEventListener('close', () => {
+            if (response.ext) {
+                response.ext.raw = responseContent
+            }
+            response.buffer = concatBuffer(...responseContent.filter((x) => x.type === 'audio').map((x) => (typeof x.body !== 'string' ? x.body.buffer : new ArrayBuffer(0))))
+            response.content_length = response.buffer.byteLength
+            resolve(response)
+        })
+        ws.addEventListener('open', () => {
+            if (Array.isArray(text)) {
+                text = text.join('\n')
+            }
+            ws.send(
+                encodeMSBrowserTTSRequest(
+                    {
+                        'Content-Type': 'application/ssml+xml',
+                        'X-Timestamp': new Date().toString(),
+                        Path: 'speech.config'
+                    },
+                    JSON.stringify({
+                        context: {
+                            synthesis: {
+                                audio: {
+                                    metadataoptions: {
+                                        sentenceBoundaryEnabled: 'false',
+                                        wordBoundaryEnabled: 'true'
+                                    },
+                                    outputFormat
+                                }
+                            }
+                        }
+                    })
+                )
+            )
+            ws.send(
+                encodeMSBrowserTTSRequest(
+                    {
+                        'X-RequestId': requestID,
+                        'Content-Type': 'application/ssml+xml',
+                        'X-Timestamp': new Date().toString() + 'Z', // I don't know why they add a 'Z' at the end
+                        Path: 'ssml'
+                    },
+                    `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis'  xml:lang='${lang}'><voice name='${voice}'><prosody pitch='+0Hz' rate ='+0%' volume='+0%'>${htmlentities(text)}</prosody></voice></speak>`
+                )
+            )
+        })
+    })
+}
+
+const encodeMSBrowserTTSRequest = (headers = {}, body = '') => {
+    let content = Object.entries(headers)
+        .map((header) => `${header[0]}:${header[1]}`)
+        .join('\r\n')
+    content += '\r\n\r\n'
+    content += body
+    return content
+}
+
 export type { MicrosoftBrowserPredictResponseType }
-export { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, MicrosoftBrowserPredict, GetMicrosoftTranslatorToken, MicrosoftTTS }
+export { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftTranslator }
+export { MicrosoftBrowserTTS, MicrosoftTTS }

@@ -29,6 +29,11 @@ const microsoft_tts = JSON.parse(readFileSync('../assets/target/microsoft_tts.js
 jsContent += `export type BING_TTS_LIST = ${microsoft_tts.map((msttsItem) => "'" + msttsItem.code + "'").join('|')}\n`
 jsContent += `export const MICROSOFT_TTS_LIST: { code: BING_TTS_LIST; language: string; gender: 'Male' | 'Female'; model: string }[] = ${JSON.stringify(microsoft_tts)}\n`
 
+const microsoft_edge_tts = JSON.parse(readFileSync('../assets/target/microsoft_edge_tts.json').toString())
+
+jsContent += `export type MICROSOFT_EDGE_TTS_TYPE = ${[...new Set(microsoft_edge_tts.map((msttsItem) => "'" + msttsItem.Locale + "'"))].join('|')}\n`
+jsContent += `export const MICROSOFT_EDGE_TTS_LIST: { language: MICROSOFT_EDGE_TTS_TYPE; gender: 'Male' | 'Female'; model: string }[] = ${JSON.stringify(microsoft_edge_tts.map((msttsItem) => ({ language: msttsItem.Locale, gender: msttsItem.Gender, model: msttsItem.ShortName })))}\n`
+
 // yandex content/type
 // JSON.stringify(Object.fromEntries([...document.querySelectorAll('.langs-item.langs-item_cell.langs-item_hasLetterSpace')].map(x => [x.dataset.value.toLowerCase(), x.innerText.includes('\n') ? x.innerText.split('\n')[1].trim() : x.innerText.trim()]).sort((a, b) => a[0] > b[0] ? 1 : -1)))
 const yandex = JSON.parse(readFileSync('../assets/target/yandex.json').toString())

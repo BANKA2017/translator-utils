@@ -27,3 +27,24 @@ export const buffer_to_base64 = (buf: ArrayBuffer): string => {
 }
 
 export const generateUUID = (): string => cryptoHandle.randomUUID() || '00000000-0000-0000-0000-000000000000'
+
+export const htmlspecialchars = (str: string) => {
+    str = str.replaceAll('&gt;', '>').replaceAll('&lt;', '<').replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&apos;', "'")
+    str = str.replaceAll(/&#([\d]+);/gm, (_, p1) => String.fromCharCode(parseInt(p1)))
+    return str
+}
+
+export const htmlentities = (str: string) => {
+    return str.replaceAll('>', '&gt;').replaceAll('<', '&lt;').replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll("'", '&apos;')
+}
+
+//https://gist.github.com/72lions/4528834
+export const concatBuffer = (...buffer: ArrayBuffer[]): ArrayBuffer => {
+    const length = buffer.reduce((acc, cur) => acc + cur.byteLength, 0)
+    let tmp = new Uint8Array(length)
+    buffer.reduce((acc, cur) => {
+        tmp.set(new Uint8Array(cur), acc)
+        return acc + cur.byteLength
+    }, 0)
+    return tmp.buffer
+}
