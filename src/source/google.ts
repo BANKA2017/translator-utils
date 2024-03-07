@@ -14,47 +14,81 @@ const GoogleTranslate: TranslatorModuleFunction<'google'> = async (text = '', so
     if (Array.isArray(text)) {
         text = text.join('\n')
     }
-    const query = new URLSearchParams({
-        client: 'webapp',
-        sl: source,
-        tl: target || 'en',
-        hl: target || 'en',
-        dt: 't',
-        clearbtn: '1',
-        otf: '1',
-        pc: '1',
-        ssel: '0',
-        tsel: '0',
-        kc: '2',
-        tk: '',
-        q: text
-    })
-    return new Promise(async (resolve, reject) => {
-        axiosFetch
-            .get('https://translate.google.com/translate_a/single?' + 'dt=at&dt=bd&dt=ex&dt=md&dt=rw&dt=ss&dt=rm&' + query.toString(), {
-                headers: {
-                    referer: 'https://translate.google.com/',
-                    authority: 'translate.google.com'
-                }
-            })
-            .then((response) => {
-                if (response.data && Array.isArray(response.data[0])) {
-                    resolve(
-                        raw
-                            ? response.data
-                            : response.data[0]
-                                  .filter((translate) => translate)
-                                  .map((translate) => translate[0])
-                                  .join('')
-                    )
-                    //resolve(response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
-                }
-                reject(raw ? response.data : 'Invalid content #GoogleTranslate ')
-            })
-            .catch((e) => {
-                reject(raw ? e : e.toString())
-            })
-    })
+    // thanks https://codeberg.org/aryak/libmozhi/src/branch/master/engines.go#L52
+    if (!ext.legacy === false) {
+        return new Promise(async (resolve, reject) => {
+            axiosFetch
+                .post(
+                    'https://translate.google.com/_/TranslateWebserverUi/data/batchexecute',
+                    new URLSearchParams({
+                        'f.req': JSON.stringify([[['MkEWBc', JSON.stringify([[text, source, target, 1], []]), null, 'generic']]])
+                    }).toString()
+                )
+                .then((response) => {
+                    if (raw && !ext.raw_json) {
+                        resolve(response.data)
+                    }
+
+                    // try to parse content
+                    const splitedResponse = response.data.split('\n')
+                    let tmpData = ''
+                    for (let index in splitedResponse) {
+                        const i = Number(index)
+                        if (!isNaN(splitedResponse[i]) && i < splitedResponse.length - 1 && splitedResponse[i + 1].startsWith('[')) {
+                            tmpData = splitedResponse[i + 1]
+                            break
+                        }
+                    }
+                    resolve(raw && ext.raw_json ? JSON.parse(tmpData) : JSON.parse(JSON.parse(tmpData)[0][2])[1][0][0][5][0][0])
+                })
+                .catch((e) => {
+                    console.log(e)
+                    reject(raw ? e : e.toString())
+                })
+        })
+    } else {
+        const query = new URLSearchParams({
+            client: 'webapp',
+            sl: source,
+            tl: target || 'en',
+            hl: target || 'en',
+            dt: 't',
+            clearbtn: '1',
+            otf: '1',
+            pc: '1',
+            ssel: '0',
+            tsel: '0',
+            kc: '2',
+            tk: '',
+            q: text
+        })
+        return new Promise(async (resolve, reject) => {
+            axiosFetch
+                .get('https://translate.google.com/translate_a/single?' + 'dt=at&dt=bd&dt=ex&dt=md&dt=rw&dt=ss&dt=rm&' + query.toString(), {
+                    headers: {
+                        referer: 'https://translate.google.com/',
+                        authority: 'translate.google.com'
+                    }
+                })
+                .then((response) => {
+                    if (response.data && Array.isArray(response.data[0])) {
+                        resolve(
+                            raw
+                                ? response.data
+                                : response.data[0]
+                                      .filter((translate) => translate)
+                                      .map((translate) => translate[0])
+                                      .join('')
+                        )
+                        //resolve(response.data[0].filter(translate => translate).map(translate => translate[0]).join(''))
+                    }
+                    reject(raw ? response.data : 'Invalid content #GoogleTranslate ')
+                })
+                .catch((e) => {
+                    reject(raw ? e : e.toString())
+                })
+        })
+    }
 }
 
 const GoogleBrowserTranslate: TranslatorModuleFunction<'google_browser'> = async (text = '', source = 'auto', target, raw, ext = {}) => {

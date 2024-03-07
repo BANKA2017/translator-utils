@@ -1,3 +1,3 @@
-import { webcrypto } from 'crypto'
-const cryptoHandle = webcrypto
+import crypto from 'crypto'
+const cryptoHandle = crypto
 export default cryptoHandle
