@@ -10,10 +10,10 @@ This is an early release version, everything are subject to change, please **DO 
 
 ## Predict (Nodejs/Deno)
 
-`baidu` / `yandex` / `microsoft`
+`baidu` / `yandex` / `microsoft` / `watson`
 
 ```javascript
-import { BaiduLanguagePredict, YandexDetect, MicrosoftBrowserPredict } from '@kdwnil/translator-utils'
+import { BaiduLanguagePredict, YandexDetect, MicrosoftBrowserPredict, WatsonDetect } from '@kdwnil/translator-utils'
 
 await BaiduLanguagePredict('hello') // en
 await BaiduLanguagePredict('你好') // zh
@@ -107,6 +107,8 @@ console.log(await SogouTTS('en', 'hi'))
 Because of `CORS policy`, you can only use `GoogleBrowserTranslate`, `MicrosoftBrowserTranslator` or `SogouBrowserTranslator` in browser.
 
 `YandexBrowserTranslate` is supported in browser, but predicted service is **NOT** supported, so you can't set `source` to `auto` in function calling.
+
+`GoogleBrowserTranslateV2` is also supported in browser, but the source can not be set to `auto`.
 
 ## Nodejs
 

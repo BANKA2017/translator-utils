@@ -39,7 +39,7 @@ const GoogleTranslate: TranslatorModuleFunction<'google'> = async (text = '', so
                             break
                         }
                     }
-                    resolve(raw && ext.raw_json ? JSON.parse(tmpData) : JSON.parse(JSON.parse(tmpData)[0][2])[1][0][0][5][0][0])
+                    resolve(raw && ext.raw_json ? JSON.parse(tmpData) : (JSON.parse(JSON.parse(tmpData)[0][2])[1][0][0][5] || []).map((content: any[]) => content[0]).join(''))
                 })
                 .catch((e) => {
                     console.log(e)
@@ -121,6 +121,33 @@ const GoogleBrowserTranslate: TranslatorModuleFunction<'google_browser'> = async
             .then((response: any) => {
                 if (response.data && response.data instanceof Array) {
                     resolve(raw ? response.data : response.data.map((x: any) => x?.[0] || '').join('\n'))
+                }
+                reject(raw ? response.data : 'Invalid content #GoogleTranslate ')
+            })
+            .catch((e) => {
+                reject(raw ? e : e.toString())
+            })
+    })
+}
+
+const GoogleBrowserTranslateV2: TranslatorModuleFunction<'google_browser'> = async (text = '', source = 'en', target, raw, ext = {}) => {
+    if (!text) {
+        return Promise.reject('Empty text #GoogleTranslate ')
+    }
+    if (source === 'auto' || !SupportedLanguage(GOOGLE_LANGUAGE, target || 'en') || !SupportedLanguage(GOOGLE_LANGUAGE, source || 'en')) {
+        return Promise.reject('Unsupported target language #GoogleTranslate ')
+    }
+    return new Promise(async (resolve, reject) => {
+        axiosFetch
+            .post('https://translation.googleapis.com/language/translate/v2?key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw', {
+                q: Array.isArray(text) ? text.join('\n') : text,
+                source,
+                target,
+                format: 'text'
+            })
+            .then((response: any) => {
+                if (response.data && response.data?.data?.translations instanceof Array) {
+                    resolve(raw ? response.data : response.data.data.translations.map((x: any) => x?.translatedText || '').join('\n'))
                 }
                 reject(raw ? response.data : 'Invalid content #GoogleTranslate ')
             })
@@ -214,4 +241,4 @@ const GoogleTTS: TTSModuleFunction<'google'> = async (lang = 'en', text = '', ex
     }
 }
 
-export { GoogleTranslate, GoogleBrowserTranslate, GoogleTranslateTk, GoogleTTS }
+export { GoogleTranslate, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTranslateTk, GoogleTTS }

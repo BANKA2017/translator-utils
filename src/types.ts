@@ -1,4 +1,4 @@
-import type { BAIDU_LIST, BAIDU_TTS_LIST, BING_LIST, BING_TTS_LIST, MICROSOFT_EDGE_TTS_TYPE, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, SOGOU_TTS_LIST, YANDEX_LIST } from 'language.js'
+import type { BAIDU_LIST, BAIDU_TTS_LIST, BING_LIST, BING_TTS_LIST, MICROSOFT_EDGE_TTS_TYPE, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, SOGOU_TTS_LIST, YANDEX_LIST, WATSON_LIST } from 'language.js'
 
 export type TranslatorModuleFunction<P extends Platform> = <R extends boolean = false>(
     text: string | string[],
@@ -30,14 +30,31 @@ export type TTSResponse = {
 
 export type TTSModuleFunction<P extends Platform> = (lang: TargetFilter[P], text: string | string[], ext?: { [p in string]: unknown }) => Promise<TTSResponse>
 
-export type Platform = 'google' | 'google_browser' | 'microsoft' | 'microsoft_browser' | 'microsoft_tts' | 'microsoft_edge_tts' | 'sogou' | 'sogou_browser' | 'sogou_tts' | 'yandex' | 'yandex_browser' | 'baidu' | 'baidu_tts' | 'deepl'
-export type BrowserPlatform = 'google_browser' | 'microsoft_browser' | 'sogou' | 'sogou_browser' | 'yandex_browser'
+export type Platform =
+    | 'google'
+    | 'google_browser'
+    | 'google_browser_v2'
+    | 'microsoft'
+    | 'microsoft_browser'
+    | 'microsoft_tts'
+    | 'microsoft_edge_tts'
+    | 'sogou'
+    | 'sogou_browser'
+    | 'sogou_tts'
+    | 'yandex'
+    | 'yandex_browser'
+    | 'baidu'
+    | 'baidu_tts'
+    | 'deepl'
+    | 'watson'
+export type BrowserPlatform = 'google_browser' | 'google_browser_v2' | 'microsoft_browser' | 'sogou' | 'sogou_browser' | 'yandex_browser'
 
 export type TargetFilter = {
     baidu: BAIDU_LIST
     baidu_tts: BAIDU_TTS_LIST
     google: GOOGLE_LIST
     google_browser: GOOGLE_LIST
+    google_browser_v2: GOOGLE_LIST
     deepl: DEEPL_LIST
     microsoft: BING_LIST
     microsoft_browser: BING_LIST
@@ -48,4 +65,5 @@ export type TargetFilter = {
     sogou_tts: SOGOU_TTS_LIST
     yandex: YANDEX_LIST
     yandex_browser: YANDEX_LIST
+    watson: WATSON_LIST
 }

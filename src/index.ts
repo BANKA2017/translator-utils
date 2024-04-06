@@ -1,13 +1,14 @@
 import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, BaiduTTS } from './source/baidu.js'
 import { DeepL } from './source/deepl.js'
-import { GoogleTranslate, GoogleBrowserTranslate, GoogleTTS, GoogleTranslateTk } from './source/google.js'
+import { GoogleTranslate, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTTS, GoogleTranslateTk } from './source/google.js'
 import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftTTS, MicrosoftBrowserTTS } from './source/microsoft.js'
 import { SogouBrowserTranslator, SogouTTS } from './source/sogou.js'
 import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from './source/yandex.js'
+import { WatsonDetect, WatsonTranslator } from 'source/watson.js'
 
 import { IsChs, IsCht } from './misc.js'
 import type { TranslatorFunction } from 'types.js'
-import type { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, YANDEX_LIST } from 'language.js'
+import type { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, WATSON_LIST, YANDEX_LIST } from 'language.js'
 
 const Translator: TranslatorFunction = async (text = '', platform, source, target, raw, ext = {}) => {
     let result = { content: '', message: '' }
@@ -18,6 +19,9 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
                 break
             case 'google_browser':
                 result.content = await GoogleBrowserTranslate(text, source as GOOGLE_LIST, target as GOOGLE_LIST, !!raw, ext)
+                break
+            case 'google_browser_v2':
+                result.content = await GoogleBrowserTranslateV2(text, source as GOOGLE_LIST, target as GOOGLE_LIST, !!raw, ext)
                 break
             case 'microsoft':
                 result.content = await MicrosoftTranslator(text, source as BING_LIST, target as BING_LIST, !!raw, ext)
@@ -40,6 +44,9 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
                 break
             case 'deepl':
                 result.content = await DeepL(text, source as DEEPL_LIST, target as DEEPL_LIST, !!raw, ext)
+                break
+            case 'watson':
+                result.content = await WatsonTranslator(text, source as WATSON_LIST, target as WATSON_LIST, !!raw, ext)
         }
     } catch (e) {
         result.message = String(e)
@@ -51,9 +58,12 @@ export {
     BaiduLanguagePredict,
     YandexDetect,
     MicrosoftBrowserPredict,
+    WatsonDetect,
     BaiduTranslator,
     DeepL,
+    WatsonTranslator,
     GoogleBrowserTranslate,
+    GoogleBrowserTranslateV2,
     GoogleTranslate,
     MicrosoftBrowserTranslator,
     MicrosoftTranslator,

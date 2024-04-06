@@ -1,5 +1,5 @@
 import { YandexBrowserTranslator } from './source/yandex.js'
-import { GoogleBrowserTranslate } from './source/google.js'
+import { GoogleBrowserTranslate, GoogleBrowserTranslateV2 } from './source/google.js'
 import { MicrosoftBrowserTranslator } from './source/microsoft.js'
 import { SogouBrowserTranslator } from './source/sogou.js'
 
@@ -13,6 +13,9 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
             case 'google':
             case 'google_browser':
                 result.content = await GoogleBrowserTranslate(text, source as GOOGLE_LIST, target as GOOGLE_LIST, !!raw, ext)
+                break
+            case 'google_browser_v2':
+                result.content = await GoogleBrowserTranslateV2(text, source as GOOGLE_LIST, target as GOOGLE_LIST, !!raw, ext)
                 break
             case 'microsoft':
             case 'microsoft_browser':
