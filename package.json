@@ -32,25 +32,25 @@
     "dependencies": {
         "hpagent": "^1.2.0",
         "unws": "^0.2.4",
-        "ws": "^8.16.0"
+        "ws": "^8.17.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.24.4",
-        "@babel/preset-env": "^7.24.4",
+        "@babel/core": "^7.24.5",
+        "@babel/preset-env": "^7.24.5",
         "@rollup/plugin-babel": "^6.0.4",
-        "@rollup/plugin-commonjs": "25.0.7",
+        "@rollup/plugin-commonjs": "^25.0.7",
         "@rollup/plugin-node-resolve": "^15.2.3",
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^11.1.6",
-        "@types/node": "20.12.5",
+        "@types/node": "^20.12.10",
         "prettier": "^3.2.5",
-        "rollup": "^4.14.0",
+        "rollup": "^4.17.2",
         "rollup-plugin-bundle-size": "^1.0.3",
         "rollup-plugin-cleanup": "^3.2.1",
         "tsc": "^2.0.4",
         "tslib": "^2.6.2",
-        "typescript": "5.4.4",
-        "vitest": "^1.4.0"
+        "typescript": "^5.4.5",
+        "vitest": "^1.6.0"
     },
     "scripts": {
         "build": "npx tsc -p tsconfig.json --outDir lib/",
