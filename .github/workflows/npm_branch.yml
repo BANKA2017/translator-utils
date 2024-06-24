@@ -18,7 +18,9 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - name: yarn install and build
               run: |
-                  yarn
+                  corepack enable
+                  yarn set version stable
+                  yarn install
                   yarn run rebuild
                   mkdir npm && mv dist LICENSE README.md package.json lib npm && mv npm/dist/esm/index.browser.d.ts npm/dist/esm/translator.mod.d.ts
             - name: Deploy
