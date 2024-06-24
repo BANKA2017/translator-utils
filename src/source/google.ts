@@ -120,7 +120,7 @@ const GoogleBrowserTranslate: TranslatorModuleFunction<'google_browser'> = async
             .post('https://translate.googleapis.com/translate_a/t?' + query.toString(), 'q=' + (text instanceof Array ? text.map((x) => encodeURIComponent(x)).join('&q=') : encodeURIComponent(text)))
             .then((response: any) => {
                 if (response.data && response.data instanceof Array) {
-                    resolve(raw ? response.data : response.data.map((x: any) => x?.[0] || '').join('\n'))
+                    resolve(raw ? response.data : response.data.map((x: any) => (Array.isArray(x) ? x?.[0] || '' : x || '')).join('\n'))
                 }
                 reject(raw ? response.data : 'Invalid content #GoogleTranslate ')
             })
