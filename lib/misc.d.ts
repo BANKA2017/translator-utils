@@ -1,0 +1,9 @@
+export declare const SupportedLanguage: (List: string[], language: string) => boolean;
+export declare const IsChs: (lang?: string) => boolean;
+export declare const IsCht: (lang?: string) => boolean;
+export declare const base64_to_buffer: (base64: string) => ArrayBuffer;
+export declare const buffer_to_base64: (buf: ArrayBuffer) => string;
+export declare const generateUUID: () => string;
+export declare const htmlspecialchars: (str: string) => string;
+export declare const htmlentities: (str: string) => string;
+export declare const concatBuffer: (...buffer: ArrayBuffer[]) => ArrayBuffer;
