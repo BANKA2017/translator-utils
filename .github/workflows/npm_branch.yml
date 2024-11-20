@@ -8,12 +8,14 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/setup-node@v4
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Yarn install
+              uses: actions/setup-node@v4
               with:
                   node-version: 20
                   cache: "yarn"
-                  cache-dependency-path: yarn.lock
-            - name: yarn install and build
+            - name: Yarn build
               run: |
                   yarn run rebuild
                   mkdir npm && mv dist LICENSE README.md package.json npm && mv npm/dist/esm/index.browser.d.ts npm/dist/esm/translator.mod.d.ts
