@@ -1,0 +1,16 @@
+import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, BaiduTTS } from './source/baidu.js';
+import { DeepL } from './source/deepl.js';
+import { GoogleTranslate, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTTS, GoogleTranslateTk } from './source/google.js';
+import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftTTS, MicrosoftBrowserTTS } from './source/microsoft.js';
+import { SogouBrowserTranslator, SogouTTS } from './source/sogou.js';
+import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from './source/yandex.js';
+import { WatsonDetect, WatsonTranslator } from './source/watson.js';
+import { IsChs, IsCht } from './misc.js';
+import type { TranslatorFunction } from './types.js';
+declare const Translator: TranslatorFunction;
+export { BaiduLanguagePredict, YandexDetect, MicrosoftBrowserPredict, WatsonDetect, BaiduTranslator, DeepL, WatsonTranslator, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexTranslator, YandexBrowserTranslator };
+export { GetBaiduTranslatorToken, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken };
+export { GoogleTranslateTk };
+export { IsChs, IsCht };
+export { GoogleTTS, MicrosoftTTS, MicrosoftBrowserTTS, BaiduTTS, SogouTTS };
+export default Translator;
