@@ -3,8 +3,8 @@ import { GoogleBrowserTranslate, GoogleBrowserTranslateV2 } from './source/googl
 import { MicrosoftBrowserTranslator } from './source/microsoft.js'
 import { SogouBrowserTranslator } from './source/sogou.js'
 
-import type { TranslatorFunction } from 'types.js'
-import type { BING_LIST, GOOGLE_LIST, SOGOU_LIST, YANDEX_LIST } from 'language.js'
+import type { TranslatorFunction } from './types.js'
+import type { BING_LIST, GOOGLE_LIST, SOGOU_LIST, YANDEX_LIST } from './language.js'
 
 const Translator: TranslatorFunction = async (text = '', platform, source, target, raw, ext = {}) => {
     let result = { content: '', message: '' }

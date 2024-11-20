@@ -1,4 +1,4 @@
-import type { BAIDU_LIST, BAIDU_TTS_LIST, BING_LIST, BING_TTS_LIST, MICROSOFT_EDGE_TTS_TYPE, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, SOGOU_TTS_LIST, YANDEX_LIST, WATSON_LIST } from 'language.js'
+import type { BAIDU_LIST, BAIDU_TTS_LIST, BING_LIST, BING_TTS_LIST, MICROSOFT_EDGE_TTS_TYPE, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, SOGOU_TTS_LIST, YANDEX_LIST, WATSON_LIST } from './language.js'
 
 export type TranslatorModuleFunction<P extends Platform> = <R extends boolean = false>(
     text: string | string[],

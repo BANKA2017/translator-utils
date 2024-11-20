@@ -4,11 +4,11 @@ import { GoogleTranslate, GoogleBrowserTranslate, GoogleBrowserTranslateV2, Goog
 import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftTTS, MicrosoftBrowserTTS } from './source/microsoft.js'
 import { SogouBrowserTranslator, SogouTTS } from './source/sogou.js'
 import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from './source/yandex.js'
-import { WatsonDetect, WatsonTranslator } from 'source/watson.js'
+import { WatsonDetect, WatsonTranslator } from './source/watson.js'
 
 import { IsChs, IsCht } from './misc.js'
-import type { TranslatorFunction } from 'types.js'
-import type { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, WATSON_LIST, YANDEX_LIST } from 'language.js'
+import type { TranslatorFunction } from './types.js'
+import type { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, WATSON_LIST, YANDEX_LIST } from './language.js'
 
 const Translator: TranslatorFunction = async (text = '', platform, source, target, raw, ext = {}) => {
     let result = { content: '', message: '' }

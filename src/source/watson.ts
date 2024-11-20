@@ -1,7 +1,7 @@
 import { WATSON_LANGUAGE } from 'language.js'
-import { SupportedLanguage } from 'misc.js'
+import { SupportedLanguage } from '../misc.js'
 import axiosFetch from 'translator-utils-axios-helper'
-import { TranslatorModuleFunction } from 'types.js'
+import type { TranslatorModuleFunction } from '../types.js'
 
 const WatsonDetect = async (text: string | string[] = ''): Promise<string | '_'> => {
     if (!text) {

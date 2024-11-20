@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "declaration": true,
+        "declarationDir": "./dist/esm", // https://github.com/rollup/plugins/issues/1814
         "module": "NodeNext"
     },
     "extends": "./tsconfig.rollup.json"

@@ -7,9 +7,11 @@
     "bugs": {
         "url": "https://github.com/BANKA2017/translator-utils/issues"
     },
-    "main": "lib/index.js",
+    "main": "./dist/esm/index.js",
+    "types": "./dist/esm/index.d.ts",
     "exports": {
         ".": {
+            "types": "./dist/esm/index.d.ts",
             "workerd": {
                 "default": "./dist/esm/translator.mod.js"
             },
@@ -20,7 +22,6 @@
                 "default": "./dist/esm/index.js"
             }
         },
-        "./lib/*": "./lib/*",
         "./package.json": "./package.json"
     },
     "type": "module",
