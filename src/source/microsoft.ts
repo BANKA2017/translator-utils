@@ -315,7 +315,7 @@ const MicrosoftBrowserTTS: TTSModuleFunction<'microsoft_edge_tts'> = async (lang
             if (response.ext) {
                 response.ext.raw = responseContent
             }
-            response.buffer = concatBuffer(...responseContent.filter((x) => x.type === 'audio').map((x) => (typeof x.body !== 'string' ? x.body.buffer : new ArrayBuffer(0))))
+            response.buffer = concatBuffer(...responseContent.filter((x) => x.type === 'audio').map((x) => (typeof x.body !== 'string' ? (x.body.buffer as ArrayBuffer) : new ArrayBuffer(0))))
             response.content_length = response.buffer.byteLength
             resolve(response)
         })
@@ -326,7 +326,7 @@ const MicrosoftBrowserTTS: TTSModuleFunction<'microsoft_edge_tts'> = async (lang
             ws.send(
                 encodeMSBrowserTTSRequest(
                     {
-                        'Content-Type': 'application/ssml+xml',
+                        'Content-Type': 'application/json; charset=utf-8',
                         'X-Timestamp': new Date().toString(),
                         Path: 'speech.config'
                     },
