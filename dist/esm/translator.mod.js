@@ -40,10 +40,9 @@ class AxiosRequest {
         if (!options.headers) {
             options.headers = {};
         }
-        if (!options.headers?.['content-type']) {
+        const isFormData = postData instanceof FormData;
+        if (validPostRequest && !isFormData) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded';
-        }
-        if (validPostRequest) {
             if (typeof postData === 'object') {
                 postData = JSON.stringify(postData);
                 options.headers['content-type'] = 'application/json';
@@ -51,7 +50,6 @@ class AxiosRequest {
             options.headers['content-length'] = postData.length;
             options.body = postData;
         }
-        options?.method || 'GET';
         return new Promise((resolve, reject) => {
             if (typeof fetch === 'function') {
                 fetch(url, options)
@@ -833,7 +831,7 @@ const MicrosoftBrowserTTS = async (lang = 'en-US', text = '', ext = {}) => {
             }
         });
         ws$1.addEventListener('close', () => {
-            if (response.ext) {
+            {
                 response.ext.raw = responseContent;
             }
             response.buffer = concatBuffer(...responseContent.filter((x) => x.type === 'audio').map((x) => (typeof x.body !== 'string' ? x.body.buffer : new ArrayBuffer(0))));
@@ -845,7 +843,7 @@ const MicrosoftBrowserTTS = async (lang = 'en-US', text = '', ext = {}) => {
                 text = text.join('\n');
             }
             ws$1.send(encodeMSBrowserTTSRequest({
-                'Content-Type': 'application/ssml+xml',
+                'Content-Type': 'application/json; charset=utf-8',
                 'X-Timestamp': new Date().toString(),
                 Path: 'speech.config'
             }, JSON.stringify({
@@ -892,8 +890,10 @@ const SogouBrowserTranslator = async (text = '', source = 'auto', target, raw, e
         trans_frag: text instanceof Array ? text.map((x) => ({ text: x })) : [{ text }]
     });
     return new Promise(async (resolve, reject) => {
+        const _body = new FormData();
+        _body.append('S-Param', body);
         axiosFetch
-            .post('https://go.ie.sogou.com/qbpc/translate', `S-Param=${body}`)
+            .post('https://go.ie.sogou.com/qbpc/translate', _body)
             .then((response) => {
             if (response?.data?.data?.trans_result && response?.data?.data?.trans_result instanceof Array) {
                 resolve(raw ? response.data : response.data.data.trans_result.map((x) => x.trans_text).join('\n') || '');

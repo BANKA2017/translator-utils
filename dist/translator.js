@@ -61,7 +61,7 @@
       }
     }
     function _createClass(e, r, t) {
-      return r && _defineProperties(e.prototype, r), Object.defineProperty(e, "prototype", {
+      return _defineProperties(e.prototype, r), Object.defineProperty(e, "prototype", {
         writable: !1
       }), e;
     }
@@ -413,8 +413,7 @@
       return _createClass(AxiosRequest, [{
         key: "requestHandle",
         value: function requestHandle(url, postData) {
-          var _options$headers,
-            _this = this;
+          var _this = this;
           var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
           if (!options.timeout) {
             options.timeout = 30000;
@@ -423,10 +422,9 @@
           if (!options.headers) {
             options.headers = {};
           }
-          if (!((_options$headers = options.headers) !== null && _options$headers !== void 0 && _options$headers['content-type'])) {
+          var isFormData = postData instanceof FormData;
+          if (validPostRequest && !isFormData) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded';
-          }
-          if (validPostRequest) {
             if (_typeof(postData) === 'object') {
               postData = JSON.stringify(postData);
               options.headers['content-type'] = 'application/json';
@@ -434,7 +432,6 @@
             options.headers['content-length'] = postData.length;
             options.body = postData;
           }
-          (options === null || options === void 0 ? void 0 : options.method) || 'GET';
           return new Promise(function (resolve, reject) {
             if (typeof fetch === 'function') {
               fetch(url, options).then(function () {
@@ -793,8 +790,10 @@
             trans_frag: text instanceof Array ? text.map((x) => ({ text: x })) : [{ text }]
         });
         return new Promise(async (resolve, reject) => {
+            const _body = new FormData();
+            _body.append('S-Param', body);
             axiosFetch
-                .post('https://go.ie.sogou.com/qbpc/translate', `S-Param=${body}`)
+                .post('https://go.ie.sogou.com/qbpc/translate', _body)
                 .then((response) => {
                 if (response?.data?.data?.trans_result && response?.data?.data?.trans_result instanceof Array) {
                     resolve(raw ? response.data : response.data.data.trans_result.map((x) => x.trans_text).join('\n') || '');

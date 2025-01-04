@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { HttpsProxyAgent } from 'hpagent';
 import https from 'node:https';
+import { randomBytes } from 'node:crypto';
 import require$$0$2 from 'stream';
 import require$$0 from 'zlib';
 import require$$0$1 from 'buffer';
@@ -57,15 +58,18 @@ class AxiosRequest {
             options.headers['user-agent'] = defaultUA;
         }
         const validPostRequest = (options?.method || '').toLowerCase() === 'post' && postData;
-        if (!options.headers['content-type']) {
+        const isFormData = postData instanceof FormData;
+        if (validPostRequest && !isFormData) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded';
-        }
-        if (validPostRequest) {
             if (typeof postData === 'object') {
                 postData = JSON.stringify(postData);
                 options.headers['content-type'] = 'application/json';
             }
             options.headers['content-length'] = Buffer.byteLength(postData);
+        } else if (isFormData) {
+            const multipartFormData = MultipartFormBuilder(postData);
+            options.headers['content-type'] = 'multipart/form-data; boundary=' + multipartFormData.boundary;
+            postData = multipartFormData.body;
         }
         return new Promise((resolve, reject) => {
             const req = https.request(url, options, (res) => {
@@ -118,6 +122,20 @@ class AxiosRequest {
         return this.requestHandle(url, data, { method: 'POST', ...options })
     }
 }
+const MultipartFormBuilder = (_body = new FormData()) => {
+    const boundary = '----WebKitFormBoundary' + randomBytes(16).toString('hex');
+    let body = '';
+    _body.forEach((v, k) => {
+        body += `--${boundary}\r\n`;
+        body += `Content-Disposition: form-data; name="${k}"\r\n\r\n`;
+        body += `${v}\r\n`;
+    });
+    body += `--${boundary}--`;
+    return {
+        boundary,
+        body
+    }
+};
 const axiosFetch = new AxiosRequest();
 
 const GOOGLE_LANGUAGE = ['aa', 'ab', 'ace', 'ach', 'af', 'ak', 'alz', 'am', 'ar', 'as', 'av', 'awa', 'ay', 'az', 'ba', 'bal', 'ban', 'bbc', 'bci', 'be', 'bem', 'ber', 'ber-latn', 'bew', 'bg', 'bho', 'bik', 'bm', 'bm-nkoo', 'bn', 'bo', 'br', 'bs', 'bts', 'btx', 'bua', 'ca', 'ce', 'ceb', 'cgg', 'ch', 'chk', 'chm', 'ckb', 'cnh', 'co', 'crh', 'crs', 'cs', 'cv', 'cy', 'da', 'de', 'din', 'doi', 'dov', 'dv', 'dyu', 'dz', 'ee', 'el', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fa-af', 'ff', 'fi', 'fj', 'fo', 'fon', 'fr', 'fur', 'fy', 'ga', 'gaa', 'gd', 'gl', 'gn', 'gom', 'gu', 'gv', 'ha', 'haw', 'hi', 'hil', 'hmn', 'hr', 'hrx', 'ht', 'hu', 'hy', 'iba', 'id', 'ig', 'ilo', 'is', 'it', 'iw', 'ja', 'jam', 'jw', 'ka', 'kac', 'kek', 'kg', 'kha', 'kk', 'kl', 'km', 'kn', 'ko', 'kr', 'kri', 'ktu', 'ku', 'kv', 'ky', 'la', 'lb', 'lg', 'li', 'lij', 'lmo', 'ln', 'lo', 'lt', 'ltg', 'luo', 'lus', 'lv', 'mad', 'mai', 'mak', 'mam', 'mfe', 'mg', 'mh', 'mi', 'min', 'mk', 'ml', 'mn', 'mni-mtei', 'mr', 'ms', 'ms-arab', 'mt', 'mwr', 'my', 'ndc-zw', 'ne', 'new', 'nhe', 'nl', 'no', 'nr', 'nso', 'nus', 'ny', 'oc', 'om', 'or', 'os', 'pa', 'pa-arab', 'pag', 'pam', 'pap', 'pl', 'ps', 'pt', 'pt-pt', 'qu', 'rn', 'ro', 'rom', 'ru', 'rw', 'sa', 'sah', 'sat-latn', 'scn', 'sd', 'se', 'sg', 'shn', 'si', 'sk', 'sl', 'sm', 'sn', 'so', 'sq', 'sr', 'ss', 'st', 'su', 'sus', 'sv', 'sw', 'szl', 'ta', 'tcy', 'te', 'tet', 'tg', 'th', 'ti', 'tiv', 'tk', 'tl', 'tn', 'to', 'tpi', 'tr', 'trp', 'ts', 'tt', 'tum', 'ty', 'tyv', 'udm', 'ug', 'uk', 'ur', 'uz', 've', 'vec', 'vi', 'war', 'wo', 'xh', 'yi', 'yo', 'yua', 'yue', 'zap', 'zh-cn', 'zh-tw', 'zu'];
@@ -3772,7 +3790,7 @@ const MicrosoftBrowserTTS = async (lang = 'en-US', text = '', ext = {}) => {
             }
         });
         ws.addEventListener('close', () => {
-            if (response.ext) {
+            {
                 response.ext.raw = responseContent;
             }
             response.buffer = concatBuffer(...responseContent.filter((x) => x.type === 'audio').map((x) => (typeof x.body !== 'string' ? x.body.buffer : new ArrayBuffer(0))));
@@ -3784,7 +3802,7 @@ const MicrosoftBrowserTTS = async (lang = 'en-US', text = '', ext = {}) => {
                 text = text.join('\n');
             }
             ws.send(encodeMSBrowserTTSRequest({
-                'Content-Type': 'application/ssml+xml',
+                'Content-Type': 'application/json; charset=utf-8',
                 'X-Timestamp': new Date().toString(),
                 Path: 'speech.config'
             }, JSON.stringify({
@@ -3831,8 +3849,10 @@ const SogouBrowserTranslator = async (text = '', source = 'auto', target, raw, e
         trans_frag: text instanceof Array ? text.map((x) => ({ text: x })) : [{ text }]
     });
     return new Promise(async (resolve, reject) => {
+        const _body = new FormData();
+        _body.append('S-Param', body);
         axiosFetch
-            .post('https://go.ie.sogou.com/qbpc/translate', `S-Param=${body}`)
+            .post('https://go.ie.sogou.com/qbpc/translate', _body)
             .then((response) => {
             if (response?.data?.data?.trans_result && response?.data?.data?.trans_result instanceof Array) {
                 resolve(raw ? response.data : response.data.data.trans_result.map((x) => x.trans_text).join('\n') || '');
