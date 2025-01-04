@@ -9,10 +9,9 @@ class AxiosRequest {
         if (!options.headers) {
             options.headers = {}
         }
-        if (!options.headers?.['content-type']) {
+        const isFormData = postData instanceof FormData
+        if (validPostRequest && !isFormData) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded'
-        }
-        if (validPostRequest) {
             if (typeof postData === 'object') {
                 postData = JSON.stringify(postData)
                 options.headers['content-type'] = 'application/json'
@@ -20,7 +19,7 @@ class AxiosRequest {
             options.headers['content-length'] = postData.length
             options.body = postData
         }
-        const method = options?.method || 'GET'
+        // const method = options?.method || 'GET'
         return new Promise((resolve, reject) => {
             if (typeof fetch === 'function') {
                 fetch(url, options)

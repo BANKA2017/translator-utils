@@ -1,6 +1,7 @@
 /// <reference path="index.node.d.ts" />
 import { HttpsProxyAgent } from 'hpagent'
 import https from 'node:https'
+import { randomBytes } from 'node:crypto'
 
 class AxiosRequest {
     requestHandle(url, postData, options = {}) {
@@ -20,15 +21,18 @@ class AxiosRequest {
         }
 
         const validPostRequest = (options?.method || '').toLowerCase() === 'post' && postData
-        if (!options.headers['content-type']) {
+        const isFormData = postData instanceof FormData
+        if (validPostRequest && !isFormData) {
             options.headers['content-type'] = 'application/x-www-form-urlencoded'
-        }
-        if (validPostRequest) {
             if (typeof postData === 'object') {
                 postData = JSON.stringify(postData)
                 options.headers['content-type'] = 'application/json'
             }
             options.headers['content-length'] = Buffer.byteLength(postData)
+        } else if (isFormData) {
+            const multipartFormData = MultipartFormBuilder(postData)
+            options.headers['content-type'] = 'multipart/form-data; boundary=' + multipartFormData.boundary
+            postData = multipartFormData.body
         }
         return new Promise((resolve, reject) => {
             const req = https.request(url, options, (res) => {
@@ -81,6 +85,23 @@ class AxiosRequest {
     }
     post(url, data = '', options = {}) {
         return this.requestHandle(url, data, { method: 'POST', ...options })
+    }
+}
+
+// FormData
+const MultipartFormBuilder = (_body = new FormData()) => {
+    const boundary = '----WebKitFormBoundary' + randomBytes(16).toString('hex')
+    let body = ''
+    _body.forEach((v, k) => {
+        body += `--${boundary}\r\n`
+        // TODO fix value issue?
+        body += `Content-Disposition: form-data; name="${k}"\r\n\r\n`
+        body += `${v}\r\n`
+    })
+    body += `--${boundary}--`
+    return {
+        boundary,
+        body
     }
 }
 

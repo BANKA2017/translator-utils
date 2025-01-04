@@ -18,8 +18,10 @@ const SogouBrowserTranslator: TranslatorModuleFunction<'sogou_browser'> = async 
         trans_frag: text instanceof Array ? text.map((x) => ({ text: x })) : [{ text }]
     })
     return new Promise(async (resolve, reject) => {
+        const _body = new FormData()
+        _body.append('S-Param', body)
         axiosFetch
-            .post('https://go.ie.sogou.com/qbpc/translate', `S-Param=${body}`)
+            .post('https://go.ie.sogou.com/qbpc/translate', _body)
             .then((response) => {
                 if (response?.data?.data?.trans_result && response?.data?.data?.trans_result instanceof Array) {
                     resolve(raw ? response.data : response.data.data.trans_result.map((x: any) => x.trans_text).join('\n') || '')
