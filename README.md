@@ -10,14 +10,10 @@ This is an early release version, everything are subject to change, please **DO 
 
 ## Predict (Nodejs/Deno)
 
-`baidu` / `yandex` / `microsoft` / `watson`
+`yandex` / `microsoft`
 
 ```javascript
-import { BaiduLanguagePredict, YandexDetect, MicrosoftBrowserPredict, WatsonDetect } from '@kdwnil/translator-utils'
-
-await BaiduLanguagePredict('hello') // en
-await BaiduLanguagePredict('你好') // zh
-await BaiduLanguagePredict('') // _
+import { YandexDetect, MicrosoftBrowserPredict } from '@kdwnil/translator-utils'
 
 await YandexDetect('hello') // en
 await YandexDetect('你好') // zh
@@ -58,14 +54,10 @@ await GoogleBrowserTranslate('你好', 'auto', 'zh-cn', false)
 
 `ext` is an optional parameter used for state management.
 
-`baidu` and `microsoft`/`microsoft_browser` only
+`microsoft`/`microsoft_browser` only
 
 ```javascript
-import Translator, { GetBaiduTranslatorToken, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken } from '@kdwnil/translator-util'
-
-// baidu
-const { cookie, common, gtk } = await GetBaiduTranslatorToken()
-console.log(await Translator('hello', 'baidu', 'auto', 'zh', false, { cookie, token: common.token, gtk }))
+import Translator, { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken } from '@kdwnil/translator-util'
 
 // microsoft
 const { IG, token, key } = await GetMicrosoftTranslatorToken()
@@ -80,10 +72,10 @@ To know more, view files in [~/src/source](https://github.com/BANKA2017/translat
 
 ## TTS
 
-`google`/`microsoft_tts`/`microsoft_edge_tts`/`baidu`/`sogou`
+`google`/`microsoft_tts`/`microsoft_edge_tts`/`sogou`
 
 ```javascript
-import { BaiduTTS, GetMicrosoftTranslatorToken, MicrosoftTTS, MicrosoftBrowserTTS, GoogleTTS, SogouTTS } from '@kdwnil/translator-util'
+import { GetMicrosoftTranslatorToken, MicrosoftTTS, MicrosoftBrowserTTS, GoogleTTS, SogouTTS } from '@kdwnil/translator-util'
 
 // google
 console.log(await GoogleTTS('en', 'hi'))
@@ -95,11 +87,6 @@ console.log(await MicrosoftTTS('en', 'hi', { IG: msToken.IG, token: msToken.toke
 // ms edge
 // You can use MicrosoftBrowserTTS in cli and browser
 console.log(await MicrosoftBrowserTTS('en-US', 'hi', { optput_format: 'webm-24khz-16bit-mono-opus', voice: 'en-US-AvaNeural' }))
-
-// baidu & sogou
-// * baidu always returns an empty response
-console.log(await BaiduTTS('en', 'hi'))
-console.log(await SogouTTS('en', 'hi'))
 ```
 
 ## Browser
@@ -152,5 +139,9 @@ yarn add @kdwnil/translator-utils@github:BANKA2017/translator-utils#npm
 
 ```javascript
 //like npm
-import Translator, { GoogleBrowserTranslate, BaiduLanguagePredict } from 'https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@npm/dist/esm/translator.mod.js'
+import Translator, { GoogleBrowserTranslate } from 'https://cdn.jsdelivr.net/gh/BANKA2017/translator-utils@npm/dist/esm/translator.mod.js'
 ```
+
+## Others
+
+The last version that provides Baidu Translator and Watson is [`0.0.2-alpha.36`](https://github.com/BANKA2017/translator-utils/commit/01ec1878d4a06b2dd5469b79aef0ce7184192ab6)

@@ -55,19 +55,6 @@ jsContent += `export const DEEPL_LANGUAGE: TargetFilter['deepl'][] = [${Object.e
     .join(',')}]\n`
 jsContent += `export const DEEPL_LANGUAGE_OBJECT: { [p in DEEPL_LIST]: string } = ${JSON.stringify(deepl)}\n`
 
-// baidu content/type/tts
-const baidu = JSON.parse(readFileSync('../assets/target/baidu.json', 'utf-8'))
-jsContent += `export type BAIDU_LIST = ${Object.entries(baidu)
-    .map((lang) => "'" + lang[0] + "'")
-    .join('|')}\n`
-jsContent += `export const BAIDU_LANGUAGE: TargetFilter['baidu'][] = [${Object.entries(baidu)
-    .map((lang) => "'" + lang[0] + "'")
-    .join(',')}]\n`
-jsContent += `export const BAIDU_LANGUAGE_OBJECT: { [p in BAIDU_LIST]: string } = ${JSON.stringify(baidu)}\n`
-
-const baidu_tts = JSON.parse(readFileSync('../assets/target/baidu_tts.json', 'utf-8'))
-jsContent += `export type BAIDU_TTS_LIST = ${baidu_tts.map((lang) => "'" + lang + "'").join('|')}\n`
-
 // sogou
 const sogou = JSON.parse(readFileSync('../assets/target/sogou.json', 'utf-8'))
 jsContent += `export type SOGOU_LIST = ${Object.entries(sogou)
@@ -79,11 +66,5 @@ jsContent += `export const SOGOU_LANGUAGE: TargetFilter['sogou'][] = [${Object.e
 jsContent += `export const SOGOU_LANGUAGE_OBJECT: { [p in SOGOU_LIST]: string } = ${JSON.stringify(sogou)}\n`
 
 jsContent += `export type SOGOU_TTS_LIST = Exclude<SOGOU_LIST, 'tr'>\n`
-
-// watson
-const watson = JSON.parse(readFileSync('../assets/target/watson.json', 'utf-8'))
-jsContent += `export type WATSON_LIST = ${watson.payload.sourceLanguages.map((lang) => "'" + lang.language + "'").join('|')}\n`
-jsContent += `export const WATSON_LANGUAGE: TargetFilter['watson'][] = [${watson.payload.sourceLanguages.map((lang) => "'" + lang.language + "'").join(',')}]\n`
-jsContent += `export const WATSON_LANGUAGE_OBJECT: { [p in WATSON_LIST]: string } = ${JSON.stringify(Object.fromEntries(watson.payload.sourceLanguages.map((lang) => [lang.language, lang.name])))}\n`
 
 writeFileSync('../src/language.ts', jsContent)

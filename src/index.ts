@@ -1,14 +1,12 @@
-import { BaiduLanguagePredict, BaiduTranslator, GetBaiduTranslatorToken, BaiduTTS } from './source/baidu.js'
 import { DeepL } from './source/deepl.js'
 import { GoogleTranslate, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTTS, GoogleTranslateTk } from './source/google.js'
 import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftTTS, MicrosoftBrowserTTS } from './source/microsoft.js'
 import { SogouBrowserTranslator, SogouTTS } from './source/sogou.js'
 import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from './source/yandex.js'
-import { WatsonDetect, WatsonTranslator } from './source/watson.js'
 
 import { IsChs, IsCht } from './misc.js'
 import type { TranslatorFunction } from './types.js'
-import type { BAIDU_LIST, BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, WATSON_LIST, YANDEX_LIST } from './language.js'
+import type { BING_LIST, DEEPL_LIST, GOOGLE_LIST, SOGOU_LIST, YANDEX_LIST } from './language.js'
 
 const Translator: TranslatorFunction = async (text = '', platform, source, target, raw, ext = {}) => {
     let result = { content: '', message: '' }
@@ -39,14 +37,9 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
             case 'yandex_browser':
                 result.content = await YandexBrowserTranslator(text, source as YANDEX_LIST, target as YANDEX_LIST, !!raw, ext)
                 break
-            case 'baidu':
-                result.content = await BaiduTranslator(text, source as BAIDU_LIST, target as BAIDU_LIST, !!raw, ext)
-                break
             case 'deepl':
                 result.content = await DeepL(text, source as DEEPL_LIST, target as DEEPL_LIST, !!raw, ext)
                 break
-            case 'watson':
-                result.content = await WatsonTranslator(text, source as WATSON_LIST, target as WATSON_LIST, !!raw, ext)
         }
     } catch (e) {
         result.message = String(e)
@@ -54,25 +47,9 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
     return result
 }
 
-export {
-    BaiduLanguagePredict,
-    YandexDetect,
-    MicrosoftBrowserPredict,
-    WatsonDetect,
-    BaiduTranslator,
-    DeepL,
-    WatsonTranslator,
-    GoogleBrowserTranslate,
-    GoogleBrowserTranslateV2,
-    GoogleTranslate,
-    MicrosoftBrowserTranslator,
-    MicrosoftTranslator,
-    SogouBrowserTranslator,
-    YandexTranslator,
-    YandexBrowserTranslator
-}
-export { GetBaiduTranslatorToken, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken }
+export { YandexDetect, MicrosoftBrowserPredict, DeepL, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexTranslator, YandexBrowserTranslator }
+export { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken }
 export { GoogleTranslateTk }
 export { IsChs, IsCht }
-export { GoogleTTS, MicrosoftTTS, MicrosoftBrowserTTS, BaiduTTS, SogouTTS }
+export { GoogleTTS, MicrosoftTTS, MicrosoftBrowserTTS, SogouTTS }
 export default Translator
