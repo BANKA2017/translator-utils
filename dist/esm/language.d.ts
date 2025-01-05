@@ -1,4 +1,4 @@
-import type { TargetFilter } from './types.js';
+import type { TargetFilter } from 'types.js';
 export type GOOGLE_LIST = 'aa' | 'ab' | 'ace' | 'ach' | 'af' | 'ak' | 'alz' | 'am' | 'ar' | 'as' | 'av' | 'awa' | 'ay' | 'az' | 'ba' | 'bal' | 'ban' | 'bbc' | 'bci' | 'be' | 'bem' | 'ber' | 'ber-latn' | 'bew' | 'bg' | 'bho' | 'bik' | 'bm' | 'bm-nkoo' | 'bn' | 'bo' | 'br' | 'bs' | 'bts' | 'btx' | 'bua' | 'ca' | 'ce' | 'ceb' | 'cgg' | 'ch' | 'chk' | 'chm' | 'ckb' | 'cnh' | 'co' | 'crh' | 'crs' | 'cs' | 'cv' | 'cy' | 'da' | 'de' | 'din' | 'doi' | 'dov' | 'dv' | 'dyu' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'fa-af' | 'ff' | 'fi' | 'fj' | 'fo' | 'fon' | 'fr' | 'fur' | 'fy' | 'ga' | 'gaa' | 'gd' | 'gl' | 'gn' | 'gom' | 'gu' | 'gv' | 'ha' | 'haw' | 'hi' | 'hil' | 'hmn' | 'hr' | 'hrx' | 'ht' | 'hu' | 'hy' | 'iba' | 'id' | 'ig' | 'ilo' | 'is' | 'it' | 'iw' | 'ja' | 'jam' | 'jw' | 'ka' | 'kac' | 'kek' | 'kg' | 'kha' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'kr' | 'kri' | 'ktu' | 'ku' | 'kv' | 'ky' | 'la' | 'lb' | 'lg' | 'li' | 'lij' | 'lmo' | 'ln' | 'lo' | 'lt' | 'ltg' | 'luo' | 'lus' | 'lv' | 'mad' | 'mai' | 'mak' | 'mam' | 'mfe' | 'mg' | 'mh' | 'mi' | 'min' | 'mk' | 'ml' | 'mn' | 'mni-mtei' | 'mr' | 'ms' | 'ms-arab' | 'mt' | 'mwr' | 'my' | 'ndc-zw' | 'ne' | 'new' | 'nhe' | 'nl' | 'no' | 'nr' | 'nso' | 'nus' | 'ny' | 'oc' | 'om' | 'or' | 'os' | 'pa' | 'pa-arab' | 'pag' | 'pam' | 'pap' | 'pl' | 'ps' | 'pt' | 'pt-pt' | 'qu' | 'rn' | 'ro' | 'rom' | 'ru' | 'rw' | 'sa' | 'sah' | 'sat-latn' | 'scn' | 'sd' | 'se' | 'sg' | 'shn' | 'si' | 'sk' | 'sl' | 'sm' | 'sn' | 'so' | 'sq' | 'sr' | 'ss' | 'st' | 'su' | 'sus' | 'sv' | 'sw' | 'szl' | 'ta' | 'tcy' | 'te' | 'tet' | 'tg' | 'th' | 'ti' | 'tiv' | 'tk' | 'tl' | 'tn' | 'to' | 'tpi' | 'tr' | 'trp' | 'ts' | 'tt' | 'tum' | 'ty' | 'tyv' | 'udm' | 'ug' | 'uk' | 'ur' | 'uz' | 've' | 'vec' | 'vi' | 'war' | 'wo' | 'xh' | 'yi' | 'yo' | 'yua' | 'yue' | 'zap' | 'zh-cn' | 'zh-tw' | 'zu';
 export declare const GOOGLE_LANGUAGE: TargetFilter['google'][];
 export declare const GOOGLE_LANGUAGE_OBJECT: {
@@ -32,20 +32,9 @@ export declare const DEEPL_LANGUAGE: TargetFilter['deepl'][];
 export declare const DEEPL_LANGUAGE_OBJECT: {
     [p in DEEPL_LIST]: string;
 };
-export type BAIDU_LIST = 'ach' | 'afr' | 'aka' | 'alb' | 'amh' | 'ara' | 'arg' | 'arm' | 'arq' | 'asm' | 'ast' | 'aym' | 'aze' | 'bak' | 'bal' | 'baq' | 'bel' | 'bem' | 'ben' | 'ber' | 'bho' | 'bis' | 'bli' | 'bos' | 'bre' | 'bul' | 'bur' | 'cat' | 'ceb' | 'chr' | 'cht' | 'chv' | 'cor' | 'cos' | 'cre' | 'cri' | 'cs' | 'dan' | 'de' | 'div' | 'el' | 'en' | 'eno' | 'epo' | 'est' | 'fao' | 'fil' | 'fin' | 'fra' | 'fri' | 'frm' | 'frn' | 'fry' | 'ful' | 'geo' | 'gla' | 'gle' | 'glg' | 'glv' | 'gra' | 'grn' | 'guj' | 'hak' | 'hau' | 'haw' | 'heb' | 'hi' | 'hil' | 'hkm' | 'hmn' | 'hrv' | 'ht' | 'hu' | 'hup' | 'ibo' | 'ice' | 'id' | 'ido' | 'iku' | 'ina' | 'ing' | 'it' | 'jav' | 'jp' | 'kab' | 'kah' | 'kal' | 'kan' | 'kas' | 'kau' | 'kin' | 'kir' | 'kli' | 'kok' | 'kon' | 'kor' | 'kur' | 'lag' | 'lao' | 'lat' | 'lav' | 'lim' | 'lin' | 'lit' | 'log' | 'loj' | 'los' | 'ltz' | 'lug' | 'mac' | 'mah' | 'mai' | 'mal' | 'mao' | 'mar' | 'mau' | 'may' | 'mg' | 'mlt' | 'mot' | 'nbl' | 'nea' | 'nep' | 'nl' | 'nno' | 'nob' | 'nor' | 'nqo' | 'nya' | 'oci' | 'oji' | 'ori' | 'orm' | 'oss' | 'pam' | 'pan' | 'pap' | 'ped' | 'per' | 'pl' | 'pot' | 'pt' | 'pus' | 'que' | 'ro' | 'roh' | 'rom' | 'ru' | 'ruy' | 'san' | 'sco' | 'sec' | 'sha' | 'sil' | 'sin' | 'sk' | 'slo' | 'sm' | 'sme' | 'sna' | 'snd' | 'sol' | 'som' | 'sot' | 'spa' | 'src' | 'srd' | 'srp' | 'sun' | 'swa' | 'swe' | 'syr' | 'tam' | 'tat' | 'tel' | 'tet' | 'tgk' | 'tgl' | 'th' | 'tir' | 'tr' | 'tso' | 'tua' | 'tuk' | 'twi' | 'ukr' | 'ups' | 'urd' | 'ven' | 'vie' | 'wel' | 'wln' | 'wol' | 'wyw' | 'xho' | 'yid' | 'yor' | 'yue' | 'zaz' | 'zh' | 'zul';
-export declare const BAIDU_LANGUAGE: TargetFilter['baidu'][];
-export declare const BAIDU_LANGUAGE_OBJECT: {
-    [p in BAIDU_LIST]: string;
-};
-export type BAIDU_TTS_LIST = 'en' | 'zh' | 'yue' | 'ara' | 'kor' | 'jp' | 'th' | 'pt' | 'spa' | 'fra' | 'ru' | 'de' | 'uk';
 export type SOGOU_LIST = 'ar' | 'pl' | 'da' | 'de' | 'ru' | 'fr' | 'fi' | 'ko' | 'nl' | 'cs' | 'pt' | 'ja' | 'sv' | 'th' | 'tr' | 'es' | 'hu' | 'en' | 'it' | 'vi' | 'zh-CHS';
 export declare const SOGOU_LANGUAGE: TargetFilter['sogou'][];
 export declare const SOGOU_LANGUAGE_OBJECT: {
     [p in SOGOU_LIST]: string;
 };
 export type SOGOU_TTS_LIST = Exclude<SOGOU_LIST, 'tr'>;
-export type WATSON_LIST = 'ar' | 'bg' | 'bn' | 'bs' | 'ca' | 'cnr' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'fr-CA' | 'ga' | 'gu' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kn' | 'ko' | 'lt' | 'lv' | 'ml' | 'mr' | 'ms' | 'mt' | 'nb' | 'ne' | 'nl' | 'pa' | 'pl' | 'pt' | 'ro' | 'ru' | 'si' | 'sk' | 'sl' | 'sr' | 'sv' | 'ta' | 'te' | 'th' | 'tr' | 'uk' | 'ur' | 'vi' | 'zh' | 'zh-TW';
-export declare const WATSON_LANGUAGE: TargetFilter['watson'][];
-export declare const WATSON_LANGUAGE_OBJECT: {
-    [p in WATSON_LIST]: string;
-};

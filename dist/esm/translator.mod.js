@@ -119,9 +119,48 @@ const BING_LANGUAGE = ['af', 'am', 'ar', 'as', 'az', 'ba', 'bg', 'bho', 'bn', 'b
 const MICROSOFT_TTS_LIST = [{ "code": "af", "language": "af-ZA", "gender": "Female", "model": "af-ZA-AdriNeural" }, { "code": "am", "language": "am-ET", "gender": "Female", "model": "am-ET-MekdesNeural" }, { "code": "ar", "language": "ar-SA", "gender": "Male", "model": "ar-SA-HamedNeural" }, { "code": "bn", "language": "bn-IN", "gender": "Female", "model": "bn-IN-TanishaaNeural" }, { "code": "bg", "language": "bg-BG", "gender": "Male", "model": "bg-BG-BorislavNeural" }, { "code": "ca", "language": "ca-ES", "gender": "Female", "model": "ca-ES-JoanaNeural" }, { "code": "cs", "language": "cs-CZ", "gender": "Male", "model": "cs-CZ-AntoninNeural" }, { "code": "cy", "language": "cy-GB", "gender": "Female", "model": "cy-GB-NiaNeural" }, { "code": "da", "language": "da-DK", "gender": "Female", "model": "da-DK-ChristelNeural" }, { "code": "de", "language": "de-DE", "gender": "Female", "model": "de-DE-KatjaNeural" }, { "code": "el", "language": "el-GR", "gender": "Male", "model": "el-GR-NestorasNeural" }, { "code": "en", "language": "en-US", "gender": "Female", "model": "en-US-AriaNeural" }, { "code": "es", "language": "es-ES", "gender": "Female", "model": "es-ES-ElviraNeural" }, { "code": "et", "language": "et-EE", "gender": "Female", "model": "et-EE-AnuNeural" }, { "code": "fa", "language": "fa-IR", "gender": "Female", "model": "fa-IR-DilaraNeural" }, { "code": "fi", "language": "fi-FI", "gender": "Female", "model": "fi-FI-NooraNeural" }, { "code": "fr", "language": "fr-FR", "gender": "Female", "model": "fr-FR-DeniseNeural" }, { "code": "fr-ca", "language": "fr-CA", "gender": "Female", "model": "fr-CA-SylvieNeural" }, { "code": "ga", "language": "ga-IE", "gender": "Female", "model": "ga-IE-OrlaNeural" }, { "code": "gu", "language": "gu-IN", "gender": "Female", "model": "gu-IN-DhwaniNeural" }, { "code": "he", "language": "he-IL", "gender": "Male", "model": "he-IL-AvriNeural" }, { "code": "hi", "language": "hi-IN", "gender": "Female", "model": "hi-IN-SwaraNeural" }, { "code": "hr", "language": "hr-HR", "gender": "Male", "model": "hr-HR-SreckoNeural" }, { "code": "hu", "language": "hu-HU", "gender": "Male", "model": "hu-HU-TamasNeural" }, { "code": "id", "language": "id-ID", "gender": "Male", "model": "id-ID-ArdiNeural" }, { "code": "is", "language": "is-IS", "gender": "Female", "model": "is-IS-GudrunNeural" }, { "code": "it", "language": "it-IT", "gender": "Male", "model": "it-IT-DiegoNeural" }, { "code": "ja", "language": "ja-JP", "gender": "Female", "model": "ja-JP-NanamiNeural" }, { "code": "kk", "language": "kk-KZ", "gender": "Female", "model": "kk-KZ-AigulNeural" }, { "code": "km", "language": "km-KH", "gender": "Female", "model": "km-KH-SreymomNeural" }, { "code": "kn", "language": "kn-IN", "gender": "Female", "model": "kn-IN-SapnaNeural" }, { "code": "ko", "language": "ko-KR", "gender": "Female", "model": "ko-KR-SunHiNeural" }, { "code": "lo", "language": "lo-LA", "gender": "Female", "model": "lo-LA-KeomanyNeural" }, { "code": "lv", "language": "lv-LV", "gender": "Female", "model": "lv-LV-EveritaNeural" }, { "code": "lt", "language": "lt-LT", "gender": "Female", "model": "lt-LT-OnaNeural" }, { "code": "mk", "language": "mk-MK", "gender": "Female", "model": "mk-MK-MarijaNeural" }, { "code": "ml", "language": "ml-IN", "gender": "Female", "model": "ml-IN-SobhanaNeural" }, { "code": "mr", "language": "mr-IN", "gender": "Female", "model": "mr-IN-AarohiNeural" }, { "code": "ms", "language": "ms-MY", "gender": "Male", "model": "ms-MY-OsmanNeural" }, { "code": "mt", "language": "mt-MT", "gender": "Female", "model": "mt-MT-GraceNeural" }, { "code": "my", "language": "my-MM", "gender": "Female", "model": "my-MM-NilarNeural" }, { "code": "nl", "language": "nl-NL", "gender": "Female", "model": "nl-NL-ColetteNeural" }, { "code": "nb", "language": "nb-NO", "gender": "Female", "model": "nb-NO-PernilleNeural" }, { "code": "pl", "language": "pl-PL", "gender": "Female", "model": "pl-PL-ZofiaNeural" }, { "code": "ps", "language": "ps-AF", "gender": "Female", "model": "ps-AF-LatifaNeural" }, { "code": "pt", "language": "pt-BR", "gender": "Female", "model": "pt-BR-FranciscaNeural" }, { "code": "pt-pt", "language": "pt-PT", "gender": "Female", "model": "pt-PT-FernandaNeural" }, { "code": "ro", "language": "ro-RO", "gender": "Male", "model": "ro-RO-EmilNeural" }, { "code": "ru", "language": "ru-RU", "gender": "Female", "model": "ru-RU-DariyaNeural" }, { "code": "sk", "language": "sk-SK", "gender": "Male", "model": "sk-SK-LukasNeural" }, { "code": "sl", "language": "sl-SI", "gender": "Male", "model": "sl-SI-RokNeural" }, { "code": "sr-cyrl", "language": "sr-RS", "gender": "Female", "model": "sr-RS-SophieNeural" }, { "code": "sv", "language": "sv-SE", "gender": "Female", "model": "sv-SE-SofieNeural" }, { "code": "ta", "language": "ta-IN", "gender": "Female", "model": "ta-IN-PallaviNeural" }, { "code": "te", "language": "te-IN", "gender": "Male", "model": "te-IN-ShrutiNeural" }, { "code": "th", "language": "th-TH", "gender": "Male", "model": "th-TH-NiwatNeural" }, { "code": "tr", "language": "tr-TR", "gender": "Female", "model": "tr-TR-EmelNeural" }, { "code": "uk", "language": "uk-UA", "gender": "Female", "model": "uk-UA-PolinaNeural" }, { "code": "ur", "language": "ur-IN", "gender": "Female", "model": "ur-IN-GulNeural" }, { "code": "uz", "language": "uz-UZ", "gender": "Female", "model": "uz-UZ-MadinaNeural" }, { "code": "vi", "language": "vi-VN", "gender": "Male", "model": "vi-VN-NamMinhNeural" }, { "code": "zh-hans", "language": "zh-CN", "gender": "Female", "model": "zh-CN-XiaoxiaoNeural" }, { "code": "zh-hant", "language": "zh-CN", "gender": "Female", "model": "zh-CN-XiaoxiaoNeural" }, { "code": "yue", "language": "zh-HK", "gender": "Female", "model": "zh-HK-HiuGaaiNeural" }];
 const YANDEX_LANGUAGE = ['af', 'am', 'ar', 'az', 'ba', 'be', 'bg', 'bn', 'bs', 'ca', 'ceb', 'cs', 'cv', 'cy', 'da', 'de', 'el', 'emj', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fr', 'ga', 'gd', 'gl', 'gu', 'he', 'hi', 'hr', 'ht', 'hu', 'hy', 'id', 'is', 'it', 'ja', 'jv', 'ka', 'kazlat', 'kk', 'km', 'kn', 'ko', 'ky', 'la', 'lb', 'lo', 'lt', 'lv', 'mg', 'mhr', 'mi', 'mk', 'ml', 'mn', 'mr', 'mrj', 'ms', 'mt', 'my', 'ne', 'nl', 'no', 'pa', 'pap', 'pl', 'pt', 'ro', 'ru', 'sah', 'si', 'sjn', 'sk', 'sl', 'sq', 'sr', 'su', 'sv', 'sw', 'ta', 'te', 'tg', 'th', 'tl', 'tr', 'tt', 'udm', 'uk', 'ur', 'uz', 'uzbcyr', 'vi', 'xh', 'yi', 'zh', 'zu'];
 const DEEPL_LANGUAGE = ['ar', 'bg', 'cs', 'da', 'de', 'el', 'en', 'en-gb', 'en-us', 'es', 'et', 'fi', 'fr', 'ga', 'hr', 'hu', 'id', 'is', 'it', 'ja', 'ko', 'lt', 'lv', 'mt', 'nb', 'nl', 'no', 'pl', 'pt', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'tr', 'uk', 'zh'];
-const BAIDU_LANGUAGE = ['ach', 'afr', 'aka', 'alb', 'amh', 'ara', 'arg', 'arm', 'arq', 'asm', 'ast', 'aym', 'aze', 'bak', 'bal', 'baq', 'bel', 'bem', 'ben', 'ber', 'bho', 'bis', 'bli', 'bos', 'bre', 'bul', 'bur', 'cat', 'ceb', 'chr', 'cht', 'chv', 'cor', 'cos', 'cre', 'cri', 'cs', 'dan', 'de', 'div', 'el', 'en', 'eno', 'epo', 'est', 'fao', 'fil', 'fin', 'fra', 'fri', 'frm', 'frn', 'fry', 'ful', 'geo', 'gla', 'gle', 'glg', 'glv', 'gra', 'grn', 'guj', 'hak', 'hau', 'haw', 'heb', 'hi', 'hil', 'hkm', 'hmn', 'hrv', 'ht', 'hu', 'hup', 'ibo', 'ice', 'id', 'ido', 'iku', 'ina', 'ing', 'it', 'jav', 'jp', 'kab', 'kah', 'kal', 'kan', 'kas', 'kau', 'kin', 'kir', 'kli', 'kok', 'kon', 'kor', 'kur', 'lag', 'lao', 'lat', 'lav', 'lim', 'lin', 'lit', 'log', 'loj', 'los', 'ltz', 'lug', 'mac', 'mah', 'mai', 'mal', 'mao', 'mar', 'mau', 'may', 'mg', 'mlt', 'mot', 'nbl', 'nea', 'nep', 'nl', 'nno', 'nob', 'nor', 'nqo', 'nya', 'oci', 'oji', 'ori', 'orm', 'oss', 'pam', 'pan', 'pap', 'ped', 'per', 'pl', 'pot', 'pt', 'pus', 'que', 'ro', 'roh', 'rom', 'ru', 'ruy', 'san', 'sco', 'sec', 'sha', 'sil', 'sin', 'sk', 'slo', 'sm', 'sme', 'sna', 'snd', 'sol', 'som', 'sot', 'spa', 'src', 'srd', 'srp', 'sun', 'swa', 'swe', 'syr', 'tam', 'tat', 'tel', 'tet', 'tgk', 'tgl', 'th', 'tir', 'tr', 'tso', 'tua', 'tuk', 'twi', 'ukr', 'ups', 'urd', 'ven', 'vie', 'wel', 'wln', 'wol', 'wyw', 'xho', 'yid', 'yor', 'yue', 'zaz', 'zh', 'zul'];
 const SOGOU_LANGUAGE = ['ar', 'pl', 'da', 'de', 'ru', 'fr', 'fi', 'ko', 'nl', 'cs', 'pt', 'ja', 'sv', 'th', 'tr', 'es', 'hu', 'en', 'it', 'vi', 'zh-CHS'];
-const WATSON_LANGUAGE = ['ar', 'bg', 'bn', 'bs', 'ca', 'cnr', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et', 'eu', 'fi', 'fr', 'fr-CA', 'ga', 'gu', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kn', 'ko', 'lt', 'lv', 'ml', 'mr', 'ms', 'mt', 'nb', 'ne', 'nl', 'pa', 'pl', 'pt', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'ta', 'te', 'th', 'tr', 'uk', 'ur', 'vi', 'zh', 'zh-TW'];
+
+const getId = () => cryptoHandle.getRandomValues(new Uint32Array(1))[0];
+const DeepL = async (text = '', source = 'auto', target, raw, ext = {}) => {
+    if (!text) {
+        return Promise.reject('Empty text #DeepL ');
+    }
+    if (!SupportedLanguage(DEEPL_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(DEEPL_LANGUAGE, source || 'en'))) {
+        return Promise.reject('Unsupported target language #DeepL ');
+    }
+    //{"jsonrpc":"2.0","method": "LMT_handle_texts","params":{"texts":[{"text":"[Schoolgirl Strikers: Animation Channel]"}],"splitting":"newlines","lang":{"target_lang":"ZH","source_lang_user_selected":"auto","preference":{"weight":{}}},"timestamp":0},"id":0}
+    const realTimeStamp = Number(new Date());
+    const i_count = (text instanceof Array ? text.join('') : text).split('i').length;
+    const id = getId(); // + 1
+    const postBody = JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'LMT_handle_texts',
+        params: {
+            texts: text instanceof Array ? text.map((x) => ({ text: x })) : [{ text }],
+            lang: {
+                target_lang: (target || 'en').toUpperCase(),
+                source_lang_user_selected: source
+            },
+            timestamp: realTimeStamp - (realTimeStamp % i_count) + i_count
+        },
+        id
+    }).replace('"method":"', (id + 3) % 13 === 0 || (id + 5) % 29 === 0 ? '"method" : "' : '"method": "');
+    return new Promise(async (resolve, reject) => {
+        axiosFetch
+            .post('https://www2.deepl.com/jsonrpc?client=chrome-extension,1.1.1', postBody, {
+            headers: {
+                'content-type': 'application/json; charset=utf-8'
+            }
+        })
+            .then((response) => {
+            resolve(raw ? response.data : response.data.result.texts.map((x) => x.text).join('\n'));
+        })
+            .catch((e) => {
+            reject(raw ? e : e.toString());
+        });
+    });
+};
 
 const GoogleTranslate = async (text = '', source = 'auto', target, raw, ext = {}) => {
     if (!text) {
@@ -348,207 +387,6 @@ const GoogleTTS = async (lang = 'en', text = '', ext = {}) => {
     catch {
         return { buffer: new Uint8Array().buffer, content_type: '', content_length: 0 };
     }
-};
-
-//const gtk =[320305, 131321201]
-const baiduPreprocessing = (text) => {
-    let textArray = [...text];
-    if (textArray.length > 30) {
-        return textArray.slice(0, 10).join('') + textArray.slice(Math.floor(textArray.length / 2) - 5, Math.floor(textArray.length / 2) + 5).join('') + textArray.slice(-10).join('');
-    }
-    return text;
-};
-const GetBaiduTranslatorToken = async (cookie = '', loop = 0) => {
-    let resultContent = {
-        message: null,
-        page: null,
-        cookie: null,
-        common: null,
-        gtk: null
-    };
-    if (loop > 5) {
-        resultContent.message = 'Unable to get translator page (Loop > 5) #BaiduTranslator ';
-        return resultContent;
-    }
-    if (cookie) {
-        resultContent.cookie = cookie;
-    }
-    try {
-        const tmpWebPage = await axiosFetch.get('https://fanyi.baidu.com/', {
-            headers: { cookie }
-        });
-        if (tmpWebPage.headers['set-cookie']) {
-            const tmpBaiduCookie = Array.isArray(tmpWebPage.headers['set-cookie']) ? tmpWebPage.headers['set-cookie'] : [tmpWebPage.headers['set-cookie']];
-            //get cookie again
-            return GetBaiduTranslatorToken(tmpBaiduCookie.map((cookie) => cookie.split(';')[0]).join(';'), ++loop);
-        }
-        else {
-            resultContent.page = tmpWebPage.data;
-            try {
-                resultContent.common = new Function('let localStorage={getItem:function(n){return 1}};return ' + /window\['common'\](?:\s|)=(?:\s|)([^;]+);/.exec(tmpWebPage.data || '')?.[1].replaceAll(':,', ':') || 'null')();
-                const tmpGtk = String(new Function('return ' + /window\.gtk(?:\s|)=(?:\s|)"([^;]+)";/.exec(tmpWebPage.data || '')?.[1] || '""')())
-                    .split('.')
-                    .map((x) => Number(x));
-                if (tmpGtk.length === 2) {
-                    resultContent.gtk = tmpGtk;
-                }
-                else {
-                    throw null;
-                }
-            }
-            catch (e) {
-                resultContent.message = 'Unable to get variables #BaiduTranslator ';
-                return resultContent;
-            }
-            return resultContent;
-        }
-    }
-    catch (e) {
-        resultContent.message = 'Unable to get translator page #BaiduTranslator ';
-        return resultContent;
-    }
-};
-const BaiduLanguagePredict = async (text = '', cookie = '') => {
-    if (!text) {
-        return '_';
-    }
-    if (Array.isArray(text)) {
-        text = text.join('\n');
-    }
-    try {
-        const languageResult = await axiosFetch.post('https://fanyi.baidu.com/langdetect', new URLSearchParams({ query: text }).toString(), { headers: { cookie } });
-        if (languageResult.data?.error === 0 && languageResult.data?.lan) {
-            return languageResult.data?.lan || '';
-        }
-        else {
-            return '_';
-        }
-    }
-    catch (e) {
-        return '_';
-    }
-};
-const BaiduTranslator = async (text = '', source = 'auto', target, raw, ext = {}) => {
-    if (!text) {
-        return Promise.reject('Empty text #BaiduTranslator ');
-    }
-    if (!SupportedLanguage(BAIDU_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(BAIDU_LANGUAGE, source || 'en'))) {
-        return Promise.reject('Unsupported target language #BaiduTranslator ');
-    }
-    //get baidu translator page
-    let cookie = '', token = '', gtk = [];
-    if (ext.cookie && typeof ext.cookie === 'string' && ext.token && typeof ext.token === 'string' && ext.gtk && Array.isArray(ext.gtk) && ext.gtk.length === 2 && !ext.gtk.some((gtkItem) => isNaN(gtkItem))) {
-        cookie = ext.cookie;
-        token = ext.token;
-        gtk = ext.gtk;
-    }
-    else {
-        const baiduTranslatorTokenResponse = await GetBaiduTranslatorToken();
-        if (baiduTranslatorTokenResponse.message) {
-            return Promise.reject(baiduTranslatorTokenResponse.message);
-        }
-        else if (baiduTranslatorTokenResponse.page && baiduTranslatorTokenResponse.cookie) {
-            cookie = baiduTranslatorTokenResponse.cookie;
-            token = baiduTranslatorTokenResponse.common?.token || '';
-            gtk = baiduTranslatorTokenResponse.gtk;
-        }
-        else {
-            return Promise.reject('Empty text #BaiduTranslator ');
-        }
-    }
-    const fromLaguage = source === 'auto' ? await BaiduLanguagePredict(text, cookie) : source;
-    if (fromLaguage === '_') {
-        return Promise.reject('Unsupported source language #BaiduTranslator ');
-    }
-    return new Promise(async (resolve, reject) => {
-        if (Array.isArray(text)) {
-            text = text.join('\n');
-        }
-        axiosFetch
-            .post('https://fanyi.baidu.com/v2transapi?' +
-            new URLSearchParams({
-                from: fromLaguage,
-                to: target || 'en'
-            }).toString(), new URLSearchParams({
-            from: fromLaguage,
-            to: target || 'en',
-            query: text,
-            transtype: 'translang',
-            simple_means_flag: '3',
-            sign: GoogleTranslateTk(baiduPreprocessing(text), gtk || []),
-            token,
-            domain: 'common'
-        }).toString(), { headers: { cookie } })
-            .then((response) => {
-            if (response?.data?.trans_result?.data && response?.data?.trans_result?.data instanceof Array) {
-                resolve(raw ? response.data : response.data.trans_result.data.map((x) => x.dst).join('\n'));
-            }
-            reject(raw ? response.data : 'Invalid content #BaiduTranslator ');
-        })
-            .catch((e) => {
-            reject(raw ? e : e.toString());
-        });
-    });
-};
-const BaiduTTS = async (lang = 'en', text = '', ext = {}) => {
-    try {
-        const response = await axiosFetch.get('https://fanyi.baidu.com/gettts?' +
-            new URLSearchParams({
-                lan: lang,
-                text: Array.isArray(text) ? text.join('\n') : text,
-                spd: lang === 'zh' ? '5' : '3',
-                source: 'web'
-            }).toString(), { responseType: 'arraybuffer' });
-        return {
-            buffer: response.data,
-            content_length: response.data?.byteLength || response.data?.length || 0,
-            content_type: ((Array.isArray(response.headers['content-type']) ? response.headers['content-type'].join(' ') : response.headers['content-type']) || '').split(';')[0]
-        };
-    }
-    catch {
-        return { buffer: new Uint8Array().buffer, content_type: '', content_length: 0 };
-    }
-};
-
-const getId = () => cryptoHandle.getRandomValues(new Uint32Array(1))[0];
-const DeepL = async (text = '', source = 'auto', target, raw, ext = {}) => {
-    if (!text) {
-        return Promise.reject('Empty text #DeepL ');
-    }
-    if (!SupportedLanguage(DEEPL_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(DEEPL_LANGUAGE, source || 'en'))) {
-        return Promise.reject('Unsupported target language #DeepL ');
-    }
-    //{"jsonrpc":"2.0","method": "LMT_handle_texts","params":{"texts":[{"text":"[Schoolgirl Strikers: Animation Channel]"}],"splitting":"newlines","lang":{"target_lang":"ZH","source_lang_user_selected":"auto","preference":{"weight":{}}},"timestamp":0},"id":0}
-    const realTimeStamp = Number(new Date());
-    const i_count = (text instanceof Array ? text.join('') : text).split('i').length;
-    const id = getId(); // + 1
-    const postBody = JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'LMT_handle_texts',
-        params: {
-            texts: text instanceof Array ? text.map((x) => ({ text: x })) : [{ text }],
-            lang: {
-                target_lang: (target || 'en').toUpperCase(),
-                source_lang_user_selected: source
-            },
-            timestamp: realTimeStamp - (realTimeStamp % i_count) + i_count
-        },
-        id
-    }).replace('"method":"', (id + 3) % 13 === 0 || (id + 5) % 29 === 0 ? '"method" : "' : '"method": "');
-    return new Promise(async (resolve, reject) => {
-        axiosFetch
-            .post('https://www2.deepl.com/jsonrpc?client=chrome-extension,1.1.1', postBody, {
-            headers: {
-                'content-type': 'application/json; charset=utf-8'
-            }
-        })
-            .then((response) => {
-            resolve(raw ? response.data : response.data.result.texts.map((x) => x.text).join('\n'));
-        })
-            .catch((e) => {
-            reject(raw ? e : e.toString());
-        });
-    });
 };
 
 const ws = typeof WebSocket !== 'undefined' ? WebSocket : null;
@@ -1026,54 +864,6 @@ const YandexBrowserTranslator = async (text = '', source = 'auto', target, raw, 
     });
 };
 
-const WatsonDetect = async (text = '') => {
-    if (!text) {
-        return '_';
-    }
-    if (Array.isArray(text)) {
-        text = text.join('\n');
-    }
-    try {
-        const languageResult = await axiosFetch.post('https://www.ibm.com/demos/live/watson-language-translator/api/translate/detect', {
-            text
-        });
-        if (languageResult.data?.status === 'success') {
-            return languageResult.data?.payload?.languages?.[0]?.language?.language || '_';
-        }
-        else {
-            return '_';
-        }
-    }
-    catch (e) {
-        return '_';
-    }
-};
-const WatsonTranslator = async (text = '', source = 'en', target, raw, ext = {}) => {
-    if (!text) {
-        return Promise.reject('Empty text #WatsonTranslate ');
-    }
-    if (source === 'auto' || !SupportedLanguage(WATSON_LANGUAGE, target || 'en') || !SupportedLanguage(WATSON_LANGUAGE, source || 'en')) {
-        return Promise.reject('Unsupported target language #WatsonTranslate ');
-    }
-    return new Promise(async (resolve, reject) => {
-        axiosFetch
-            .post('https://www.ibm.com/demos/live/watson-language-translator/api/translate/text', {
-            source,
-            target,
-            text: Array.isArray(text) ? text.join('\n') : text
-        })
-            .then((response) => {
-            if (response.data && response.data?.status === 'success' && response.data?.payload?.translations instanceof Array) {
-                resolve(raw ? response.data : response.data.payload.translations.map((x) => x?.translation || '').join('\n'));
-            }
-            reject(raw ? response.data : 'Invalid content #WatsonTranslate ');
-        })
-            .catch((e) => {
-            reject(raw ? e : e.toString());
-        });
-    });
-};
-
 const Translator = async (text = '', platform, source, target, raw, ext = {}) => {
     let result = { content: '', message: '' };
     try {
@@ -1103,14 +893,9 @@ const Translator = async (text = '', platform, source, target, raw, ext = {}) =>
             case 'yandex_browser':
                 result.content = await YandexBrowserTranslator(text, source, target, !!raw, ext);
                 break;
-            case 'baidu':
-                result.content = await BaiduTranslator(text, source, target, !!raw, ext);
-                break;
             case 'deepl':
                 result.content = await DeepL(text, source, target, !!raw, ext);
                 break;
-            case 'watson':
-                result.content = await WatsonTranslator(text, source, target, !!raw, ext);
         }
     }
     catch (e) {
@@ -1119,5 +904,5 @@ const Translator = async (text = '', platform, source, target, raw, ext = {}) =>
     return result;
 };
 
-export { BaiduLanguagePredict, BaiduTTS, BaiduTranslator, DeepL, GetBaiduTranslatorToken, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTTS, GoogleTranslate, GoogleTranslateTk, IsChs, IsCht, MicrosoftBrowserPredict, MicrosoftBrowserTTS, MicrosoftBrowserTranslator, MicrosoftTTS, MicrosoftTranslator, SogouBrowserTranslator, SogouTTS, WatsonDetect, WatsonTranslator, YandexBrowserTranslator, YandexDetect, YandexTranslator, Translator as default };
+export { DeepL, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTTS, GoogleTranslate, GoogleTranslateTk, IsChs, IsCht, MicrosoftBrowserPredict, MicrosoftBrowserTTS, MicrosoftBrowserTranslator, MicrosoftTTS, MicrosoftTranslator, SogouBrowserTranslator, SogouTTS, YandexBrowserTranslator, YandexDetect, YandexTranslator, Translator as default };
 //# sourceMappingURL=translator.mod.js.map
