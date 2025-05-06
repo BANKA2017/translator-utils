@@ -1,6 +1,6 @@
 import { DeepL } from './source/deepl.js'
 import { GoogleTranslate, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTTS, GoogleTranslateTk } from './source/google.js'
-import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftTTS, MicrosoftBrowserTTS } from './source/microsoft.js'
+import { MicrosoftTranslator, MicrosoftBrowserTranslator, GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftTTS, MicrosoftBrowserTTS, MicrosoftBrowserTranslatorV2 } from './source/microsoft.js'
 import { SogouBrowserTranslator, SogouTTS } from './source/sogou.js'
 import { YandexDetect, YandexTranslator, YandexBrowserTranslator } from './source/yandex.js'
 
@@ -27,6 +27,9 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
             case 'microsoft_browser':
                 result.content = await MicrosoftBrowserTranslator(text, source as BING_LIST, target as BING_LIST, !!raw, ext)
                 break
+            case 'microsoft_browser_v2':
+                result.content = await MicrosoftBrowserTranslatorV2(text, source as BING_LIST, target as BING_LIST, !!raw, ext)
+                break
             case 'sogou':
             case 'sogou_browser':
                 result.content = await SogouBrowserTranslator(text, source as SOGOU_LIST, target as SOGOU_LIST, !!raw, ext)
@@ -47,7 +50,20 @@ const Translator: TranslatorFunction = async (text = '', platform, source, targe
     return result
 }
 
-export { YandexDetect, MicrosoftBrowserPredict, DeepL, GoogleBrowserTranslate, GoogleBrowserTranslateV2, GoogleTranslate, MicrosoftBrowserTranslator, MicrosoftTranslator, SogouBrowserTranslator, YandexTranslator, YandexBrowserTranslator }
+export {
+    YandexDetect,
+    MicrosoftBrowserPredict,
+    DeepL,
+    GoogleBrowserTranslate,
+    GoogleBrowserTranslateV2,
+    GoogleTranslate,
+    MicrosoftBrowserTranslator,
+    MicrosoftBrowserTranslatorV2,
+    MicrosoftTranslator,
+    SogouBrowserTranslator,
+    YandexTranslator,
+    YandexBrowserTranslator
+}
 export { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken }
 export { GoogleTranslateTk }
 export { IsChs, IsCht }

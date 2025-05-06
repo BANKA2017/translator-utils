@@ -131,7 +131,7 @@ const MicrosoftBrowserPredict = async (text: string | string[] = '', jwt = ''): 
         content.push(...text.map((x) => ({ Text: x })))
     }
     try {
-        const languageResult = await axiosFetch.post('https://api.cognitive.microsofttranslator.com/detect?api-version=3.0', JSON.stringify(content), { headers: { authorization: jwt, 'content-type': 'application/json' } })
+        const languageResult = await axiosFetch.post('https://api.cognitive.microsofttranslator.com/detect?api-version=3.0', content, { headers: { authorization: jwt } })
         if (!languageResult.data?.error && Array.isArray(languageResult.data)) {
             return languageResult.data
         } else {
@@ -162,10 +162,9 @@ const MicrosoftBrowserTranslator: TranslatorModuleFunction<'microsoft_browser'> 
             axiosFetch
                 .post(
                     `https://api.cognitive.microsofttranslator.com/translate?from=${source === 'auto' ? '' : source}&to=${target}&api-version=3.0&includeSentenceLength=true`,
-                    JSON.stringify(text instanceof Array ? text.map((tmpText) => ({ Text: tmpText })) : [{ Text: text }]),
+                    text instanceof Array ? text.map((tmpText) => ({ Text: tmpText })) : [{ Text: text }],
                     {
                         headers: {
-                            'content-type': 'application/json',
                             authorization: `Bearer ${jwt}`
                         }
                     }
@@ -183,6 +182,29 @@ const MicrosoftBrowserTranslator: TranslatorModuleFunction<'microsoft_browser'> 
     } else {
         return Promise.reject('Invalid jwt #MicrosoftTranslator ')
     }
+}
+
+const MicrosoftBrowserTranslatorV2: TranslatorModuleFunction<'microsoft_browser'> = async (text = '', source = 'auto', target, raw, ext = {}) => {
+    if (!text) {
+        return Promise.reject('Empty text #MicrosoftTranslatorV2 ')
+    }
+    if (!SupportedLanguage(BING_LANGUAGE, target || 'en') || (source !== 'auto' && !SupportedLanguage(BING_LANGUAGE, source || 'en'))) {
+        return Promise.reject('Unsupported target language #MicrosoftTranslatorV2 ')
+    }
+
+    return new Promise(async (resolve, reject) => {
+        axiosFetch
+            .post(`https://edge.microsoft.com/translate/translatetext?from=${source === 'auto' ? '' : source}&to=${target}`, text instanceof Array ? text : [text])
+            .then((response: any) => {
+                if (response.data && response.data instanceof Array) {
+                    resolve(raw ? response.data : response.data.map((x: any) => (x?.translations || [])?.[0]?.text || '').join('\n'))
+                }
+                reject(raw ? response.data : 'Invalid content #MicrosoftTranslatorV2 ')
+            })
+            .catch((e) => {
+                reject(raw ? e : e.toString())
+            })
+    })
 }
 
 const MicrosoftTTS: TTSModuleFunction<'microsoft_tts'> = async (lang = 'en', text = '', ext = {}) => {
@@ -370,5 +392,5 @@ const encodeMSBrowserTTSRequest = (headers = {}, body = '') => {
 }
 
 export type { MicrosoftBrowserPredictResponseType }
-export { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftTranslator }
+export { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftBrowserTranslatorV2, MicrosoftTranslator }
 export { MicrosoftBrowserTTS, MicrosoftTTS }

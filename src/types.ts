@@ -30,8 +30,22 @@ export type TTSResponse = {
 
 export type TTSModuleFunction<P extends Platform> = (lang: TargetFilter[P], text: string | string[], ext?: { [p in string]: unknown }) => Promise<TTSResponse>
 
-export type Platform = 'google' | 'google_browser' | 'google_browser_v2' | 'microsoft' | 'microsoft_browser' | 'microsoft_tts' | 'microsoft_edge_tts' | 'sogou' | 'sogou_browser' | 'sogou_tts' | 'yandex' | 'yandex_browser' | 'deepl'
-export type BrowserPlatform = 'google_browser' | 'google_browser_v2' | 'microsoft_browser' | 'sogou' | 'sogou_browser' | 'yandex_browser'
+export type Platform =
+    | 'google'
+    | 'google_browser'
+    | 'google_browser_v2'
+    | 'microsoft'
+    | 'microsoft_browser'
+    | 'microsoft_browser_v2'
+    | 'microsoft_tts'
+    | 'microsoft_edge_tts'
+    | 'sogou'
+    | 'sogou_browser'
+    | 'sogou_tts'
+    | 'yandex'
+    | 'yandex_browser'
+    | 'deepl'
+export type BrowserPlatform = 'google_browser' | 'google_browser_v2' | 'microsoft_browser' | 'microsoft_browser_v2' | 'sogou' | 'sogou_browser' | 'yandex_browser'
 
 export type TargetFilter = {
     google: GOOGLE_LIST
@@ -40,6 +54,7 @@ export type TargetFilter = {
     deepl: DEEPL_LIST
     microsoft: BING_LIST
     microsoft_browser: BING_LIST
+    microsoft_browser_v2: BING_LIST
     microsoft_tts: BING_TTS_LIST
     microsoft_edge_tts: MICROSOFT_EDGE_TTS_TYPE
     sogou: SOGOU_LIST

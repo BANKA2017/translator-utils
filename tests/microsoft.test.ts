@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftTranslator, MicrosoftTTS, MicrosoftBrowserTTS } from '../dist/esm/index.js'
+import { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftBrowserTranslatorV2, MicrosoftTranslator, MicrosoftTTS, MicrosoftBrowserTTS } from '../dist/esm/index.js'
 
 let jwt = ''
 test('Microsoft edge jwt', async () => {
@@ -17,19 +17,37 @@ test('Microsoft translator predict', async () => {
 
 describe('Microsoft translator(edge)', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await MicrosoftTranslator('hello', 'auto', 'zh-hans', false, { jwt })).toMatch(/(你|妳|您)好/gm)
+        expect(await MicrosoftBrowserTranslator('hello', 'auto', 'zh-hans', false, { jwt })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await MicrosoftTranslator('こんにちわ', 'auto', 'zh-hans', false, { jwt })).toMatch(/(你|妳|您)好/gm)
+        expect(await MicrosoftBrowserTranslator('こんにちわ', 'auto', 'zh-hans', false, { jwt })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await MicrosoftTranslator('你好', 'auto', 'zh-hans', false, { jwt })).toMatch(/(你|妳|您)好/gm)
+        expect(await MicrosoftBrowserTranslator('你好', 'auto', 'zh-hans', false, { jwt })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await MicrosoftTranslator('안녕하세요', 'auto', 'zh-hans', false, { jwt })).toMatch(/(你|妳|您)好/gm)
+        expect(await MicrosoftBrowserTranslator('안녕하세요', 'auto', 'zh-hans', false, { jwt })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Empty text', async ({ expect }) => {
-        await expect(MicrosoftTranslator('', 'auto', 'zh-hans', false, { jwt })).rejects.toMatch('Empty text #MicrosoftTranslator ')
+        await expect(MicrosoftBrowserTranslator('', 'auto', 'zh-hans', false, { jwt })).rejects.toMatch('Empty text #MicrosoftTranslator ')
+    })
+})
+
+describe('Microsoft edge translator(web v2)', () => {
+    test.concurrent('English', async ({ expect }) => {
+        expect(await MicrosoftBrowserTranslatorV2('hello', 'auto', 'zh-hans', false)).toMatch(/(你|妳|您)好/gm)
+    })
+    test.concurrent('Japanese', async ({ expect }) => {
+        expect(await MicrosoftBrowserTranslatorV2('こんにちわ', 'auto', 'zh-hans', false)).toMatch(/(你|妳|您)好/gm)
+    })
+    test.concurrent('Simplified Chinese', async ({ expect }) => {
+        expect(await MicrosoftBrowserTranslatorV2('你好', 'auto', 'zh-hans', false)).toMatch(/(你|妳|您)好/gm)
+    })
+    test.concurrent('Korean', async ({ expect }) => {
+        expect(await MicrosoftBrowserTranslatorV2('안녕하세요', 'auto', 'zh-hans', false)).toMatch(/(你|妳|您)好/gm)
+    })
+    test.concurrent('Empty text', async ({ expect }) => {
+        await expect(MicrosoftBrowserTranslatorV2('', 'auto', 'zh-hans', false)).rejects.toMatch('Empty text #MicrosoftTranslatorV2 ')
     })
 })
 
@@ -44,16 +62,16 @@ test('Microsoft translator web page', async () => {
 
 describe('Microsoft edge translator(web)', () => {
     test.concurrent('English', async ({ expect }) => {
-        expect(await MicrosoftBrowserTranslator('hello', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).toMatch(/(你|妳|您)好/gm)
+        expect(await MicrosoftTranslator('hello', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Japanese', async ({ expect }) => {
-        expect(await MicrosoftBrowserTranslator('こんにちわ', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).toMatch(/(你|妳|您)好/gm)
+        expect(await MicrosoftTranslator('こんにちわ', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Simplified Chinese', async ({ expect }) => {
-        expect(await MicrosoftBrowserTranslator('你好', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).toMatch(/(你|妳|您)好/gm)
+        expect(await MicrosoftTranslator('你好', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Korean', async ({ expect }) => {
-        expect(await MicrosoftBrowserTranslator('안녕하세요', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).toMatch(/(你|妳|您)好/gm)
+        expect(await MicrosoftTranslator('안녕하세요', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).toMatch(/(你|妳|您)好/gm)
     })
     test.concurrent('Empty text', async ({ expect }) => {
         await expect(MicrosoftBrowserTranslator('', 'auto', 'zh-hans', false, { IG: msTranslatorWebPage.IG, token: msTranslatorWebPage.token, key: msTranslatorWebPage.key })).rejects.toMatch('Empty text #MicrosoftTranslator ')
