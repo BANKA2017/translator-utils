@@ -15,8 +15,9 @@ type MicrosoftBrowserPredictResponseType = {
 };
 declare const MicrosoftBrowserPredict: (text?: string | string[], jwt?: string) => Promise<MicrosoftBrowserPredictResponseType[]>;
 declare const MicrosoftBrowserTranslator: TranslatorModuleFunction<'microsoft_browser'>;
+declare const MicrosoftBrowserTranslatorV2: TranslatorModuleFunction<'microsoft_browser'>;
 declare const MicrosoftTTS: TTSModuleFunction<'microsoft_tts'>;
 declare const MicrosoftBrowserTTS: TTSModuleFunction<'microsoft_edge_tts'>;
 export type { MicrosoftBrowserPredictResponseType };
-export { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftTranslator };
+export { GetMicrosoftBrowserTranslatorAuth, GetMicrosoftTranslatorToken, MicrosoftBrowserPredict, MicrosoftBrowserTranslator, MicrosoftBrowserTranslatorV2, MicrosoftTranslator };
 export { MicrosoftBrowserTTS, MicrosoftTTS };
