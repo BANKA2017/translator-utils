@@ -1,5 +1,6 @@
 package-lock.json
 node_modules/
-.yarn/
+.yarn/cache/
+.yarn/install-state.gz
 dist/
 lib/
